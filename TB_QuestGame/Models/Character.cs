@@ -29,6 +29,7 @@ namespace TB_QuestGame
         private string _name;
         private int _age;
         private CharacterType _gameCharacter;
+        private bool _isFriendly;
 
         #endregion
 
@@ -50,6 +51,12 @@ namespace TB_QuestGame
         {
             get { return _gameCharacter; }
             set { _gameCharacter = value; }
+        }
+
+        public bool IsFriendly
+        {
+            get { return _isFriendly; }
+            set { _isFriendly = value; }
         }
 
         #endregion

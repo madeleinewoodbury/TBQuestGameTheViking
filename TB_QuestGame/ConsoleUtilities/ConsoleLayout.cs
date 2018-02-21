@@ -15,7 +15,7 @@ namespace TB_QuestGame
         // console window configuration
         //
         public static int WindowWidth = 160;
-        public static int WindowHeight = 35;
+        public static int WindowHeight = 40; // +5
         public static int WindowPositionLeft = 0;
         public static int WindowPositionTop = 0;
 
@@ -37,30 +37,31 @@ namespace TB_QuestGame
         //       the number of lines of text displayed by the footer should not change.
         public static int FooterWidth = 160;
         public static int FooterPositionLeft = 0;
-        public static int FooterPositionTop = 32;
+        public static int FooterPositionTop = 37; // +5
 
         //
         // menu box configuration
         //
         public static int MenuBoxWidth = 37;
-        public static int MenuBoxHeight = 25;
-        public static int MenuBoxPositionLeft = 122;
+        public static int MenuBoxHeight = 34; //+9
+        public static int MenuBoxPositionLeft = 1; // was 122
         public static int MenuBoxPositionTop = 3;
 
         //
         // message box configuration
         //
         public static int MessageBoxWidth = 120;
-        public static int MessageBoxHeight = 25;
-        public static int MessageBoxPositionLeft = 1;
+        public static int MessageBoxHeight = 30; // was 25
+        public static int MessageBoxPositionLeft = 39; // was 1
         public static int MessageBoxPositionTop = 3;
 
         //
         // input box configuration
         //
-        public static int InputBoxWidth = 158;
-        public static int InputBoxHeight = 4;
-        public static int InputBoxPositionLeft = 1;
-        public static int InputBoxPositionTop = 28;
+        public static int InputBoxWidth = 119; // was 158
+        public static int InputBoxHeight = 4; 
+        public static int InputBoxPositionLeft = 39;
+        public static int InputBoxPositionTop = 33; // was 28
+
     }
 }

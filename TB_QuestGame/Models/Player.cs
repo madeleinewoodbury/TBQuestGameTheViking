@@ -13,19 +13,31 @@ namespace TB_QuestGame
     {
         #region ENUMERABLES
 
+        public enum VikingType
+        {
+            None,
+            Karl,
+            Shieldmaiden
+        }
 
         #endregion
 
         #region FIELDS
 
+        private VikingType _viking;
 
         #endregion
-        
+
         #region PROPERTIES
-        
+
+        public VikingType Viking
+        {
+            get { return _viking; }
+            set { _viking = value; }
+        }
 
         #endregion
-        
+
         #region CONSTRUCTORS
 
         public Player()
