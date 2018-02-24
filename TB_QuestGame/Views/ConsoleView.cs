@@ -135,15 +135,43 @@ namespace TB_QuestGame
         }
 
         /// <summary>
+        /// get yes or no from user
+        /// </summary>
+        /// <returns></returns>
+        public string GetYesOrNo()
+        {
+            bool validResponse = false;
+            string userResponse = "";
+
+            while (!validResponse)
+            {
+                userResponse = Console.ReadLine().ToUpper();
+
+                if (userResponse == "YES" || userResponse == "NO")
+                {
+                    validResponse = true;
+                }
+                else
+                {
+                    ClearInputBox();
+                    DisplayInputErrorMessage("You must enter yes or no. Please try again.");
+                    DisplayInputBoxPrompt("Enter yes or no: ");
+                }
+            }
+
+            return userResponse;
+        }
+
+        /// <summary>
         /// get a character race value from the user
         /// </summary>
         /// <returns>character race value</returns>
-        public Character.CharacterType GetCharacter()
+        public Player.VikingType GetVikingType()
         {
-            Character.CharacterType characterType;
-            Enum.TryParse<Character.CharacterType>(Console.ReadLine(), out characterType);
+            Player.VikingType vikingType;
+            Enum.TryParse<Player.VikingType>(Console.ReadLine(), out vikingType);
 
-            return characterType;
+            return vikingType;
         }
 
         /// <summary>
@@ -163,14 +191,17 @@ namespace TB_QuestGame
 
             Console.SetCursorPosition(0, 10);
             string tabSpace = new String(' ', 35);
-            Console.WriteLine(tabSpace + @" _____ _              ___  _               ______          _           _   ");
-            Console.WriteLine(tabSpace + @"|_   _| |            / _ \(_)              | ___ \        (_)         | |  ");
-            Console.WriteLine(tabSpace + @"  | | | |__   ___   / /_\ \_  ___  _ __    | |_/ _ __ ___  _  ___  ___| |_ ");
-            Console.WriteLine(tabSpace + @"  | | | '_ \ / _ \  |  _  | |/ _ \| '_ \   |  __| '__/ _ \| |/ _ \/ __| __|");
-            Console.WriteLine(tabSpace + @"  | | | | | |  __/  | | | | | (_) | | | |  | |  | | | (_) | |  __| (__| |_ ");
-            Console.WriteLine(tabSpace + @"  \_/ |_| |_|\___|  \_| |_|_|\___/|_| |_|  \_|  |_|  \___/| |\___|\___|\__|");
-            Console.WriteLine(tabSpace + @"                                                         _/ |              ");
-            Console.WriteLine(tabSpace + @"                                                        |__/             ");
+            Console.WriteLine(tabSpace + @"                        __          __ _   _   _   _   _      _   _______       ");
+            Console.WriteLine(tabSpace + @"    _____ _             \ \        / /| | | | / / | | | \    | | |  _____|      ");
+            Console.WriteLine(tabSpace + @"   |_   _| |             \ \      / / | | | |/ /  | | |  \   | | | |            ");
+            Console.WriteLine(tabSpace + @"     | | | |__   ___      \ \    / /  | | |   /   | | |   \  | | | |  __        ");
+            Console.WriteLine(tabSpace + @"     | | | '_ \ / _ \      \ \  / /   | | |   \   | | | |\ \ | | | | |_  \      ");
+            Console.WriteLine(tabSpace + @"     | | | | | |  __/       \ \/ /    | | | |\ \  | | | | \ \| | | |___| |      ");
+            Console.WriteLine(tabSpace + @"     |_| |_| |_|\___|        \__/     |_| |_| \_\ |_| |_|  \___| |_______|      ");
+            Console.WriteLine(tabSpace + @"  ____________________________________________________________________________  ");
+            Console.WriteLine(tabSpace + @" |                                                                            | ");
+            Console.WriteLine(tabSpace + @" |                THE QUEST TO BECOME THE KING OF THE VIKINGS                 | ");
+            Console.WriteLine(tabSpace + @" |____________________________________________________________________________| ");
 
             Console.SetCursorPosition(80, 25);
             Console.Write("Press any key to continue or Esc to exit.");
@@ -194,7 +225,7 @@ namespace TB_QuestGame
             ConsoleWindowControl.DisableResize();
             ConsoleWindowControl.DisableMaximize();
             ConsoleWindowControl.DisableMinimize();
-            Console.Title = "The Aion Project";
+            Console.Title = "The Viking";
 
             //
             // set the default console window values
@@ -361,36 +392,57 @@ namespace TB_QuestGame
             //
             // intro
             //
-            DisplayGamePlayScreen("Mission Initialization", Text.InitializeMissionIntro(), ActionMenu.MissionIntro, "");
+            DisplayGamePlayScreen("The Viking Setup", Text.SetupIntro(), ActionMenu.QuestIntro, "");
             GetContinueKey();
 
             //
             // get player's name
             //
-            DisplayGamePlayScreen("Mission Initialization - Name", Text.InitializeMissionGetPlayerName(), ActionMenu.MissionIntro, "");
+            DisplayGamePlayScreen("The Viking Setup - Name", Text.SetuoGetPlayerName(), ActionMenu.QuestIntro, "");
             DisplayInputBoxPrompt("Enter your name: ");
             player.Name = GetString();
 
             //
             // get player's age
             //
-            DisplayGamePlayScreen("Mission Initialization - Age", Text.InitializeMissionGetPlayerAge(player), ActionMenu.MissionIntro, "");
+            DisplayGamePlayScreen("The Viking Setup - Age", Text.SetupGetPlayerAge(player), ActionMenu.QuestIntro, "");
             int gamePlayerAge;
 
             GetInteger($"Enter your age {player.Name}: ", 0, 1000000, out gamePlayerAge);
             player.Age = gamePlayerAge;
 
             //
+            // get palyer's home village
+            //
+            DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.QuestIntro, "");
+            DisplayInputBoxPrompt("Enter the name of the Village: ");
+            player.HomeVillage = GetString();
+
+            //
             // get player's race
             //
-            DisplayGamePlayScreen("Mission Initialization - Race", Text.InitializeMissionGetPlayerRace(player), ActionMenu.MissionIntro, "");
-            DisplayInputBoxPrompt($"Enter your race {player.Name}: ");
-            player.GameCharacter = GetCharacter();
+            DisplayGamePlayScreen("The Viking Setup - Gender", Text.SetupGetPlayerGender(player), ActionMenu.QuestIntro, "");
+            DisplayInputBoxPrompt("Enter Shieldmaiden or Karl: ");
+            player.Viking = GetVikingType();
+
+            //
+            // Player's capital. Prompt for purchase of weapon
+            // Starting capital is 100 coins
+            player.Capital = 100;
+            DisplayGamePlayScreen("The Viking Setup - Capital", Text.DisplayPlayerStartingCapital(player), ActionMenu.QuestIntro, "");
+            DisplayInputBoxPrompt("Enter yes or no: ");
+            string userResponse = GetYesOrNo();
+
+            if (userResponse == "YES")
+            {
+               
+            }
+
 
             //
             // echo the player's info
             //
-            DisplayGamePlayScreen("Mission Initialization - Complete", Text.InitializeMissionEchoPlayerInfo(player), ActionMenu.MissionIntro, "");
+            DisplayGamePlayScreen("The Viking Setup - Complete", Text.SetupEchoPlayerInfo(player), ActionMenu.QuestIntro, "");
             GetContinueKey();
 
             return player;

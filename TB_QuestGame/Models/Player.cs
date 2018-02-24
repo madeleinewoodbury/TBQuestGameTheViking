@@ -20,11 +20,24 @@ namespace TB_QuestGame
             Shieldmaiden
         }
 
+        public enum Weapon
+        {
+            None,
+            Sword,
+            Axe,
+            Shield,
+            Bow, 
+            Knife
+        }
+
         #endregion
 
         #region FIELDS
 
         private VikingType _viking;
+        private string _homeVillage;
+        private int _capital;
+        private Weapon _weaponType;
 
         #endregion
 
@@ -36,6 +49,25 @@ namespace TB_QuestGame
             set { _viking = value; }
         }
 
+        public string HomeVillage
+        {
+            get { return _homeVillage; }
+            set { _homeVillage = value; }
+        }
+
+        public int Capital
+        {
+            get { return _capital; }
+            set { _capital = value; }
+        }
+
+        public Weapon WeaponType
+        {
+            get { return _weaponType; }
+            set { _weaponType = value; }
+        }
+
+
         #endregion
 
         #region CONSTRUCTORS
@@ -45,7 +77,7 @@ namespace TB_QuestGame
 
         }
 
-        public Player(string name, CharacterType race) : base(name, race)
+        public Player(string name, CharacterType race, string homeVillage, bool isFriendly) : base(name, race, isFriendly)
         {
 
         }

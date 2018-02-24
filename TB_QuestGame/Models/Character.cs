@@ -68,10 +68,11 @@ namespace TB_QuestGame
 
         }
 
-        public Character(string name, CharacterType race)
+        public Character(string name, CharacterType race, bool isFriendly)
         {
             _name = name;
             _gameCharacter = race;
+            _isFriendly = isFriendly;
         }
 
         #endregion

@@ -14,8 +14,8 @@ namespace TB_QuestGame
         //
         // splash screen colors
         //
-        public static ConsoleColor SplashScreenBackgroundColor = ConsoleColor.DarkGray;
-        public static ConsoleColor SplashScreenForegroundColor = ConsoleColor.Cyan;
+        public static ConsoleColor SplashScreenBackgroundColor = ConsoleColor.DarkBlue;
+        public static ConsoleColor SplashScreenForegroundColor = ConsoleColor.White;
 
         //
         // main console window colors
@@ -39,26 +39,26 @@ namespace TB_QuestGame
         // menu box colors
         //
         public static ConsoleColor MenuBackgroundColor = ConsoleColor.Black;
-        public static ConsoleColor MenuForegroundColor = ConsoleColor.Gray;
-        public static ConsoleColor MenuBorderColor = ConsoleColor.Cyan;
+        public static ConsoleColor MenuForegroundColor = ConsoleColor.White;
+        public static ConsoleColor MenuBorderColor = ConsoleColor.DarkBlue;
 
         //
         // message box colors
         //
         public static ConsoleColor MessageBoxBackgroundColor = ConsoleColor.Black;
-        public static ConsoleColor MessageBoxForegroundColor = ConsoleColor.Gray;
-        public static ConsoleColor MessageBoxBorderColor = ConsoleColor.Cyan;
+        public static ConsoleColor MessageBoxForegroundColor = ConsoleColor.White;
+        public static ConsoleColor MessageBoxBorderColor = ConsoleColor.DarkBlue;
         public static ConsoleColor MessageBoxHeaderBackgroundColor = ConsoleColor.Black;
-        public static ConsoleColor MessageBoxHeaderForegroundColor = ConsoleColor.Gray;
+        public static ConsoleColor MessageBoxHeaderForegroundColor = ConsoleColor.White;
         
         //
         // input box colors
         //
         public static ConsoleColor InputBoxBackgroundColor = ConsoleColor.Black;
-        public static ConsoleColor InputBoxForegroundColor = ConsoleColor.Gray;
+        public static ConsoleColor InputBoxForegroundColor = ConsoleColor.White;
         public static ConsoleColor InputBoxErrorMessageForegroundColor = ConsoleColor.Red;
-        public static ConsoleColor InputBoxBorderColor = ConsoleColor.Cyan;
+        public static ConsoleColor InputBoxBorderColor = ConsoleColor.DarkBlue;
         public static ConsoleColor InputBoxHeaderBackgroundColor = ConsoleColor.Black;
-        public static ConsoleColor InputBoxHeaderForegroundColor = ConsoleColor.Gray;
+        public static ConsoleColor InputBoxHeaderForegroundColor = ConsoleColor.White;
     }
 }

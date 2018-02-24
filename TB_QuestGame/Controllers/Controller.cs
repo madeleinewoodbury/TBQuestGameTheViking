@@ -78,13 +78,13 @@ namespace TB_QuestGame
             //
             // display introductory message
             //
-            _gameConsoleView.DisplayGamePlayScreen("Mission Intro", Text.MissionIntro(), ActionMenu.MissionIntro, "");
+            _gameConsoleView.DisplayGamePlayScreen("Quest Intro", Text.QuestIntro(), ActionMenu.QuestIntro, "");
             _gameConsoleView.GetContinueKey();
 
             //
             // initialize the mission traveler
             // 
-            InitializeMission();
+            InitializeQuest();
 
             //
             // prepare game play screen
@@ -126,13 +126,16 @@ namespace TB_QuestGame
         }
 
         /// <summary>
-        /// initialize the player info
+        /// Initialize the player info
         /// </summary>
-        private void InitializeMission()
+        private void InitializeQuest()
         {
-            _gamePlayer.Name = "Madeleine";
-            _gamePlayer.Age = 28;
-            _gamePlayer.GameCharacter = Player.CharacterType.Viking;
+            Player player = _gameConsoleView.GetInitialPlayerInfo();
+
+            _gamePlayer.Name = player.Name;
+            _gamePlayer.Age = player.Age;
+            _gamePlayer.Viking = player.Viking;
+            _gamePlayer.HomeVillage = player.HomeVillage;
         }
 
         #endregion

@@ -11,31 +11,32 @@ namespace TB_QuestGame
     /// </summary>
     public static class Text
     {
-        public static List<string> HeaderText = new List<string>() { "The Aion Project" };
-        public static List<string> FooterText = new List<string>() { "Laughing Leaf Productions, 2016" };
+        public static List<string> HeaderText = new List<string>() { "The Viking" };
+        public static List<string> FooterText = new List<string>() { "Woodbury Productions" };
 
         #region INTITIAL GAME SETUP
 
-        public static string MissionIntro()
+        public static string QuestIntro()
         {
             string messageBoxText =
-            "You have been hired by the Norlon Corporation to participate " +
-            "in its latest endeavor, the Aion Project. Your mission is to " +
-            "test the limits of the new Aion Engine and report back to " +
-            "the Norlon Corporation.\n" +
+            "Welcome to Fylkirfold, the world of kings. \n" +
+            "Here, only the toughest and bravest Vikings will thrive. \n" +
+            "Your quest is to climb the ranks to become the King of the Vikings. \n" +
+            "But be warned, the road to the top is hard, and you will have to encouter battles,\n" +
+            "both at home and overseas.\n" +
             " \n" +
-            "Press the Esc key to exit the game at any point.\n" +
+            "If you don't think you have what it takes, you can press the Esc key to exit the game at any point. \n" +
             " \n" +
-            "Your mission begins now.\n" +
+            "Your quest begins now. \n" +
             " \n" +
-            "\tYour first task will be to set up the initial parameters of your mission.\n" +
+            "\tYour first task will be to channel your inner viking and setup your character." +
             " \n" +
-            "\tPress any key to begin the Mission Initialization Process.\n";
+            "\tPress any key to begin.\n";
 
             return messageBoxText;
         }
 
-        public static string CurrrentLocationInfo()
+        public static string CurrrentLocationInfo() // change
         {
             string messageBoxText =
             "You are now in the Norlon Corporation research facility located in " +
@@ -50,10 +51,10 @@ namespace TB_QuestGame
 
         #region Initialize Mission Text
 
-        public static string InitializeMissionIntro()
+        public static string SetupIntro()
         {
             string messageBoxText =
-                "Before you begin your mission we much gather your base data.\n" +
+                "Before you start your journey, we need some infromation from you to get your viking ready for battle.\n" +
                 " \n" +
                 "You will be prompted for the required information. Please enter the information below.\n" +
                 " \n" +
@@ -62,20 +63,20 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string InitializeMissionGetPlayerName()
+        public static string SetuoGetPlayerName()
         {
             string messageBoxText =
-                "Enter your name traveler.\n" +
+                "Enter your viking name.\n" +
                 " \n" +
-                "Please use the name you wish to be referred during your mission.";
+                "Please use the name you wish to be referred during your quest.";
 
             return messageBoxText;
         }
 
-        public static string InitializeMissionGetPlayerAge(Player gamePlayer)
+        public static string SetupGetPlayerAge(Player gamePlayer)
         {
             string messageBoxText =
-                $"Very good then, we will call you {gamePlayer.Name} on this mission.\n" +
+                $"Very good then, we will call you {gamePlayer.Name} from here on out.\n" +
                 " \n" +
                 "Enter your age below.\n" +
                 " \n" +
@@ -84,42 +85,52 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string InitializeMissionGetPlayerRace(Player gameplayer)
+        public static string SetupGetPlayerHomeVillage(Player gamePlayer)
         {
             string messageBoxText =
-                $"{gameplayer.Name}, it will be important for us to know your race on this mission.\n" +
+                $"{gamePlayer.Name}, we need to know what village you are from." +
                 " \n" +
-                "Enter your race below.\n" +
-                " \n" +
-                "Please use the universal race classifications below." +
-                " \n";
-
-            string characterList = null;
-
-            foreach (Character.CharacterType character in Enum.GetValues(typeof(Character.CharacterType)))
-            {
-                if (character != Character.CharacterType.None)
-                {
-                    characterList += $"\t{character}\n";
-                }
-            }
-
-            messageBoxText += characterList;
+                "Enter the name of your village below.";
 
             return messageBoxText;
         }
 
-        public static string InitializeMissionEchoPlayerInfo(Player gamePlayer)
+        public static string SetupGetPlayerGender(Player gamePlayer) // change
+        {
+            string messageBoxText =
+                $"{gamePlayer.Name}, we know you are a true Viking.\n" +
+                "But we need to know your gender. \n" +
+                "Are you a Karl or a Shieldmaiden? \n" +
+                " \n" +
+                "Enter which one you identfy with below.";
+
+            return messageBoxText;
+        }
+
+        public static string DisplayPlayerStartingCapital(Player gamePlayer)
+        {
+            string messageBoxText =
+                $"{gamePlayer.Name}, starting the game your capital is at \n" +
+                $"{gamePlayer.Capital} coins. \n" +
+                "Do you wish to purchase a weapon?" +
+                " \n" +
+                "Please respond yes or no below: ";
+
+            return messageBoxText;
+        }
+
+        public static string SetupEchoPlayerInfo(Player gamePlayer)
         {
             string messageBoxText =
                 $"Very good then {gamePlayer.Name}.\n" +
                 " \n" +
-                "It appears we have all the necessary data to begin your mission. You will find it" +
+                "It appears we have all the necessary info to begin your journey. You will find it" +
                 " listed below.\n" +
                 " \n" +
-                $"\tTraveler Name: {gamePlayer.Name}\n" +
-                $"\tTraveler Age: {gamePlayer.Age}\n" +
-                $"\tTraveler Race: {gamePlayer.GameCharacter}\n" +
+                $"\tViking Name: {gamePlayer.Name}\n" +
+                $"\tViking Years: {gamePlayer.Age}\n" +
+                $"\tGender: {gamePlayer.Viking}\n" +
+                $"\tHome Village: {gamePlayer.HomeVillage}\n" +
                 " \n" +
                 "Press any key to begin your mission.";
 
@@ -135,9 +146,10 @@ namespace TB_QuestGame
         public static string PlayerInfo(Player gamePlayer)
         {
             string messageBoxText =
-                $"\tTraveler Name: {gamePlayer.Name}\n" +
-                $"\tTraveler Age: {gamePlayer.Age}\n" +
-                $"\tTraveler Race: {gamePlayer.GameCharacter}\n" +
+                $"\tViking Name: {gamePlayer.Name}\n" +
+                $"\tViking Years: {gamePlayer.Age}\n" +
+                $"\tViking Type: {gamePlayer.Viking}\n" +
+                $"\tHome Village: {gamePlayer.HomeVillage}\n" +
                 " \n";
 
             return messageBoxText;

@@ -11,9 +11,9 @@ namespace TB_QuestGame
     /// </summary>
     public static class ActionMenu
     {
-        public static Menu MissionIntro = new Menu()
+        public static Menu QuestIntro = new Menu()
         {
-            MenuName = "MissionIntro",
+            MenuName = "QuestIntro",
             MenuTitle = "",
             MenuChoices = new Dictionary<char, PlayerAction>()
                     {
@@ -21,10 +21,10 @@ namespace TB_QuestGame
                     }
         };
 
-        public static Menu InitializeMission = new Menu()
+        public static Menu InitializeQuest = new Menu()
         {
-            MenuName = "InitializeMission",
-            MenuTitle = "Initialize Mission",
+            MenuName = "InitializeQuest",
+            MenuTitle = "Initialize Quest",
             MenuChoices = new Dictionary<char, PlayerAction>()
                 {
                     { '1', PlayerAction.Exit }
