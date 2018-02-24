@@ -433,12 +433,6 @@ namespace TB_QuestGame
             DisplayInputBoxPrompt("Enter yes or no: ");
             string userResponse = GetYesOrNo();
 
-            if (userResponse == "YES")
-            {
-               
-            }
-
-
             //
             // echo the player's info
             //
