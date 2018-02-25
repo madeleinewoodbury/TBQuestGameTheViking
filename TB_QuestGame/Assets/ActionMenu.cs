@@ -21,16 +21,6 @@ namespace TB_QuestGame
                     }
         };
 
-        public static Menu InitializeQuest = new Menu()
-        {
-            MenuName = "InitializeQuest",
-            MenuTitle = "Initialize Quest",
-            MenuChoices = new Dictionary<char, PlayerAction>()
-                {
-                    { '1', PlayerAction.Exit }
-                }
-        };
-
         public static Menu MainMenu = new Menu()
         {
             MenuName = "MainMenu",
@@ -38,8 +28,19 @@ namespace TB_QuestGame
             MenuChoices = new Dictionary<char, PlayerAction>()
                 {
                     { '1', PlayerAction.PlayerInfo },
-                    { '2', PlayerAction.Exit }
+                    { '2', PlayerAction.PlayerEdit },
+                    { '3', PlayerAction.Exit }
                 }
+        };
+
+        public static Menu EditPlayer = new Menu()
+        {
+            MenuName = "Player Info",
+            MenuTitle = "Player Info",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                {'1', PlayerAction.ChangeName}
+            }
         };
 
     }

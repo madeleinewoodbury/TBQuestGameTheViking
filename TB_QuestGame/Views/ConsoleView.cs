@@ -93,9 +93,20 @@ namespace TB_QuestGame
         /// get a string value from the user
         /// </summary>
         /// <returns>string value</returns>
-        public string GetString()
+        public string GetString(string prompt)
         {
-            return Console.ReadLine();
+            DisplayInputBoxPrompt(prompt);
+            string userResponse = Console.ReadLine();
+
+            while(userResponse == "")
+            {
+                ClearInputBox();
+                DisplayInputErrorMessage("You must enter at least one character. Please try again.");
+                DisplayInputBoxPrompt(prompt);
+                userResponse = Console.ReadLine();
+            }
+
+            return userResponse;
         }
 
         /// <summary>
@@ -168,10 +179,52 @@ namespace TB_QuestGame
         /// <returns>character race value</returns>
         public Player.VikingType GetVikingType()
         {
-            Player.VikingType vikingType;
-            Enum.TryParse<Player.VikingType>(Console.ReadLine(), out vikingType);
+            bool validInput = false;
+            Player.VikingType vikingType = Player.VikingType.None;
+
+            while (!validInput)
+            {
+                if (!Enum.TryParse<Player.VikingType>(Console.ReadLine(), out vikingType))
+                {
+                    ClearInputBox();
+                    DisplayInputErrorMessage("You have entered an invalid response. Please try again.");
+                    DisplayInputBoxPrompt("Enter Shieldmaiden or Karl: ");
+                }
+                else
+                {
+                    validInput = true;
+                }
+            }
+            
 
             return vikingType;
+        }
+
+        /// <summary>
+        /// get type of weapon from user
+        /// </summary>
+        /// <returns></returns>
+        public Player.Weapon GetWeapon()
+        {
+            bool validInput = false;
+            Player.Weapon weaponType = Player.Weapon.None;
+
+            while (!validInput)
+            {
+                if (!Enum.TryParse<Player.Weapon>(Console.ReadLine(), out weaponType))
+                {
+                    ClearInputBox();
+                    DisplayInputErrorMessage("You need to enter the name of a weapon. Please try again");
+                    DisplayInputBoxPrompt("Enter weapon: ");
+                }
+                else
+                {
+                    validInput = true;
+                }
+            }
+
+
+            return weaponType;
         }
 
         /// <summary>
@@ -388,6 +441,7 @@ namespace TB_QuestGame
         public Player GetInitialPlayerInfo()
         {
             Player player = new Player();
+            string prompt;
 
             //
             // intro
@@ -399,8 +453,15 @@ namespace TB_QuestGame
             // get player's name
             //
             DisplayGamePlayScreen("The Viking Setup - Name", Text.SetuoGetPlayerName(), ActionMenu.QuestIntro, "");
-            DisplayInputBoxPrompt("Enter your name: ");
-            player.Name = GetString();
+            prompt = "Enter your name: ";
+            player.Name = GetString(prompt);
+
+            //
+            // get player's race
+            //
+            DisplayGamePlayScreen("The Viking Setup - Gender", Text.SetupGetPlayerGender(player), ActionMenu.QuestIntro, "");
+            DisplayInputBoxPrompt("Enter Shieldmaiden or Karl: ");
+            player.Viking = GetVikingType();
 
             //
             // get player's age
@@ -415,15 +476,8 @@ namespace TB_QuestGame
             // get palyer's home village
             //
             DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.QuestIntro, "");
-            DisplayInputBoxPrompt("Enter the name of the Village: ");
-            player.HomeVillage = GetString();
-
-            //
-            // get player's race
-            //
-            DisplayGamePlayScreen("The Viking Setup - Gender", Text.SetupGetPlayerGender(player), ActionMenu.QuestIntro, "");
-            DisplayInputBoxPrompt("Enter Shieldmaiden or Karl: ");
-            player.Viking = GetVikingType();
+            prompt ="Enter the name of the Village: ";
+            player.HomeVillage = GetString(prompt);
 
             //
             // Player's capital. Prompt for purchase of weapon
@@ -432,6 +486,28 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("The Viking Setup - Capital", Text.DisplayPlayerStartingCapital(player), ActionMenu.QuestIntro, "");
             DisplayInputBoxPrompt("Enter yes or no: ");
             string userResponse = GetYesOrNo();
+
+            if (userResponse == "YES")
+            {
+                DisplayGamePlayScreen("The Viking Setup - Purchase Weapon", Text.DisplayPlayerPurchaseWeapon(player), ActionMenu.QuestIntro, "");
+                DisplayInputBoxPrompt("Enter weapon: ");
+                player.WeaponType = GetWeapon();
+
+                if (player.WeaponType != Player.Weapon.None)
+                {
+                    // subtract 25 coins from the player's capital
+                    player.Capital -= 25;
+                }
+                else
+                {
+                    player.IsArmed = false;
+                }
+            }
+            else
+            {
+                player.WeaponType = Player.Weapon.None;
+                player.IsArmed = false;
+            }
 
             //
             // echo the player's info
@@ -444,9 +520,29 @@ namespace TB_QuestGame
 
         #region ----- display responses to menu action choices -----
 
+        /// <summary>
+        /// Display playere inf
+        /// </summary>
         public void DisplayPlayerInfo()
         {
             DisplayGamePlayScreen("Player Information", Text.PlayerInfo(_gamePlayer), ActionMenu.MainMenu, "");
+        }
+
+        public PlayerAction DisplayEditPlayerInfo(Player player)
+        {
+
+            DisplayGamePlayScreen("Edit Player Info", Text.DisplayCurrentPlayerInfo(player), ActionMenu.EditPlayer, "");
+            PlayerAction playerMenuEditChoice = GetActionMenuChoice(ActionMenu.EditPlayer);
+
+            return playerMenuEditChoice;
+        }
+
+        public Player DisplayChangeName(Player player)
+        {
+            DisplayGamePlayScreen("The Viking Setup - Name", Text.SetuoGetPlayerName(), ActionMenu.QuestIntro, "");
+            string prompt = "Enter your name: ";
+            player.Name = GetString(prompt);
+            return player;
         }
 
         #endregion

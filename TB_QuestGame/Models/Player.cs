@@ -38,6 +38,7 @@ namespace TB_QuestGame
         private string _homeVillage;
         private int _capital;
         private Weapon _weaponType;
+        private bool _isArmed;
 
         #endregion
 
@@ -67,6 +68,11 @@ namespace TB_QuestGame
             set { _weaponType = value; }
         }
 
+        public bool IsArmed
+        {
+            get { return _isArmed; }
+            set { _isArmed = value; }
+        }
 
         #endregion
 
@@ -83,9 +89,13 @@ namespace TB_QuestGame
         }
 
         #endregion
-        
+
         #region METHODS
-        
+
+        public override string Greeting()
+        {
+            return $"Hello! I am {base.Name} of {_homeVillage}.";
+        }
 
         #endregion
     }

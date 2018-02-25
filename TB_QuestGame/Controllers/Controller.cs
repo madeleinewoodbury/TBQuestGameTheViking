@@ -105,15 +105,15 @@ namespace TB_QuestGame
                 {
                     case PlayerAction.None:
                         break;
-
                     case PlayerAction.PlayerInfo:
                         _gameConsoleView.DisplayPlayerInfo();
                         break;
-
+                    case PlayerAction.PlayerEdit:
+                        EditPlayerInfo();
+                        break;
                     case PlayerAction.Exit:
                         _playingGame = false;
                         break;
-
                     default:
                         break;
                 }
@@ -136,8 +136,34 @@ namespace TB_QuestGame
             _gamePlayer.Age = player.Age;
             _gamePlayer.Viking = player.Viking;
             _gamePlayer.HomeVillage = player.HomeVillage;
+            _gamePlayer.Capital = player.Capital;
+            _gamePlayer.WeaponType = player.WeaponType;
+            _gamePlayer.IsArmed = player.IsArmed;
+
         }
 
+        public void EditPlayerInfo()
+        {
+
+            PlayerAction playerActionEditChoice = _gameConsoleView.DisplayEditPlayerInfo(_gamePlayer);
+
+            switch (playerActionEditChoice)
+            {
+                case PlayerAction.ChangeName:
+                    ChangeName();
+                    break;
+                case PlayerAction.Exit:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void ChangeName()
+        {
+            _gamePlayer = _gameConsoleView.DisplayChangeName(_gamePlayer);
+
+        }
         #endregion
     }
 }

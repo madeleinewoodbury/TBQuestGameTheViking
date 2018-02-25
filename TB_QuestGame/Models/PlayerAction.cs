@@ -21,11 +21,16 @@ namespace TB_QuestGame
         PutDownTreasure,
         Travel,
         PlayerInfo,
+        PlayerEdit,
         PlayerInventory,
         PlayerTreasure,
         ListDestinations,
         ListItems,
         ListTreasures,
+        ChangeName,
+        ChangeGender,
+        ChangeAge,
+
         Exit
     }
 }

@@ -79,6 +79,11 @@ namespace TB_QuestGame
 
         #region METHODS
 
+        public virtual string Greeting()
+        {
+            return $"Hei, my name is {_name} and I am a {_gameCharacter}";   
+        }
+
 
 
         #endregion

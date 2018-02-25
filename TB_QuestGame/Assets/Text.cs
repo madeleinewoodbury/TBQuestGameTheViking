@@ -73,10 +73,23 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        public static string SetupGetPlayerGender(Player gamePlayer) 
+        {
+            string messageBoxText =
+                $"Very good then, we will call you {gamePlayer.Name} from here on out. \n" +
+                "We know you are a true viking, but we need to know your gender. \n" +
+                " \n" +
+                "Are you a Karl or a Shieldmaiden? \n" +
+                " \n" +
+                "Enter which one you identfy with below.";
+
+            return messageBoxText;
+        }
+
         public static string SetupGetPlayerAge(Player gamePlayer)
         {
             string messageBoxText =
-                $"Very good then, we will call you {gamePlayer.Name} from here on out.\n" +
+                $"Alright, {gamePlayer.Viking} {gamePlayer.Name}, now we need to know your viking years. \n" +
                 " \n" +
                 "Enter your age below.\n" +
                 " \n" +
@@ -90,31 +103,42 @@ namespace TB_QuestGame
             string messageBoxText =
                 $"{gamePlayer.Name}, we need to know what village you are from." +
                 " \n" +
-                "Enter the name of your village below.";
+                "Enter the name of your home village below.";
 
             return messageBoxText;
         }
 
-        public static string SetupGetPlayerGender(Player gamePlayer) // change
-        {
-            string messageBoxText =
-                $"{gamePlayer.Name}, we know you are a true Viking.\n" +
-                "But we need to know your gender. \n" +
-                "Are you a Karl or a Shieldmaiden? \n" +
-                " \n" +
-                "Enter which one you identfy with below.";
-
-            return messageBoxText;
-        }
 
         public static string DisplayPlayerStartingCapital(Player gamePlayer)
         {
             string messageBoxText =
-                $"{gamePlayer.Name}, starting the game your capital is at \n" +
-                $"{gamePlayer.Capital} coins. \n" +
+                $"Ok, {gamePlayer.Name} from {gamePlayer.HomeVillage}, starting the game your capital is at: {gamePlayer.Capital} coins. \n" +
+                " \n" +
+                "You are currently unarmed, the price of a weapon is 25 coins. \n" +
                 "Do you wish to purchase a weapon?" +
                 " \n" +
                 "Please respond yes or no below: ";
+
+            return messageBoxText;
+        }
+
+        public static string DisplayPlayerPurchaseWeapon(Player gamePlayer)
+        {
+            string messageBoxText =
+                "The weapons available for purchase are listed below.\n";
+
+            string weaponList = null;
+
+            foreach(Player.Weapon weapon in Enum.GetValues(typeof(Player.Weapon)))
+            {
+                if (weapon != Player.Weapon.None)
+                {
+                    weaponList += $"\t{weapon} \n";
+                }
+            }
+
+            messageBoxText += weaponList + " \n" +
+                "Please type the name of the weapon you would like to purchase below.";
 
             return messageBoxText;
         }
@@ -131,8 +155,16 @@ namespace TB_QuestGame
                 $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tGender: {gamePlayer.Viking}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                " \n" +
-                "Press any key to begin your mission.";
+                $"\tWeapon: {gamePlayer.WeaponType}\n" +
+                $"\tCapital: {gamePlayer.Capital} coins\n" +
+                " \n";
+
+                if (gamePlayer.WeaponType == Player.Weapon.None)
+                {
+                messageBoxText += "WARNING: You are currently unarmed! \n";
+                }
+
+                messageBoxText += "Press any key to begin your mission.";
 
             return messageBoxText;
         }
@@ -148,11 +180,47 @@ namespace TB_QuestGame
             string messageBoxText =
                 $"\tViking Name: {gamePlayer.Name}\n" +
                 $"\tViking Years: {gamePlayer.Age}\n" +
-                $"\tViking Type: {gamePlayer.Viking}\n" +
+                $"\tGender: {gamePlayer.Viking}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                " \n";
+                $"\tWeapon: {gamePlayer.WeaponType}\n" +
+                $"\tCapital: {gamePlayer.Capital} coins\n" +
+                " \n" +
+                "\tViking greeting: " + gamePlayer.Greeting() + 
+                "\n";
+
+            if (gamePlayer.WeaponType == Player.Weapon.None)
+            {
+                messageBoxText += "WARNING: You are currently unarmed!";
+            }
 
             return messageBoxText;
+        }
+
+        public static string DisplayCurrentPlayerInfo(Player gamePlayer)
+        {
+            string messageBoxText =
+                "Your current information is: \n" +
+                $"\t1. Viking Name: {gamePlayer.Name}\n" +
+                $"\t2. Viking Years: {gamePlayer.Age}\n" +
+                $"\t3. Gender: {gamePlayer.Viking}\n" +
+                $"\t4. Home Village: {gamePlayer.HomeVillage}\n" +
+                $"\t5. Weapon: {gamePlayer.WeaponType}\n" +
+                $"\t6. Capital: {gamePlayer.Capital} coins\n" +
+                " \n" +
+                "Please type the number for which information you would like to change.";
+
+            return messageBoxText;
+        }
+
+        public static string DisplayEditPlayerInfoComplete(Player gamePlayer)
+        {
+            string messageBoxText =
+                $"{gamePlayer.Name}, you have completed editing your information. \n" +
+                " \n" +
+                "Press any key to continue";
+
+            return messageBoxText;
+
         }
 
         #endregion
