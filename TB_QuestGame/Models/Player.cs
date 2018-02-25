@@ -37,7 +37,7 @@ namespace TB_QuestGame
         private VikingType _viking;
         private string _homeVillage;
         private int _capital;
-        private Weapon _weaponType;
+        private List<Weapon> _weaponType;
         private bool _isArmed;
 
         #endregion
@@ -62,7 +62,7 @@ namespace TB_QuestGame
             set { _capital = value; }
         }
 
-        public Weapon WeaponType
+        public List<Weapon> WeaponType
         {
             get { return _weaponType; }
             set { _weaponType = value; }

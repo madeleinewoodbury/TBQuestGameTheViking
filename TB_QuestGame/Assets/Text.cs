@@ -36,13 +36,13 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string CurrrentLocationInfo() // change
+        public static string CurrrentLocationInfo() 
         {
             string messageBoxText =
-            "You are now in the Norlon Corporation research facility located in " +
-            "the city of Heraklion on the north coast of Crete. You have passed through " +
-            "heavy security and descended an unknown number of levels to the top secret " +
-            "research lab for the Aion Project.\n" +
+            "You are located in Kaupang in Sikringssal. \n" +
+            "Here you will begin your journey. \n" +
+            "Take the time to look around, this place is the center for merchants and craftsmen. \n" +
+            "You will need good weapond and skills to survive the battles ahead. \n" +
             " \n" +
             "\tChoose from the menu options to proceed.\n";
 
@@ -115,7 +115,7 @@ namespace TB_QuestGame
                 $"Ok, {gamePlayer.Name} from {gamePlayer.HomeVillage}, starting the game your capital is at: {gamePlayer.Capital} coins. \n" +
                 " \n" +
                 "You are currently unarmed, the price of a weapon is 25 coins. \n" +
-                "Do you wish to purchase a weapon?" +
+                "Do you wish to purchase a weapon? \n" +
                 " \n" +
                 "Please respond yes or no below: ";
 
@@ -125,7 +125,8 @@ namespace TB_QuestGame
         public static string DisplayPlayerPurchaseWeapon(Player gamePlayer)
         {
             string messageBoxText =
-                "The weapons available for purchase are listed below.\n";
+                "The weapons available for purchase are listed below.\n" +
+                " \n";
 
             string weaponList = null;
 
@@ -136,8 +137,22 @@ namespace TB_QuestGame
                     weaponList += $"\t{weapon} \n";
                 }
             }
+            messageBoxText += weaponList;
 
-            messageBoxText += weaponList + " \n" +
+            if (gamePlayer.IsArmed)
+            {
+                messageBoxText += " \n The weapons currently in your inventory are: ";
+
+                string inventroyList = null;
+
+                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
+                {
+                    inventroyList += $"\t{weapon}, ";
+                }
+                messageBoxText += inventroyList;
+            }
+                messageBoxText += " \n" + 
+                " \n" +
                 "Please type the name of the weapon you would like to purchase below.";
 
             return messageBoxText;
@@ -152,24 +167,61 @@ namespace TB_QuestGame
                 " listed below.\n" +
                 " \n" +
                 $"\tViking Name: {gamePlayer.Name}\n" +
-                $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tGender: {gamePlayer.Viking}\n" +
+                $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                $"\tWeapon: {gamePlayer.WeaponType}\n" +
                 $"\tCapital: {gamePlayer.Capital} coins\n" +
-                " \n";
+                $"\tWeapons: ";
 
-                if (gamePlayer.WeaponType == Player.Weapon.None)
+            string inventoryList = null;
+
+            if (gamePlayer.IsArmed)
+            {
+                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
                 {
-                messageBoxText += "WARNING: You are currently unarmed! \n";
+                    inventoryList += $"{weapon}, ";
                 }
+            }
+            else
+            {
+                inventoryList += "You are currently unarmed.";
+            }
+                
 
-                messageBoxText += "Press any key to begin your mission.";
+                messageBoxText += inventoryList += "\n \n Press any key to begin your mission.";
 
             return messageBoxText;
         }
 
         #endregion
+
+        #endregion
+
+        #region EDIT PLAYER INFO
+
+        public static string EditGetPlayerGender(Player gamePlayer)
+        {
+            string messageBoxText =
+                $"Alright {gamePlayer.Name}, your current gender info is {gamePlayer.Viking}. \n" +
+                "Are you a Karl or a Shieldmaiden? \n" +
+                " \n" +
+                "Enter which one you identfy with below.";
+
+            return messageBoxText;
+        }
+
+        public static string DisplayNotEnoughCapital(Player player)
+        {
+            string messageBoxText =
+                $"This is unfortunate, {player.Name}. It seems like you don't have enough capital \n" +
+                "to purchase a new weapon. \n" +
+                $"You need 25 coins to purchase a new weapon, you currently only have {player.Capital} coins. \n" +
+                " \n" +
+                "Press any key to continue:";
+
+            return messageBoxText;
+        }
+
 
         #endregion
 
@@ -179,49 +231,32 @@ namespace TB_QuestGame
         {
             string messageBoxText =
                 $"\tViking Name: {gamePlayer.Name}\n" +
-                $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tGender: {gamePlayer.Viking}\n" +
+                $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                $"\tWeapon: {gamePlayer.WeaponType}\n" +
                 $"\tCapital: {gamePlayer.Capital} coins\n" +
-                " \n" +
-                "\tViking greeting: " + gamePlayer.Greeting() + 
-                "\n";
+                $"\tWeapon: ";
 
-            if (gamePlayer.WeaponType == Player.Weapon.None)
+            string inventoryList = null;
+
+            if (gamePlayer.IsArmed)
             {
-                messageBoxText += "WARNING: You are currently unarmed!";
+                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
+                {
+                    inventoryList += $"{weapon.ToString()}, ";
+                }
+            }
+            else
+            {
+                inventoryList += "You are currently unarmed.";
             }
 
-            return messageBoxText;
-        }
 
-        public static string DisplayCurrentPlayerInfo(Player gamePlayer)
-        {
-            string messageBoxText =
-                "Your current information is: \n" +
-                $"\t1. Viking Name: {gamePlayer.Name}\n" +
-                $"\t2. Viking Years: {gamePlayer.Age}\n" +
-                $"\t3. Gender: {gamePlayer.Viking}\n" +
-                $"\t4. Home Village: {gamePlayer.HomeVillage}\n" +
-                $"\t5. Weapon: {gamePlayer.WeaponType}\n" +
-                $"\t6. Capital: {gamePlayer.Capital} coins\n" +
-                " \n" +
-                "Please type the number for which information you would like to change.";
+            messageBoxText += inventoryList += "\n\tViking greeting: " + gamePlayer.Greeting();
 
             return messageBoxText;
         }
 
-        public static string DisplayEditPlayerInfoComplete(Player gamePlayer)
-        {
-            string messageBoxText =
-                $"{gamePlayer.Name}, you have completed editing your information. \n" +
-                " \n" +
-                "Press any key to continue";
-
-            return messageBoxText;
-
-        }
 
         #endregion
     }

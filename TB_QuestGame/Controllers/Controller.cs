@@ -144,25 +144,62 @@ namespace TB_QuestGame
 
         public void EditPlayerInfo()
         {
-
             PlayerAction playerActionEditChoice = _gameConsoleView.DisplayEditPlayerInfo(_gamePlayer);
+                switch (playerActionEditChoice)
+                {
+                    case PlayerAction.ChangeName:
+                        EditName();
+                        EditPlayerInfo();
+                        break;
+                    case PlayerAction.ChangeGender:
+                        EditGender();
+                        EditPlayerInfo();
+                        break;
+                    case PlayerAction.ChangeAge:
+                        EditAge();
+                        EditPlayerInfo();
+                        break;
+                    case PlayerAction.ChangeHomeVillage:
+                        EditHomeVillage();
+                        EditPlayerInfo();
+                        break;
+                    case PlayerAction.PurchaseWeapon:
+                        PurchaseWeapon();
+                        EditPlayerInfo();
+                        break;
+                    case PlayerAction.GoBack:
+                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(), ActionMenu.MainMenu, "");
+                        break;
+                    default:
+                        break;
+                }
 
-            switch (playerActionEditChoice)
-            {
-                case PlayerAction.ChangeName:
-                    ChangeName();
-                    break;
-                case PlayerAction.Exit:
-                    break;
-                default:
-                    break;
-            }
         }
 
-        public void ChangeName()
+        public void EditName()
         {
-            _gamePlayer = _gameConsoleView.DisplayChangeName(_gamePlayer);
+            _gamePlayer = _gameConsoleView.DisplayEditName(_gamePlayer);
 
+        }
+
+        public void EditGender()
+        {
+            _gamePlayer = _gameConsoleView.DisplayEditGender(_gamePlayer);
+        }
+
+        public void EditAge()
+        {
+            _gamePlayer = _gameConsoleView.DisplayEditAge(_gamePlayer);
+        }
+
+        public void EditHomeVillage()
+        {
+            _gamePlayer = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
+        }
+
+        public void PurchaseWeapon()
+        {
+            _gamePlayer = _gameConsoleView.DisplayPurchaseWeapon(_gamePlayer);
         }
         #endregion
     }

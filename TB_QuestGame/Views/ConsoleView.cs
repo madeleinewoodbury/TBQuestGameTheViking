@@ -440,7 +440,18 @@ namespace TB_QuestGame
         /// <returns>player object with all properties updated</returns>
         public Player GetInitialPlayerInfo()
         {
+            // instantiate a new player
             Player player = new Player();
+
+            // instantiate a new list of weapons
+            player.WeaponType = new List<Player.Weapon>();
+
+            //instantiate a new waeapon
+            Player.Weapon weaponType;
+
+            // isArmed is set to false to begin with
+            player.IsArmed = false;
+
             string prompt;
 
             //
@@ -491,12 +502,14 @@ namespace TB_QuestGame
             {
                 DisplayGamePlayScreen("The Viking Setup - Purchase Weapon", Text.DisplayPlayerPurchaseWeapon(player), ActionMenu.QuestIntro, "");
                 DisplayInputBoxPrompt("Enter weapon: ");
-                player.WeaponType = GetWeapon();
+                weaponType =GetWeapon();
 
-                if (player.WeaponType != Player.Weapon.None)
+                if (weaponType != Player.Weapon.None)
                 {
                     // subtract 25 coins from the player's capital
                     player.Capital -= 25;
+                    player.IsArmed = true;
+                    player.WeaponType.Add(weaponType);
                 }
                 else
                 {
@@ -505,7 +518,7 @@ namespace TB_QuestGame
             }
             else
             {
-                player.WeaponType = Player.Weapon.None;
+                weaponType = Player.Weapon.None;
                 player.IsArmed = false;
             }
 
@@ -521,30 +534,111 @@ namespace TB_QuestGame
         #region ----- display responses to menu action choices -----
 
         /// <summary>
-        /// Display playere inf
+        /// Display player info
         /// </summary>
         public void DisplayPlayerInfo()
         {
-            DisplayGamePlayScreen("Player Information", Text.PlayerInfo(_gamePlayer), ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("Viking Information", Text.PlayerInfo(_gamePlayer), ActionMenu.MainMenu, "");
         }
 
+        /// <summary>
+        /// Display Edit Player Infor screen
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public PlayerAction DisplayEditPlayerInfo(Player player)
         {
 
-            DisplayGamePlayScreen("Edit Player Info", Text.DisplayCurrentPlayerInfo(player), ActionMenu.EditPlayer, "");
+            DisplayGamePlayScreen("Edit Viking Info", Text.PlayerInfo(player), ActionMenu.EditPlayer, "");
             PlayerAction playerMenuEditChoice = GetActionMenuChoice(ActionMenu.EditPlayer);
 
             return playerMenuEditChoice;
         }
 
-        public Player DisplayChangeName(Player player)
+        /// <summary>
+        /// Edit Player Name
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public Player DisplayEditName(Player player)
         {
-            DisplayGamePlayScreen("The Viking Setup - Name", Text.SetuoGetPlayerName(), ActionMenu.QuestIntro, "");
+            DisplayGamePlayScreen("Edit Viking Info - Name", Text.SetuoGetPlayerName(), ActionMenu.EditPlayer, "");
             string prompt = "Enter your name: ";
             player.Name = GetString(prompt);
             return player;
         }
 
+        /// <summary>
+        /// Edit Player Gender
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public Player DisplayEditGender(Player player)
+        {
+            DisplayGamePlayScreen("Edit Viking Info - Gender", Text.EditGetPlayerGender(player), ActionMenu.EditPlayer, "");
+            DisplayInputBoxPrompt("Enter Shieldmaiden or Karl: ");
+            player.Viking = GetVikingType();
+            return player;
+        }
+
+        /// <summary>
+        /// Edit Player Age
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public Player DisplayEditAge(Player player)
+        {
+            DisplayGamePlayScreen("The Viking Setup - Age", Text.SetupGetPlayerAge(player), ActionMenu.EditPlayer, "");
+            int gamePlayerAge;
+
+            GetInteger($"Enter your age {player.Name}: ", 0, 1000000, out gamePlayerAge);
+            player.Age = gamePlayerAge;
+            return player;
+        }
+
+        /// <summary>
+        /// Edit Player Home Village
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public Player DisplayEditHomeVillage(Player player)
+        {
+            DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.EditPlayer, "");
+            string prompt = "Enter the name of the Village: ";
+            player.HomeVillage = GetString(prompt);
+            return player;
+        }
+
+        /// <summary>
+        /// Purchase Weapon
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public Player DisplayPurchaseWeapon(Player player)
+        {
+            if (player.Capital < 25)
+            {
+                DisplayGamePlayScreen("Edit Viking Info - Weapons", Text.DisplayNotEnoughCapital(player), ActionMenu.EditPlayer, "");
+                GetContinueKey();
+            }
+            else
+            {
+                DisplayGamePlayScreen("Edit Viking Info - Weapons", Text.DisplayPlayerPurchaseWeapon(player), ActionMenu.EditPlayer, "");
+                DisplayInputBoxPrompt("Enter weapon: ");
+                Player.Weapon weaponType = GetWeapon();
+
+                if (weaponType != Player.Weapon.None)
+                {
+                    // subtract 25 coins from the player's capital
+                    player.Capital -= 25;
+                    player.WeaponType.Add(weaponType);
+                    player.IsArmed = true;
+                }
+            }
+
+
+            return player;
+        }
         #endregion
 
         #endregion

@@ -39,7 +39,12 @@ namespace TB_QuestGame
             MenuTitle = "Player Info",
             MenuChoices = new Dictionary<char, PlayerAction>()
             {
-                {'1', PlayerAction.ChangeName}
+                {'1', PlayerAction.ChangeName},
+                {'2', PlayerAction.ChangeGender },
+                {'3', PlayerAction.ChangeAge},
+                {'4', PlayerAction.ChangeHomeVillage },
+                {'5', PlayerAction.PurchaseWeapon},
+                {'6', PlayerAction.GoBack }
             }
         };
 

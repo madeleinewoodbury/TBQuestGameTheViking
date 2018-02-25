@@ -13,6 +13,7 @@ namespace TB_QuestGame
     {
         None,
         MissionSetup,
+        GoBack,
         LookAround,
         LookAt,
         PickUpItem,
@@ -30,7 +31,8 @@ namespace TB_QuestGame
         ChangeName,
         ChangeGender,
         ChangeAge,
-
+        ChangeHomeVillage,
+        PurchaseWeapon,
         Exit
     }
 }
