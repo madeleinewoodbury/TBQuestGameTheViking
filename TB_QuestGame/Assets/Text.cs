@@ -257,6 +257,17 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        public static string DisplayClosingScreenText(Player gamePlayer)
+        {
+            string messageBox = 
+                $"Thank you for playing The Viking {gamePlayer.Name}. \n" +
+                "We at Woodbury Productions hope that you have enjoyed the game. \n" +
+                "We wish you all the best in your future quests. \n" +
+                " \n" +
+                "\tPress any key to exit the game.";
+
+            return messageBox;
+        }
 
         #endregion
     }

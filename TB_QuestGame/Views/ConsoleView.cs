@@ -639,6 +639,12 @@ namespace TB_QuestGame
 
             return player;
         }
+
+        public void DisplayClosingScreen(Player player)
+        {
+            DisplayGamePlayScreen("Exiting Game", Text.DisplayClosingScreenText(player), ActionMenu.QuestIntro, "");
+            GetContinueKey();
+        }
         #endregion
 
         #endregion

@@ -112,6 +112,7 @@ namespace TB_QuestGame
                         EditPlayerInfo();
                         break;
                     case PlayerAction.Exit:
+                        _gameConsoleView.DisplayClosingScreen(_gamePlayer);
                         _playingGame = false;
                         break;
                     default:
