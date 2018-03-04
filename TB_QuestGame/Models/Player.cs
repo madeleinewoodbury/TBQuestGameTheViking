@@ -39,7 +39,8 @@ namespace TB_QuestGame
         private int _capital;
         private List<Weapon> _weaponType;
         private bool _isArmed;
-
+        private int _health;
+        private int _lives;
         #endregion
 
         #region PROPERTIES
@@ -74,6 +75,18 @@ namespace TB_QuestGame
             set { _isArmed = value; }
         }
 
+        public int Health
+        {
+            get { return _health; }
+            set { _health = value; }
+        }
+
+        public int Lives
+        {
+            get { return _lives; }
+            set { _lives = value; }
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -83,7 +96,7 @@ namespace TB_QuestGame
 
         }
 
-        public Player(string name, CharacterType race, string homeVillage, bool isFriendly) : base(name, race, isFriendly)
+        public Player(string name, CharacterType race, int locationId) : base(name, race, locationId)
         {
 
         }

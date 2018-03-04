@@ -29,7 +29,8 @@ namespace TB_QuestGame
                 {
                     { '1', PlayerAction.PlayerInfo },
                     { '2', PlayerAction.PlayerEdit },
-                    { '3', PlayerAction.Exit }
+                    { '3', PlayerAction.ListDestinations },
+                    { '0', PlayerAction.Exit }
                 }
         };
 

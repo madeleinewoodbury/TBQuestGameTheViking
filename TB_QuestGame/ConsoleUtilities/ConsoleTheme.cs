@@ -60,5 +60,14 @@ namespace TB_QuestGame
         public static ConsoleColor InputBoxBorderColor = ConsoleColor.DarkBlue;
         public static ConsoleColor InputBoxHeaderBackgroundColor = ConsoleColor.Black;
         public static ConsoleColor InputBoxHeaderForegroundColor = ConsoleColor.White;
+
+        //
+        // status box colors
+        //
+        public static ConsoleColor StatusBoxBackgroundColor = ConsoleColor.Black;
+        public static ConsoleColor StatusBoxForegroundColor = ConsoleColor.White;
+        public static ConsoleColor StatusBoxBorderColor = ConsoleColor.DarkBlue;
+        public static ConsoleColor StatusBoxHeaderBackgroundColor = ConsoleColor.Black;
+        public static ConsoleColor StatusBoxHeaderForegroundColor = ConsoleColor.White;
     }
 }

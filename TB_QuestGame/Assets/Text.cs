@@ -270,5 +270,45 @@ namespace TB_QuestGame
         }
 
         #endregion
+
+        public static List<string> StatusBox(Player gamePlayer)
+        {
+            List<string> statusBoxText = new List<string>();
+
+            statusBoxText.Add($"Lives: {gamePlayer.Lives}\n");
+            statusBoxText.Add($"Health: {gamePlayer.Health}\n");
+            statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
+
+            return statusBoxText;
+        }
+
+        public static string ListLocations(IEnumerable<Location> locations)
+        {
+            string messageBoxText =
+                "Locations \n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) + "NAME".PadRight(30) + "\n" +
+                "---".PadRight(10) + "-----------------------".PadRight(30) + "\n";
+
+            //
+            // display all locations
+            //
+            string locationsList = null;
+            foreach (Location location in locations)
+            {
+                locationsList +=
+                    $"{location.LocationId}".PadRight(10) +
+                    $"{location.LocationName}".PadRight(30) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += locationsList;
+
+            return messageBoxText;
+        }
     }
 }

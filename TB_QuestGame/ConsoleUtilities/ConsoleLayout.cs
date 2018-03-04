@@ -43,7 +43,7 @@ namespace TB_QuestGame
         // menu box configuration
         //
         public static int MenuBoxWidth = 37;
-        public static int MenuBoxHeight = 34; //+9
+        public static int MenuBoxHeight = 25; // was 34
         public static int MenuBoxPositionLeft = 1; // was 122
         public static int MenuBoxPositionTop = 3;
 
@@ -62,6 +62,14 @@ namespace TB_QuestGame
         public static int InputBoxHeight = 4; 
         public static int InputBoxPositionLeft = 39;
         public static int InputBoxPositionTop = 33; // was 28
+
+        //
+        // status box configureation
+        //
+        public static int StatusBoxWidth = 37;
+        public static int StatusBoxHeight = 9;
+        public static int StatusBoxPositionLeft = 1;
+        public static int StatusBoxPositionTop = 28;
 
     }
 }

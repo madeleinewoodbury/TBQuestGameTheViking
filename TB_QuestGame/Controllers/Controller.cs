@@ -15,7 +15,9 @@ namespace TB_QuestGame
 
         private ConsoleView _gameConsoleView;
         private Player _gamePlayer;
+        private Universe _gameUniverse;
         private bool _playingGame;
+        private Location _currentLocaton;
 
         #endregion
 
@@ -49,7 +51,8 @@ namespace TB_QuestGame
         private void InitializeGame()
         {
             _gamePlayer = new Player();
-            _gameConsoleView = new ConsoleView(_gamePlayer);
+            _gameUniverse = new Universe();
+            _gameConsoleView = new ConsoleView(_gamePlayer, _gameUniverse);
             _playingGame = true;
 
             Console.CursorVisible = false;
@@ -89,6 +92,7 @@ namespace TB_QuestGame
             //
             // prepare game play screen
             //
+            _currentLocaton = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
             _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(), ActionMenu.MainMenu, "");
 
             //
@@ -110,6 +114,9 @@ namespace TB_QuestGame
                         break;
                     case PlayerAction.PlayerEdit:
                         EditPlayerInfo();
+                        break;
+                    case PlayerAction.ListDestinations:
+                        _gameConsoleView.DisplayListOfLocations();
                         break;
                     case PlayerAction.Exit:
                         _gameConsoleView.DisplayClosingScreen(_gamePlayer);
@@ -136,10 +143,14 @@ namespace TB_QuestGame
             _gamePlayer.Name = player.Name;
             _gamePlayer.Age = player.Age;
             _gamePlayer.Viking = player.Viking;
+            _gamePlayer.LocationId = 1; 
             _gamePlayer.HomeVillage = player.HomeVillage;
             _gamePlayer.Capital = player.Capital;
             _gamePlayer.WeaponType = player.WeaponType;
             _gamePlayer.IsArmed = player.IsArmed;
+
+            _gamePlayer.Health = 100;
+            _gamePlayer.Lives = 3;
 
         }
 
