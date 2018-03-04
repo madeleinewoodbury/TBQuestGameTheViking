@@ -634,6 +634,57 @@ namespace TB_QuestGame
         }
 
         /// <summary>
+        /// Display look around method from the text class
+        /// </summary>
+        public void DisplayLookAround()
+        {
+            Location currentLocation = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
+            DisplayGamePlayScreen("Current Location", Text.LookAround(currentLocation), ActionMenu.MainMenu, "");
+        }
+
+        /// <summary>
+        /// Get the next location ID from the player
+        /// </summary>
+        /// <returns></returns>
+        public int DisplayGetLocation()
+        {
+            int locationId = 0;
+            bool validLocationId = false;
+
+            DisplayGamePlayScreen("Travel to a new location", Text.Travel(_gamePlayer, _gameUniverse.Locations), ActionMenu.MainMenu, "");
+
+            while (!validLocationId)
+            {
+                //
+                // get integer from user
+                //
+                GetInteger("Enter the new location: ", 1, _gameUniverse.GetMaxLocationID(), out locationId);
+
+                //
+                // validate the locationID and determine accesability
+                //
+                if (_gameUniverse.IsValidLocationId(locationId))
+                {
+                    if (_gameUniverse.IsAccessibleLocation(locationId))
+                    {
+                        validLocationId = true;
+                    }
+                    else
+                    {
+                        ClearInputBox();
+                        DisplayInputErrorMessage("You are attempting to travel to a location that is not accessible. Please try again.");
+                    }
+                }
+                else
+                {
+                    DisplayInputErrorMessage("You entered an invalid locationId. Please try again.");
+                }
+            }
+
+            return locationId;
+        }
+
+        /// <summary>
         /// Display player info
         /// </summary>
         public void DisplayPlayerInfo()

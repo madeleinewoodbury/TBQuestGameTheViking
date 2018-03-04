@@ -36,13 +36,10 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string CurrrentLocationInfo() 
+        public static string CurrrentLocationInfo(Location currentLocation) 
         {
             string messageBoxText =
-            "You are located in Kaupang in Sikringssal. \n" +
-            "Here you will begin your journey. \n" +
-            "Take the time to look around, this place is the center for merchants and craftsmen. \n" +
-            "You will need good weapond and skills to survive the battles ahead. \n" +
+            $"You are located in {currentLocation.LocationName}. \n" +
             " \n" +
             "\tChoose from the menu options to proceed.\n";
 
@@ -309,6 +306,53 @@ namespace TB_QuestGame
             messageBoxText += locationsList;
 
             return messageBoxText;
+        }
+
+        public static string LookAround(Location location)
+        {
+            string messageTextBox =
+                $"Current location: {location.LocationName}\n" +
+                " \n";
+            // TODO display contents
+
+            return messageTextBox;
+        }
+
+        public static string Travel(Player gamePlayer, List<Location> locations)
+        {
+            string messageTextBox =
+                $"{gamePlayer.Name}, where would you like to travel to. \n" +
+                " \n" +
+                "Enter the ID of your next location. \n" +
+                " \n" +
+
+                 //
+                 // display table header
+                 //
+                 "ID".PadRight(10) + "Name".PadRight(30) + "Accessable".PadRight(10) + "\n" +
+                 "---".PadRight(10) + "--------------------".PadRight(30) + "------" + "\n";
+
+            //
+            // display all locations besides the current
+            //
+            string locationList = null;
+            foreach (Location location in locations)
+            {
+                if (location.LocationId != gamePlayer.LocationId)
+                {
+                    locationList +=
+                    $"{location.LocationId}".PadRight(10) +
+                    $"{location.LocationName}".PadRight(30) +
+                    $"{location.Accessable}".PadRight(10) +
+                    Environment.NewLine;
+
+                }
+            }
+
+            messageTextBox += locationList;
+
+            return messageTextBox;
+
         }
     }
 }

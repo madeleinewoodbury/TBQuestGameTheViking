@@ -93,7 +93,7 @@ namespace TB_QuestGame
             // prepare game play screen
             //
             _currentLocaton = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
-            _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(), ActionMenu.MainMenu, "");
+            _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
 
             //
             // game loop
@@ -117,6 +117,17 @@ namespace TB_QuestGame
                         break;
                     case PlayerAction.ListDestinations:
                         _gameConsoleView.DisplayListOfLocations();
+                        break;
+                    case PlayerAction.LookAround:
+                        _gameConsoleView.DisplayLookAround();
+                        break;
+                    case PlayerAction.Travel:
+                        // get new locationId and update the curentLocation
+                        _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
+                        _currentLocaton = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
+
+                        // set the game play screen to current location info
+                        _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
                         break;
                     case PlayerAction.Exit:
                         _gameConsoleView.DisplayClosingScreen(_gamePlayer);
@@ -180,7 +191,7 @@ namespace TB_QuestGame
                         EditPlayerInfo();
                         break;
                     case PlayerAction.GoBack:
-                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(), ActionMenu.MainMenu, "");
+                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
                         break;
                     default:
                         break;

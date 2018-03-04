@@ -43,6 +43,11 @@ namespace TB_QuestGame
             _locations = UniverseObjects.Locations;
         }
 
+        /// <summary>
+        /// determines if th elocationId is valid
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
         public bool IsValidLocationId(int locationId)
         {
             List<int> locationIds = new List<int>();
@@ -85,6 +90,24 @@ namespace TB_QuestGame
             }
 
             return MaxId;
+        }
+
+        /// <summary>
+        /// determines if locationId is accesible
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public bool IsAccessibleLocation(int locationId)
+        {
+            Location location = GetLocationById(locationId);
+            if (location.Accessable == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public Location GetLocationById(int Id)
