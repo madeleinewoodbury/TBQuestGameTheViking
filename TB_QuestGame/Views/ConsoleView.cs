@@ -685,6 +685,23 @@ namespace TB_QuestGame
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public void DisplayLocationsVisited()
+        {
+            //
+            // generate a list of locations that the player has visited
+            //
+            List<Location> locationsVisited = new List<Location>();
+            foreach (int  locationId in _gamePlayer.LocationsVisted)
+            {
+                locationsVisited.Add(_gameUniverse.GetLocationById(locationId));
+            }
+
+            DisplayGamePlayScreen("Locations you have visited", Text.VisitedLocations(locationsVisited), ActionMenu.MainMenu, "");
+        }
+
+        /// <summary>
         /// Display player info
         /// </summary>
         public void DisplayPlayerInfo()

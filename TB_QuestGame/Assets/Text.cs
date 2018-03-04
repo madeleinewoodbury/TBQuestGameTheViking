@@ -354,5 +354,35 @@ namespace TB_QuestGame
             return messageTextBox;
 
         }
+
+        public static string VisitedLocations(IEnumerable<Location> locations)
+        {
+            string messageBoxText =
+                "Locations Visited\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) + "Name".PadRight(30) + "\n" +
+                "---".PadRight(10) + "----------------------".PadRight(30) + "\n";
+
+            //
+            // display locations visited
+            //
+            string locationsList = null;
+            foreach (Location location in locations)
+            {
+                locationsList +=
+                    $"{location.LocationId}".PadRight(10) +
+                    $"{location.LocationName}".PadRight(30) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += locationsList;
+
+            return messageBoxText;
+
+        }
     }
 }

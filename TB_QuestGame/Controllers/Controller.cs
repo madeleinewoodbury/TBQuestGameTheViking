@@ -100,6 +100,14 @@ namespace TB_QuestGame
             //
             while (_playingGame)
             {
+                //
+                // update the status of the game
+                //
+                UpdateGameStatus();
+
+                //
+                // get the next action from the player
+                //
                 playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.MainMenu);
 
                 //
@@ -128,6 +136,9 @@ namespace TB_QuestGame
 
                         // set the game play screen to current location info
                         _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
+                        break;
+                    case PlayerAction.LocationsVisited:
+                        _gameConsoleView.DisplayLocationsVisited();
                         break;
                     case PlayerAction.Exit:
                         _gameConsoleView.DisplayClosingScreen(_gamePlayer);
@@ -163,6 +174,17 @@ namespace TB_QuestGame
             _gamePlayer.Health = 100;
             _gamePlayer.Lives = 3;
 
+        }
+
+        private void UpdateGameStatus()
+        {
+            if (!_gamePlayer.HasVisited(_currentLocaton.LocationId))
+            {
+                // add new location to the list of visited locations
+                _gamePlayer.LocationsVisted.Add(_currentLocaton.LocationId);
+
+                // TODO experience point
+            }
         }
 
         public void EditPlayerInfo()

@@ -41,6 +41,8 @@ namespace TB_QuestGame
         private bool _isArmed;
         private int _health;
         private int _lives;
+        private List<int> _locationsVisited;
+
         #endregion
 
         #region PROPERTIES
@@ -87,23 +89,42 @@ namespace TB_QuestGame
             set { _lives = value; }
         }
 
+        public List<int> LocationsVisted
+        {
+            get { return _locationsVisited; }
+            set { _locationsVisited = value; }
+        }
+
+
         #endregion
 
         #region CONSTRUCTORS
 
         public Player()
         {
-
+            _locationsVisited = new List<int>();
         }
 
         public Player(string name, CharacterType race, int locationId) : base(name, race, locationId)
         {
-
+            _locationsVisited = new List<int>();
         }
 
         #endregion
 
         #region METHODS
+
+        public bool HasVisited(int _locationId)
+        {
+            if (LocationsVisted.Contains(_locationId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public override string Greeting()
         {

@@ -21,6 +21,7 @@ namespace TB_QuestGame
         PutDownItem,
         PutDownTreasure,
         Travel,
+        LocationsVisited,
         PlayerInfo,
         PlayerEdit,
         PlayerInventory,
