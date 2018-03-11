@@ -41,6 +41,7 @@ namespace TB_QuestGame
         private bool _isArmed;
         private int _health;
         private int _lives;
+        private int _experiencePoints;
         private List<int> _locationsVisited;
 
         #endregion
@@ -87,6 +88,12 @@ namespace TB_QuestGame
         {
             get { return _lives; }
             set { _lives = value; }
+        }
+
+        public int ExperiencePoints
+        {
+            get { return _experiencePoints; }
+            set { _experiencePoints = value; }
         }
 
         public List<int> LocationsVisted

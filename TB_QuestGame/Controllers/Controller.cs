@@ -96,14 +96,15 @@ namespace TB_QuestGame
             _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
 
             //
+            // update game stauts
+            //
+            UpdateGameStatus();
+
+            //
             // game loop
             //
             while (_playingGame)
-            {
-                //
-                // update the status of the game
-                //
-                UpdateGameStatus();
+            { 
 
                 //
                 // get the next action from the player
@@ -133,6 +134,11 @@ namespace TB_QuestGame
                         // get new locationId and update the curentLocation
                         _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
                         _currentLocaton = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
+
+                        //
+                        // update the status of the game
+                        //
+                        UpdateGameStatus();
 
                         // set the game play screen to current location info
                         _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
@@ -171,6 +177,7 @@ namespace TB_QuestGame
             _gamePlayer.WeaponType = player.WeaponType;
             _gamePlayer.IsArmed = player.IsArmed;
 
+            _gamePlayer.ExperiencePoints = 0;
             _gamePlayer.Health = 100;
             _gamePlayer.Lives = 3;
 
@@ -183,7 +190,9 @@ namespace TB_QuestGame
                 // add new location to the list of visited locations
                 _gamePlayer.LocationsVisted.Add(_currentLocaton.LocationId);
 
-                // TODO experience point
+                // update experience points and health for visiting locations
+                _gamePlayer.ExperiencePoints += _currentLocaton.ExperiencePoints;
+
             }
         }
 
@@ -223,23 +232,23 @@ namespace TB_QuestGame
 
         public void EditName()
         {
-            _gamePlayer = _gameConsoleView.DisplayEditName(_gamePlayer);
+            _gamePlayer.Name = _gameConsoleView.DisplayEditName(_gamePlayer);
 
         }
 
         public void EditGender()
         {
-            _gamePlayer = _gameConsoleView.DisplayEditGender(_gamePlayer);
+            _gamePlayer.Viking = _gameConsoleView.DisplayEditGender(_gamePlayer);
         }
 
         public void EditAge()
         {
-            _gamePlayer = _gameConsoleView.DisplayEditAge(_gamePlayer);
+            _gamePlayer.Age = _gameConsoleView.DisplayEditAge(_gamePlayer);
         }
 
         public void EditHomeVillage()
         {
-            _gamePlayer = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
+            _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
         }
 
         public void PurchaseWeapon()

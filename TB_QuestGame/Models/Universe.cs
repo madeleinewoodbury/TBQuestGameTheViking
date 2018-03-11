@@ -44,7 +44,7 @@ namespace TB_QuestGame
         }
 
         /// <summary>
-        /// determines if th elocationId is valid
+        /// determines if the locationId is valid
         /// </summary>
         /// <param name="locationId"></param>
         /// <returns></returns>
@@ -97,10 +97,12 @@ namespace TB_QuestGame
         /// </summary>
         /// <param name="locationId"></param>
         /// <returns></returns>
-        public bool IsAccessibleLocation(int locationId)
+        public bool IsAccessibleLocation(int locationId, int currentLocationId)
         {
             Location location = GetLocationById(locationId);
-            if (location.Accessable == true)
+            Location currentLocation = GetLocationById(currentLocationId);
+
+            if (currentLocation.AccessableLocations.Contains(locationId))
             {
                 return true;
             }
@@ -108,6 +110,7 @@ namespace TB_QuestGame
             {
                 return false;
             }
+
         }
 
         public Location GetLocationById(int Id)

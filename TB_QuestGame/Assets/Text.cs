@@ -78,7 +78,10 @@ namespace TB_QuestGame
                 " \n" +
                 "Are you a Karl or a Shieldmaiden? \n" +
                 " \n" +
-                "Enter which one you identfy with below.";
+                "Enter which one you identfy with: \n" +
+                " \n" +
+                "\t1. Karl\n" +
+                "\t2. Shieldmaiden";
 
             return messageBoxText;
         }
@@ -200,9 +203,11 @@ namespace TB_QuestGame
         {
             string messageBoxText =
                 $"Alright {gamePlayer.Name}, your current gender info is {gamePlayer.Viking}. \n" +
-                "Are you a Karl or a Shieldmaiden? \n" +
                 " \n" +
-                "Enter which one you identfy with below.";
+                "Enter which one you identfy with: \n" +
+                " \n" +
+                "\t1. Karl\n" +
+                "\t2. Shieldmaiden"; ;
 
             return messageBoxText;
         }
@@ -254,6 +259,38 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        public static string EditPlayerInfo(Player gamePlayer)
+        {
+            string messageBoxText =
+                $"\tViking Name: {gamePlayer.Name}\n" +
+                $"\tGender: {gamePlayer.Viking}\n" +
+                $"\tViking Years: {gamePlayer.Age}\n" +
+                $"\tHome Village: {gamePlayer.HomeVillage}\n" +
+                $"\tCapital: {gamePlayer.Capital} coins\n" +
+                $"\tWeapon: ";
+
+            string inventoryList = null;
+
+            if (gamePlayer.IsArmed)
+            {
+                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
+                {
+                    inventoryList += $"{weapon.ToString()}, ";
+                }
+            }
+            else
+            {
+                inventoryList += "You are currently unarmed.";
+            }
+
+
+            messageBoxText += inventoryList;
+            messageBoxText += $"\n\n\t{gamePlayer.Name}, choose which information you want to edit from the menu on the left.";
+
+            return messageBoxText;
+        }
+
+
         public static string DisplayClosingScreenText(Player gamePlayer)
         {
             string messageBox = 
@@ -275,6 +312,7 @@ namespace TB_QuestGame
             statusBoxText.Add($"Lives: {gamePlayer.Lives}\n");
             statusBoxText.Add($"Health: {gamePlayer.Health}\n");
             statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
+            statusBoxText.Add($"Experience Point: {gamePlayer.ExperiencePoints}\n");
 
             return statusBoxText;
         }
@@ -312,7 +350,7 @@ namespace TB_QuestGame
         {
             string messageTextBox =
                 $"Current location: {location.LocationName}\n" +
-                " \n";
+                " \n" + location.Description ;
             // TODO display contents
 
             return messageTextBox;
@@ -329,8 +367,8 @@ namespace TB_QuestGame
                  //
                  // display table header
                  //
-                 "ID".PadRight(10) + "Name".PadRight(30) + "Accessable".PadRight(10) + "\n" +
-                 "---".PadRight(10) + "--------------------".PadRight(30) + "------" + "\n";
+                 "ID".PadRight(10) + "Name".PadRight(30) + "\n" +
+                 "---".PadRight(10) + "--------------------".PadRight(30) +"\n";
 
             //
             // display all locations besides the current
@@ -338,15 +376,19 @@ namespace TB_QuestGame
             string locationList = null;
             foreach (Location location in locations)
             {
-                if (location.LocationId != gamePlayer.LocationId)
+                // checks if the location's accesaable locations includes current location ID
+                if (location.AccessableLocations.Contains(gamePlayer.LocationId))
                 {
-                    locationList +=
-                    $"{location.LocationId}".PadRight(10) +
-                    $"{location.LocationName}".PadRight(30) +
-                    $"{location.Accessable}".PadRight(10) +
-                    Environment.NewLine;
+                    if (location.LocationId != gamePlayer.LocationId)
+                    {
+                        locationList +=
+                        $"{location.LocationId}".PadRight(10) +
+                        $"{location.LocationName}".PadRight(30) +
+                        Environment.NewLine;
 
+                    }
                 }
+
             }
 
             messageTextBox += locationList;

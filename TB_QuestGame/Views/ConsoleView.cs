@@ -558,7 +558,7 @@ namespace TB_QuestGame
             // get player's race
             //
             DisplayGamePlayScreen("The Viking Setup - Gender", Text.SetupGetPlayerGender(player), ActionMenu.QuestIntro, "");
-            DisplayInputBoxPrompt("Enter Shieldmaiden or Karl: ");
+            DisplayInputBoxPrompt("Enter your viking: ");
             player.Viking = GetVikingType();
 
             //
@@ -613,6 +613,7 @@ namespace TB_QuestGame
             // echo the player's info
             //
             DisplayGamePlayScreen("The Viking Setup - Complete", Text.SetupEchoPlayerInfo(player), ActionMenu.QuestIntro, "");
+            Console.CursorVisible = false;
             GetContinueKey();
 
             //
@@ -665,7 +666,7 @@ namespace TB_QuestGame
                 //
                 if (_gameUniverse.IsValidLocationId(locationId))
                 {
-                    if (_gameUniverse.IsAccessibleLocation(locationId))
+                    if (_gameUniverse.IsAccessibleLocation(locationId, _gamePlayer.LocationId))
                     {
                         validLocationId = true;
                     }
@@ -717,7 +718,7 @@ namespace TB_QuestGame
         public PlayerAction DisplayEditPlayerInfo(Player player)
         {
 
-            DisplayGamePlayScreen("Edit Viking Info", Text.PlayerInfo(player), ActionMenu.EditPlayer, "");
+            DisplayGamePlayScreen("Edit Viking Info", Text.EditPlayerInfo(player), ActionMenu.EditPlayer, "");
             PlayerAction playerMenuEditChoice = GetActionMenuChoice(ActionMenu.EditPlayer);
 
             return playerMenuEditChoice;
@@ -728,12 +729,12 @@ namespace TB_QuestGame
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public Player DisplayEditName(Player player)
+        public string DisplayEditName(Player player)
         {
             DisplayGamePlayScreen("Edit Viking Info - Name", Text.SetuoGetPlayerName(), ActionMenu.EditPlayer, "");
             string prompt = "Enter your name: ";
-            player.Name = GetString(prompt);
-            return player;
+            string name = GetString(prompt);
+            return name;
         }
 
         /// <summary>
@@ -741,12 +742,13 @@ namespace TB_QuestGame
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public Player DisplayEditGender(Player player)
+        public Player.VikingType DisplayEditGender(Player player)
         {
+            Player.VikingType viking = Player.VikingType.None;
             DisplayGamePlayScreen("Edit Viking Info - Gender", Text.EditGetPlayerGender(player), ActionMenu.EditPlayer, "");
-            DisplayInputBoxPrompt("Enter Shieldmaiden or Karl: ");
-            player.Viking = GetVikingType();
-            return player;
+            DisplayInputBoxPrompt("Enter your viking: ");
+            viking = GetVikingType();
+            return viking;
         }
 
         /// <summary>
@@ -754,14 +756,13 @@ namespace TB_QuestGame
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public Player DisplayEditAge(Player player)
+        public int DisplayEditAge(Player player)
         {
             DisplayGamePlayScreen("The Viking Setup - Age", Text.SetupGetPlayerAge(player), ActionMenu.EditPlayer, "");
             int gamePlayerAge;
 
             GetInteger($"Enter your age {player.Name}: ", 0, 1000000, out gamePlayerAge);
-            player.Age = gamePlayerAge;
-            return player;
+            return gamePlayerAge;
         }
 
         /// <summary>
@@ -769,12 +770,12 @@ namespace TB_QuestGame
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public Player DisplayEditHomeVillage(Player player)
+        public string DisplayEditHomeVillage(Player player)
         {
             DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.EditPlayer, "");
             string prompt = "Enter the name of the Village: ";
-            player.HomeVillage = GetString(prompt);
-            return player;
+            string homeVillage = GetString(prompt);
+            return homeVillage;
         }
 
         /// <summary>
