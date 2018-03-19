@@ -463,5 +463,105 @@ namespace TB_QuestGame
 
             return messageBoxText;
         }
+
+        public static string GameObjectsChooseList(IEnumerable<GameObject> gameObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Game Objects\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(30) + "\n" +
+                "---".PadRight(10) +
+                "----------------------".PadRight(30) + "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObjectRows +=
+                    $"{gameObject.Id}".PadRight(10) +
+                    $"{gameObject.Name}".PadRight(30) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        public static string LookAt(GameObject gameObject)
+        {
+            string messageBoxText = "";
+
+            messageBoxText =
+                $"{gameObject.Name}\n" +
+                " \n" +
+                gameObject.Description + " \n" +
+                " \n";
+
+            if (gameObject is Item)
+            {
+                Item item = gameObject as Item;
+            
+                messageBoxText += $"The {item.Name} has a value of {item.Value} and ";
+
+                if (item.CanInventory)
+                {
+                    messageBoxText += "may be added to your inventory.";
+                }
+                else
+                {
+                    messageBoxText += "may not be added to your inventory.";
+                }
+            }
+            else if (gameObject is Treasure)
+            {
+                Treasure treasure = gameObject as Treasure;
+
+                messageBoxText += $"The {treasure.Name} has a value of {treasure.Value} and ";
+
+                if (treasure.CanInventory)
+                {
+                    messageBoxText += "may be added to your inventory.";
+                }
+                else
+                {
+                    messageBoxText += "may not be added to your inventory.";
+                }
+            }
+            else if (gameObject is Weapon)
+            {
+                Weapon weapon = gameObject as Weapon;
+
+                messageBoxText += $"The {weapon.Name} has a value of {weapon.Value} and ";
+
+                if (weapon.CanInventory)
+                {
+                    messageBoxText += "may be added to your inventory.";
+                }
+                else
+                {
+                    messageBoxText += "may not be added to your inventory.";
+                }
+            }
+            else
+            {
+                messageBoxText += $"The {gameObject.Name} may not be added to your inventory.";
+            }
+
+
+            return messageBoxText;
+        }
+
     }
+
 }
