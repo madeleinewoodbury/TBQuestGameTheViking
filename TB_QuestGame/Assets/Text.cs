@@ -426,5 +426,42 @@ namespace TB_QuestGame
             return messageBoxText;
 
         }
+
+        public static string ListAllGameObjects(IEnumerable<GameObject> gameObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Game Objects\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(30) +
+                "Location Id".PadRight(10) + "\n" +
+                "---".PadRight(10) +
+                "----------------------".PadRight(30) +
+                "----------------------".PadRight(10) + "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObjectRows +=
+                    $"{gameObject.Id}".PadRight(10) +
+                    $"{gameObject.Name}".PadRight(30) +
+                    $"{gameObject.LocationId}".PadRight(10) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
     }
 }

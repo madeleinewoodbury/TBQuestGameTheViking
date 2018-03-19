@@ -146,6 +146,10 @@ namespace TB_QuestGame
                     case PlayerAction.LocationsVisited:
                         _gameConsoleView.DisplayLocationsVisited();
                         break;
+                    case PlayerAction.ListGameObjects:
+                        _gameConsoleView.DisplayListOfAllGameObjects();
+                        break;
+                    
                     case PlayerAction.Exit:
                         _gameConsoleView.DisplayClosingScreen(_gamePlayer);
                         _playingGame = false;

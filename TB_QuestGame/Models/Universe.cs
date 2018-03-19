@@ -11,6 +11,7 @@ namespace TB_QuestGame
         #region Fields
 
         private List<Location> _locations;
+        private List<GameObject> _gameObjects;
 
         #endregion
 
@@ -20,6 +21,12 @@ namespace TB_QuestGame
         {
             get { return _locations; }
             set { _locations = value; }
+        }
+
+        public List<GameObject> GameObjects
+        {
+            get { return _gameObjects; }
+            set { _gameObjects = value; }
         }
 
         #endregion
@@ -41,6 +48,7 @@ namespace TB_QuestGame
         private void InitializeUniverse()
         {
             _locations = UniverseObjects.Locations;
+            _gameObjects = UniverseObjects.GameObjetcs;
         }
 
         /// <summary>
@@ -139,6 +147,97 @@ namespace TB_QuestGame
             }
 
             return requestedLocation;
+        }
+
+
+        /// <summary>
+        /// validate game object id number in current location
+        /// </summary>
+        /// <param name="gameObjectId"></param>
+        /// <returns>is Id valid</returns>
+        public bool IsValidGameObjectByLocationId(int gameObjectId, int currentLocationId)
+        {
+            List<int> gameObjectIds = new List<int>();
+
+            //
+            // create a list of game object ids in current space-time location
+            //
+            foreach (GameObject gameObject in _gameObjects)
+            {
+                if (gameObject.LocationId == currentLocationId)
+                {
+                    gameObjectIds.Add(gameObject.Id);
+                }
+
+            }
+
+            //
+            // determine if the game object id is a valid id and return the result
+            //
+            if (gameObjectIds.Contains(gameObjectId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// get a game object using an Id
+        /// </summary>
+        /// <param name="Id">game object Id</param>
+        /// <returns>requested game object</returns>
+        public GameObject GetGameObjectById(int Id)
+        {
+            GameObject gameObjectToReturn = null;
+
+            //
+            // run through the game object list and grab the correct one
+            //
+            foreach (GameObject gameObject in _gameObjects)
+            {
+                if (gameObject.Id == Id)
+                {
+                    gameObjectToReturn = gameObject;
+                }
+            }
+
+            //
+            // the specified ID was not found in the universe
+            // throw and exception
+            //
+            if (gameObjectToReturn == null)
+            {
+                string feedbackMessage = $"The Game Object ID {Id} does not exist in the current Universe.";
+                throw new ArgumentException(feedbackMessage, Id.ToString());
+            }
+
+            return gameObjectToReturn;
+        }
+
+        /// <summary>
+        /// get list of game objetc by location ID
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
+        public List<GameObject> GetGameObjectsByLocationId(int locationId)
+        {
+            List<GameObject> gameObjects = new List<GameObject>();
+
+            //
+            // run through the game object list and grab all that are in the current space-time location
+            //
+            foreach (GameObject gameObject in _gameObjects)
+            {
+                if (gameObject.LocationId == locationId)
+                {
+                    gameObjects.Add(gameObject);
+                }
+            }
+
+            return gameObjects;
         }
         #endregion
     }

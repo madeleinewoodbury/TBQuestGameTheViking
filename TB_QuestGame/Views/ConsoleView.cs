@@ -809,6 +809,14 @@ namespace TB_QuestGame
             return player;
         }
 
+        /// <summary>
+        /// display list of game objects in the universe
+        /// </summary>
+        public void DisplayListOfAllGameObjects()
+        {
+            DisplayGamePlayScreen("List: Game Objects", Text.ListAllGameObjects(_gameUniverse.GameObjects), ActionMenu.MainMenu, "");
+        }
+
         public void DisplayClosingScreen(Player player)
         {
             DisplayGamePlayScreen("Exiting Game", Text.DisplayClosingScreenText(player), ActionMenu.QuestIntro, "");

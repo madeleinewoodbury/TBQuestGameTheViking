@@ -9,7 +9,7 @@ namespace TB_QuestGame
     /// <summary>
     /// static class to hold all objects in the game universe
     /// </summary>
-    public static class UniverseObjects
+    public static partial class UniverseObjects
     {
         public static List<Location> Locations = new List<Location>()
         {

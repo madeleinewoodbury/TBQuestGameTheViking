@@ -29,6 +29,7 @@ namespace TB_QuestGame
         ListDestinations,
         ListItems,
         ListTreasures,
+        ListGameObjects,
         ChangeName,
         ChangeGender,
         ChangeAge,

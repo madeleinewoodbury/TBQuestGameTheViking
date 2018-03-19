@@ -33,6 +33,7 @@ namespace TB_QuestGame
                     { '4', PlayerAction.LookAround },
                     { '5', PlayerAction.Travel },
                     { '6', PlayerAction.LocationsVisited },
+                    { '7', PlayerAction.ListGameObjects },
                     { '0', PlayerAction.Exit }
                 }
         };
