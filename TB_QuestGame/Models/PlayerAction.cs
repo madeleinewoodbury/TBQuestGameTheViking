@@ -12,6 +12,8 @@ namespace TB_QuestGame
     public enum PlayerAction
     {
         None,
+        AdminMenu,
+        ReturnToMainMenu,
         MissionSetup,
         GoBack,
         LookAround,

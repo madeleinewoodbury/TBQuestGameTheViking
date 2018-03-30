@@ -644,7 +644,7 @@ namespace TB_QuestGame
         /// </summary>
         public void DisplayListOfLocations()
         {
-            DisplayGamePlayScreen("List: Locations", Text.ListLocations(_gameUniverse.Locations), ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("List: Locations", Text.ListLocations(_gameUniverse.Locations), ActionMenu.AdminMenu, "");
         }
 
         /// <summary>
@@ -827,7 +827,7 @@ namespace TB_QuestGame
         /// </summary>
         public void DisplayListOfAllGameObjects()
         {
-            DisplayGamePlayScreen("List: Game Objects", Text.ListAllGameObjects(_gameUniverse.GameObjects), ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("List: Game Objects", Text.ListAllGameObjects(_gameUniverse.GameObjects), ActionMenu.AdminMenu, "");
         }
 
         /// <summary>

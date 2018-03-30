@@ -109,23 +109,32 @@ namespace TB_QuestGame
                 //
                 // get the next action from the player
                 //
-                playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.MainMenu);
+                if(ActionMenu.currentMenu == ActionMenu.CurrentMenu.MainMenu)
+                {
+                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.MainMenu);
+                }
+                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.AdminMenu)
+                {
+                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.AdminMenu);
+                }
+                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.EditPlayerMenu)
+                {
+                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.EditPlayer);
+                }
+                
 
                 //
                 // choose an action based on the user's menu choice
                 //
                 switch (playerActionChoice)
                 {
+                    //
+                    // Main Menu Choices
+                    //
                     case PlayerAction.None:
                         break;
                     case PlayerAction.PlayerInfo:
                         _gameConsoleView.DisplayPlayerInfo();
-                        break;
-                    case PlayerAction.PlayerEdit:
-                        EditPlayerInfo();
-                        break;
-                    case PlayerAction.ListDestinations:
-                        _gameConsoleView.DisplayListOfLocations();
                         break;
                     case PlayerAction.LookAround:
                         _gameConsoleView.DisplayLookAround();
@@ -146,16 +155,65 @@ namespace TB_QuestGame
                     case PlayerAction.LocationsVisited:
                         _gameConsoleView.DisplayLocationsVisited();
                         break;
-                    case PlayerAction.ListGameObjects:
-                        _gameConsoleView.DisplayListOfAllGameObjects();
-                        break;
                     case PlayerAction.LookAt:
                         LookAtAction();
+                        break;
+                    case PlayerAction.AdminMenu:
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                        _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
                         break;
                     case PlayerAction.Exit:
                         _gameConsoleView.DisplayClosingScreen(_gamePlayer);
                         _playingGame = false;
                         break;
+
+
+                    //
+                    // Admin Menu choices
+                    //
+                    case PlayerAction.PlayerEdit:
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.EditPlayerMenu;
+                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                        break;
+                    case PlayerAction.ListDestinations:
+                        _gameConsoleView.DisplayListOfLocations();
+                        break;
+                    case PlayerAction.ListGameObjects:
+                        _gameConsoleView.DisplayListOfAllGameObjects();
+                        break;
+                    case PlayerAction.ReturnToMainMenu:
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
+                        break;
+
+                    //
+                    // Edit player info menu choices
+                    //
+                    case PlayerAction.ChangeName:
+                        _gamePlayer.Name = _gameConsoleView.DisplayEditName(_gamePlayer);
+                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                        break;
+                    case PlayerAction.ChangeGender:
+                        _gamePlayer.Viking = _gameConsoleView.DisplayEditGender(_gamePlayer);
+                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                        break;
+                    case PlayerAction.ChangeAge:
+                        _gamePlayer.Age = _gameConsoleView.DisplayEditAge(_gamePlayer);
+                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                        break;
+                    case PlayerAction.ChangeHomeVillage:
+                        _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
+                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                        break;
+                    case PlayerAction.PurchaseWeapon:
+                        _gamePlayer = _gameConsoleView.DisplayPurchaseWeapon(_gamePlayer);
+                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                        break;
+                    case PlayerAction.GoBack:
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                        break;
+
                     default:
                         break;
                 }
@@ -229,66 +287,6 @@ namespace TB_QuestGame
             }
         }
 
-
-        public void EditPlayerInfo()
-        {
-            PlayerAction playerActionEditChoice = _gameConsoleView.DisplayEditPlayerInfo(_gamePlayer);
-                switch (playerActionEditChoice)
-                {
-                    case PlayerAction.ChangeName:
-                        EditName();
-                        EditPlayerInfo();
-                        break;
-                    case PlayerAction.ChangeGender:
-                        EditGender();
-                        EditPlayerInfo();
-                        break;
-                    case PlayerAction.ChangeAge:
-                        EditAge();
-                        EditPlayerInfo();
-                        break;
-                    case PlayerAction.ChangeHomeVillage:
-                        EditHomeVillage();
-                        EditPlayerInfo();
-                        break;
-                    case PlayerAction.PurchaseWeapon:
-                        PurchaseWeapon();
-                        EditPlayerInfo();
-                        break;
-                    case PlayerAction.GoBack:
-                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
-                        break;
-                    default:
-                        break;
-                }
-
-        }
-
-        public void EditName()
-        {
-            _gamePlayer.Name = _gameConsoleView.DisplayEditName(_gamePlayer);
-
-        }
-
-        public void EditGender()
-        {
-            _gamePlayer.Viking = _gameConsoleView.DisplayEditGender(_gamePlayer);
-        }
-
-        public void EditAge()
-        {
-            _gamePlayer.Age = _gameConsoleView.DisplayEditAge(_gamePlayer);
-        }
-
-        public void EditHomeVillage()
-        {
-            _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
-        }
-
-        public void PurchaseWeapon()
-        {
-            _gamePlayer = _gameConsoleView.DisplayPurchaseWeapon(_gamePlayer);
-        }
         #endregion
     }
 }
