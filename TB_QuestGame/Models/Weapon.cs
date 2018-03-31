@@ -12,8 +12,8 @@ namespace TB_QuestGame
         public override string Name { get; set; }
         public override string Description { get; set; }
         public override int LocationId { get; set; }
+        public override bool CanInventory { get; set; }
 
-        public bool CanInventory { get; set; }
         public int Value { get; set; }
     }
 }

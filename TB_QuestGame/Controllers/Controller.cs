@@ -139,6 +139,12 @@ namespace TB_QuestGame
                     case PlayerAction.LookAround:
                         _gameConsoleView.DisplayLookAround();
                         break;
+                    case PlayerAction.PickUpItem:
+                        PickUpAction();
+                        break;
+                    case PlayerAction.Inventory:
+                        _gameConsoleView.DisplayInventory();
+                        break;
                     case PlayerAction.Travel:
                         // get new locationId and update the curentLocation
                         _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
@@ -245,6 +251,11 @@ namespace TB_QuestGame
             _gamePlayer.Health = 100;
             _gamePlayer.Lives = 3;
 
+            //
+            // add initial items to inventory
+            //
+            _gamePlayer.Inventory.Add(_gameUniverse.GetGameObjectById(4) as GameObject);
+
         }
 
         private void UpdateGameStatus()
@@ -284,6 +295,36 @@ namespace TB_QuestGame
                 // display information for the object chosen
                 //
                 _gameConsoleView.DisplayGameObjectInfo(gameObject);
+            }
+        }
+
+        private void PickUpAction()
+        {
+            //
+            // display a list of traveler objects in space-time location and get a player choice
+            //
+            int gameObjectToPickUpId = _gameConsoleView.DisplayGetGameObjectToPickUp();
+
+            //
+            // add the traveler object to traveler's inventory
+            //
+            if (gameObjectToPickUpId != 0)
+            {
+                //
+                // get the game object from the universe
+                //
+                GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectToPickUpId) as GameObject;
+
+                //
+                // note: traveler object is added to list and space-time location is set to 0
+                //
+                _gamePlayer.Inventory.Add(gameObject);
+                gameObject.LocationId = 0;
+
+                //
+                // display confirmation message
+                //
+                _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
             }
         }
 

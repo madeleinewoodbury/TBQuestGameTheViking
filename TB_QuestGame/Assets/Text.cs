@@ -36,18 +36,6 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string CurrrentLocationInfo(Location currentLocation) 
-        {
-            string messageBoxText =
-            $"You are located in {currentLocation.LocationName}. \n" +
-            " \n" +
-            "\tChoose from the menu options to proceed.\n";
-
-            return messageBoxText;
-        }
-
-        #region Initialize Mission Text
-
         public static string SetupIntro()
         {
             string messageBoxText =
@@ -70,7 +58,7 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string SetupGetPlayerGender(Player gamePlayer) 
+        public static string SetupGetPlayerGender(Player gamePlayer)
         {
             string messageBoxText =
                 $"Very good then, we will call you {gamePlayer.Name} from here on out. \n" +
@@ -130,7 +118,7 @@ namespace TB_QuestGame
 
             string weaponList = null;
 
-            foreach(Player.Weapon weapon in Enum.GetValues(typeof(Player.Weapon)))
+            foreach (Player.Weapon weapon in Enum.GetValues(typeof(Player.Weapon)))
             {
                 if (weapon != Player.Weapon.None)
                 {
@@ -151,9 +139,9 @@ namespace TB_QuestGame
                 }
                 messageBoxText += inventroyList;
             }
-                messageBoxText += " \n" + 
-                " \n" +
-                "Please type the name of the weapon you would like to purchase below.";
+            messageBoxText += " \n" +
+            " \n" +
+            "Please type the name of the weapon you would like to purchase below.";
 
             return messageBoxText;
         }
@@ -186,78 +174,16 @@ namespace TB_QuestGame
             {
                 inventoryList += "You are currently unarmed.";
             }
-                
 
-                messageBoxText += inventoryList += "\n \n Press any key to begin your mission.";
+
+            messageBoxText += inventoryList += "\n \n Press any key to begin your mission.";
 
             return messageBoxText;
         }
 
         #endregion
 
-        #endregion
-
-        #region EDIT PLAYER INFO
-
-        public static string EditGetPlayerGender(Player gamePlayer)
-        {
-            string messageBoxText =
-                $"Alright {gamePlayer.Name}, your current gender info is {gamePlayer.Viking}. \n" +
-                " \n" +
-                "Enter which one you identfy with: \n" +
-                " \n" +
-                "\t1. Karl\n" +
-                "\t2. Shieldmaiden"; ;
-
-            return messageBoxText;
-        }
-
-        public static string DisplayNotEnoughCapital(Player player)
-        {
-            string messageBoxText =
-                $"This is unfortunate, {player.Name}. It seems like you don't have enough capital \n" +
-                "to purchase a new weapon. \n" +
-                $"You need 25 coins to purchase a new weapon, you currently only have {player.Capital} coins. \n" +
-                " \n" +
-                "Press any key to continue:";
-
-            return messageBoxText;
-        }
-
-
-        #endregion
-
-        #region MAIN MENU ACTION SCREENS
-
-        public static string PlayerInfo(Player gamePlayer)
-        {
-            string messageBoxText =
-                $"\tViking Name: {gamePlayer.Name}\n" +
-                $"\tGender: {gamePlayer.Viking}\n" +
-                $"\tViking Years: {gamePlayer.Age}\n" +
-                $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                $"\tCapital: {gamePlayer.Capital} coins\n" +
-                $"\tWeapon: ";
-
-            string inventoryList = null;
-
-            if (gamePlayer.IsArmed)
-            {
-                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
-                {
-                    inventoryList += $"{weapon.ToString()}, ";
-                }
-            }
-            else
-            {
-                inventoryList += "You are currently unarmed.";
-            }
-
-
-            messageBoxText += inventoryList += "\n\tViking greeting: " + gamePlayer.Greeting();
-
-            return messageBoxText;
-        }
+        #region EDIT PLAYER 
 
         public static string EditPlayerInfo(Player gamePlayer)
         {
@@ -290,58 +216,72 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-
-        public static string DisplayClosingScreenText(Player gamePlayer)
+        public static string EditGetPlayerGender(Player gamePlayer)
         {
-            string messageBox = 
-                $"Thank you for playing The Viking {gamePlayer.Name}. \n" +
-                "We at Woodbury Productions hope that you have enjoyed the game. \n" +
-                "We wish you all the best in your future quests. \n" +
+            string messageBoxText =
+                $"Alright {gamePlayer.Name}, your current gender info is {gamePlayer.Viking}. \n" +
                 " \n" +
-                "\tPress any key to exit the game.";
+                "Enter which one you identfy with: \n" +
+                " \n" +
+                "\t1. Karl\n" +
+                "\t2. Shieldmaiden"; ;
 
-            return messageBox;
+            return messageBoxText;
         }
+
+        public static string DisplayNotEnoughCapital(Player player)
+        {
+            string messageBoxText =
+                $"This is unfortunate, {player.Name}. It seems like you don't have enough capital \n" +
+                "to purchase a new weapon. \n" +
+                $"You need 25 coins to purchase a new weapon, you currently only have {player.Capital} coins. \n" +
+                " \n" +
+                "Press any key to continue:";
+
+            return messageBoxText;
+        }
+
 
         #endregion
 
-        public static List<string> StatusBox(Player gamePlayer)
-        {
-            List<string> statusBoxText = new List<string>();
+        #region MAIN MENU
 
-            statusBoxText.Add($"Lives: {gamePlayer.Lives}\n");
-            statusBoxText.Add($"Health: {gamePlayer.Health}\n");
-            statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
-            statusBoxText.Add($"Experience Point: {gamePlayer.ExperiencePoints}\n");
-
-            return statusBoxText;
-        }
-
-        public static string ListLocations(IEnumerable<Location> locations)
+        public static string CurrrentLocationInfo(Location currentLocation)
         {
             string messageBoxText =
-                "Locations \n" +
-                " \n" +
+            $"You are located in {currentLocation.LocationName}. \n" +
+            " \n" +
+            "\tChoose from the menu options to proceed.\n";
 
-                //
-                // display table header
-                //
-                "ID".PadRight(10) + "NAME".PadRight(30) + "\n" +
-                "---".PadRight(10) + "-----------------------".PadRight(30) + "\n";
+            return messageBoxText;
+        }
 
-            //
-            // display all locations
-            //
-            string locationsList = null;
-            foreach (Location location in locations)
+        public static string PlayerInfo(Player gamePlayer)
+        {
+            string messageBoxText =
+                $"\tViking Name: {gamePlayer.Name}\n" +
+                $"\tGender: {gamePlayer.Viking}\n" +
+                $"\tViking Years: {gamePlayer.Age}\n" +
+                $"\tHome Village: {gamePlayer.HomeVillage}\n" +
+                $"\tCapital: {gamePlayer.Capital} coins\n" +
+                $"\tWeapon: ";
+
+            string inventoryList = null;
+
+            if (gamePlayer.IsArmed)
             {
-                locationsList +=
-                    $"{location.LocationId}".PadRight(10) +
-                    $"{location.LocationName}".PadRight(30) +
-                    Environment.NewLine;
+                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
+                {
+                    inventoryList += $"{weapon.ToString()}, ";
+                }
+            }
+            else
+            {
+                inventoryList += "You are currently unarmed.";
             }
 
-            messageBoxText += locationsList;
+
+            messageBoxText += inventoryList += "\n\tViking greeting: " + gamePlayer.Greeting();
 
             return messageBoxText;
         }
@@ -350,7 +290,7 @@ namespace TB_QuestGame
         {
             string messageTextBox =
                 $"Current location: {location.LocationName}\n" +
-                " \n" + location.Description ;
+                " \n" + location.Description;
             // TODO display contents
 
             return messageTextBox;
@@ -368,7 +308,7 @@ namespace TB_QuestGame
                  // display table header
                  //
                  "ID".PadRight(10) + "Name".PadRight(30) + "\n" +
-                 "---".PadRight(10) + "--------------------".PadRight(30) +"\n";
+                 "---".PadRight(10) + "--------------------".PadRight(30) + "\n";
 
             //
             // display all locations besides the current
@@ -427,43 +367,6 @@ namespace TB_QuestGame
 
         }
 
-        public static string ListAllGameObjects(IEnumerable<GameObject> gameObjects)
-        {
-            //
-            // display table name and column headers
-            //
-            string messageBoxText =
-                "Game Objects\n" +
-                " \n" +
-
-                //
-                // display table header
-                //
-                "ID".PadRight(10) +
-                "Name".PadRight(30) +
-                "Location Id".PadRight(10) + "\n" +
-                "---".PadRight(10) +
-                "----------------------".PadRight(30) +
-                "----------------------".PadRight(10) + "\n";
-
-            //
-            // display all traveler objects in rows
-            //
-            string gameObjectRows = null;
-            foreach (GameObject gameObject in gameObjects)
-            {
-                gameObjectRows +=
-                    $"{gameObject.Id}".PadRight(10) +
-                    $"{gameObject.Name}".PadRight(30) +
-                    $"{gameObject.LocationId}".PadRight(10) +
-                    Environment.NewLine;
-            }
-
-            messageBoxText += gameObjectRows;
-
-            return messageBoxText;
-        }
-
         public static string GameObjectsChooseList(IEnumerable<GameObject> gameObjects)
         {
             //
@@ -511,7 +414,7 @@ namespace TB_QuestGame
             if (gameObject is Item)
             {
                 Item item = gameObject as Item;
-            
+
                 messageBoxText += $"The {item.Name} has a value of {item.Value} and ";
 
                 if (item.CanInventory)
@@ -561,6 +464,140 @@ namespace TB_QuestGame
 
             return messageBoxText;
         }
+
+        public static string CurrentInventory(IEnumerable<GameObject> inventory)
+        {
+            string messageBoxText = "";
+
+            //
+            // display table header
+            //
+            messageBoxText =
+                "ID".PadRight(10) +
+                "Name".PadRight(30) +
+                "\n" +
+                "---".PadRight(10) +
+                "-----------------------------".PadRight(30) +
+                "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string inventoryObjectRows = null;
+            foreach (GameObject inventoryObject in inventory)
+            {
+                inventoryObjectRows +=
+                $"{inventoryObject.Id}".PadRight(10) +
+                $"{inventoryObject.Name}".PadRight(30) +
+                Environment.NewLine;
+
+            }
+
+            messageBoxText += inventoryObjectRows;
+
+            return messageBoxText;
+        }
+
+
+        public static string DisplayClosingScreenText(Player gamePlayer)
+        {
+            string messageBox = 
+                $"Thank you for playing The Viking {gamePlayer.Name}. \n" +
+                "We at Woodbury Productions hope that you have enjoyed the game. \n" +
+                "We wish you all the best in your future quests. \n" +
+                " \n" +
+                "\tPress any key to exit the game.";
+
+            return messageBox;
+        }
+
+        #endregion
+
+        #region ADMIN MENU
+
+        public static string ListLocations(IEnumerable<Location> locations)
+        {
+            string messageBoxText =
+                "Locations \n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) + "NAME".PadRight(30) + "\n" +
+                "---".PadRight(10) + "-----------------------".PadRight(30) + "\n";
+
+            //
+            // display all locations
+            //
+            string locationsList = null;
+            foreach (Location location in locations)
+            {
+                locationsList +=
+                    $"{location.LocationId}".PadRight(10) +
+                    $"{location.LocationName}".PadRight(30) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += locationsList;
+
+            return messageBoxText;
+        }
+
+        public static string ListAllGameObjects(IEnumerable<GameObject> gameObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Game Objects\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(30) +
+                "Location Id".PadRight(10) + "\n" +
+                "---".PadRight(10) +
+                "----------------------".PadRight(30) +
+                "----------------------".PadRight(10) + "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (GameObject gameObject in gameObjects)
+            {
+                gameObjectRows +=
+                    $"{gameObject.Id}".PadRight(10) +
+                    $"{gameObject.Name}".PadRight(30) +
+                    $"{gameObject.LocationId}".PadRight(10) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        #endregion
+
+        #region OTHER 
+
+        public static List<string> StatusBox(Player gamePlayer)
+        {
+            List<string> statusBoxText = new List<string>();
+
+            statusBoxText.Add($"Lives: {gamePlayer.Lives}\n");
+            statusBoxText.Add($"Health: {gamePlayer.Health}\n");
+            statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
+            statusBoxText.Add($"Experience Point: {gamePlayer.ExperiencePoints}\n");
+
+            return statusBoxText;
+        }
+
+        #endregion
 
     }
 

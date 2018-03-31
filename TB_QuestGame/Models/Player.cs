@@ -43,6 +43,7 @@ namespace TB_QuestGame
         private int _lives;
         private int _experiencePoints;
         private List<int> _locationsVisited;
+        private List<GameObject> _inventory;
 
         #endregion
 
@@ -102,6 +103,12 @@ namespace TB_QuestGame
             set { _locationsVisited = value; }
         }
 
+        public List<GameObject> Inventory
+        {
+            get { return _inventory; }
+            set { _inventory = value; }
+        }
+
 
         #endregion
 
@@ -110,11 +117,13 @@ namespace TB_QuestGame
         public Player()
         {
             _locationsVisited = new List<int>();
+            _inventory = new List<GameObject>();
         }
 
         public Player(string name, CharacterType race, int locationId) : base(name, race, locationId)
         {
             _locationsVisited = new List<int>();
+            _inventory = new List<GameObject>();
         }
 
         #endregion

@@ -40,6 +40,18 @@ namespace TB_QuestGame
                 Description = "This is a test for treasure item",
                 Value = 25,
                 CanInventory = true
+            },
+
+            new Item
+            {
+                Id = 4,
+                Name = "Helmet",
+                LocationId = 0,
+                Description = "Protects the head",
+                Value = 10,
+                CanInventory = true,
+                IsConsumable = false,
+                Health = 0,
             }
 
         };

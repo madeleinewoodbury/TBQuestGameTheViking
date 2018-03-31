@@ -39,10 +39,13 @@ namespace TB_QuestGame
                 {
                     { '1', PlayerAction.PlayerInfo },
                     { '2', PlayerAction.LookAround },
-                    { '3', PlayerAction.Travel },
-                    { '4', PlayerAction.LocationsVisited },
-                    { '5', PlayerAction.LookAt },
-                    { '6', PlayerAction.AdminMenu },
+                    { '3', PlayerAction.LookAt },
+                    { '4', PlayerAction.PickUpItem },
+                    { '5', PlayerAction.PutDownItem },
+                    { '6', PlayerAction.Inventory },
+                    { '7', PlayerAction.Travel },
+                    { '8', PlayerAction.LocationsVisited },
+                    { '9', PlayerAction.AdminMenu },
                     { '0', PlayerAction.Exit }
                 }
         };
