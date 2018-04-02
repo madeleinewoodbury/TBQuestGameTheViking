@@ -15,6 +15,7 @@ namespace TB_QuestGame
         {
             QuestIntro,
             MainMenu,
+            LookAround,
             AdminMenu,
             EditPlayerMenu
         }
@@ -39,14 +40,28 @@ namespace TB_QuestGame
                 {
                     { '1', PlayerAction.PlayerInfo },
                     { '2', PlayerAction.LookAround },
-                    { '3', PlayerAction.LookAt },
-                    { '4', PlayerAction.PickUpItem },
-                    { '5', PlayerAction.PutDownItem },
+                    //{ '3', PlayerAction.LookAt },
+                    //{ '4', PlayerAction.PickUpItem },
+                    //{ '5', PlayerAction.PutDownItem },
                     { '6', PlayerAction.Inventory },
-                    { '7', PlayerAction.Travel },
-                    { '8', PlayerAction.LocationsVisited },
-                    { '9', PlayerAction.AdminMenu },
+                    { '7', PlayerAction.Travel },    
+                    { '8', PlayerAction.AdminMenu },
                     { '0', PlayerAction.Exit }
+                }
+        };
+
+        public static Menu LookAround = new Menu()
+        {
+            MenuName = "LookAround",
+            MenuTitle = "Look Around Menu",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+                {
+                    { '1', PlayerAction.LookAt },
+                    { '2', PlayerAction.PickUpItem },
+                    { '3', PlayerAction.PutDownItem },
+                    { '4', PlayerAction.Inventory },
+                    { '5', PlayerAction.ReturnToMainMenu }
+
                 }
         };
 
@@ -57,9 +72,10 @@ namespace TB_QuestGame
             MenuChoices = new Dictionary<char, PlayerAction>()
             {
                 {'1', PlayerAction.PlayerEdit },
-                {'2', PlayerAction.ListDestinations },
-                {'3', PlayerAction.ListGameObjects },
-                {'4', PlayerAction.ReturnToMainMenu }
+                {'2', PlayerAction.LocationsVisited },
+                {'3', PlayerAction.ListDestinations },
+                {'4', PlayerAction.ListGameObjects },
+                {'5', PlayerAction.ReturnToMainMenu }
             }
         };
 

@@ -121,7 +121,11 @@ namespace TB_QuestGame
                 {
                     playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.EditPlayer);
                 }
-                
+                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.LookAround)
+                {
+                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.LookAround);
+                }
+
 
                 //
                 // choose an action based on the user's menu choice
@@ -136,12 +140,7 @@ namespace TB_QuestGame
                     case PlayerAction.PlayerInfo:
                         _gameConsoleView.DisplayPlayerInfo();
                         break;
-                    case PlayerAction.LookAround:
-                        _gameConsoleView.DisplayLookAround();
-                        break;
-                    case PlayerAction.PickUpItem:
-                        PickUpAction();
-                        break;
+
                     case PlayerAction.Inventory:
                         _gameConsoleView.DisplayInventory();
                         break;
@@ -158,12 +157,7 @@ namespace TB_QuestGame
                         // set the game play screen to current location info
                         _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
                         break;
-                    case PlayerAction.LocationsVisited:
-                        _gameConsoleView.DisplayLocationsVisited();
-                        break;
-                    case PlayerAction.LookAt:
-                        LookAtAction();
-                        break;
+
                     case PlayerAction.AdminMenu:
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
                         _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
@@ -173,6 +167,19 @@ namespace TB_QuestGame
                         _playingGame = false;
                         break;
 
+                    //
+                    // Look Around Menu choices
+                    //
+                    case PlayerAction.LookAround:
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                        _gameConsoleView.DisplayLookAround();  
+                        break;
+                    case PlayerAction.LookAt:
+                        LookAtAction();
+                        break;
+                    case PlayerAction.PickUpItem:
+                        PickUpAction();
+                        break;
 
                     //
                     // Admin Menu choices
@@ -186,6 +193,9 @@ namespace TB_QuestGame
                         break;
                     case PlayerAction.ListGameObjects:
                         _gameConsoleView.DisplayListOfAllGameObjects();
+                        break;
+                    case PlayerAction.LocationsVisited:
+                        _gameConsoleView.DisplayLocationsVisited();
                         break;
                     case PlayerAction.ReturnToMainMenu:
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;

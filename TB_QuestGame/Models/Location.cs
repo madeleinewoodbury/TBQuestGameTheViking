@@ -21,6 +21,7 @@ namespace TB_QuestGame
         private List<int> _acessableLocations;
         private int _experiencePoints;
 
+
         #endregion
 
         #region Properties

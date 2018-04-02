@@ -15,7 +15,7 @@ namespace TB_QuestGame
                 Id = 1,
                 Name = "Horn",
                 LocationId = 1,
-                Description = "This is a test object",
+                Description = "This is a must have item for all Vikings. How else are you going to consume your mead?!",
                 Value = 5,
                 CanInventory = true,
                 IsConsumable = false,
@@ -52,7 +52,49 @@ namespace TB_QuestGame
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
-            }
+            },
+
+            new Weapon
+            {
+                Id = 5,
+                Name = "Axe",
+                LocationId = 2,
+                Description = "Description Needed",
+                Value = 25,
+                CanInventory = true
+            },
+
+            new Weapon
+            {
+                Id = 6,
+                Name = "Shield",
+                LocationId = 2,
+                Description = "Description Needed",
+                Value = 20,
+                CanInventory = true
+            },
+
+            new Weapon
+            {
+                Id = 7,
+                Name = "Bow",
+                LocationId = 2,
+                Description = "Description Needed",
+                Value = 25,
+                CanInventory = true
+            },
+
+            new Weapon
+            {
+                Id = 8,
+                Name = "Knife",
+                LocationId = 2,
+                Description = "Description Needed",
+                Value = 10,
+                CanInventory = true
+            },
+
+
 
         };
     }

@@ -653,7 +653,7 @@ namespace TB_QuestGame
         public void DisplayLookAround()
         {
             Location currentLocation = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
-            DisplayGamePlayScreen("Current Location", Text.LookAround(currentLocation), ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("Current Location", Text.LookAround(currentLocation), ActionMenu.LookAround, "");
         }
 
         /// <summary>
@@ -712,7 +712,7 @@ namespace TB_QuestGame
                 locationsVisited.Add(_gameUniverse.GetLocationById(locationId));
             }
 
-            DisplayGamePlayScreen("Locations you have visited", Text.VisitedLocations(locationsVisited), ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("Locations you have visited", Text.VisitedLocations(locationsVisited), ActionMenu.AdminMenu, "");
         }
 
         /// <summary>
@@ -889,7 +889,7 @@ namespace TB_QuestGame
 
             if (gameObjectsInLocation.Count > 0)
             {
-                DisplayGamePlayScreen("Pick Up Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.MainMenu, "");
+                DisplayGamePlayScreen("Pick Up Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.LookAround, "");
 
                 while (!validGameObjectId)
                 {
@@ -923,7 +923,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here.", ActionMenu.MainMenu, "");
+                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here.", ActionMenu.LookAround, "");
             }
 
             return gameObjectId;
@@ -932,18 +932,18 @@ namespace TB_QuestGame
 
         public void DisplayConfirmGameObjectAddedToInventory(GameObject objectAdded)
         {
-            DisplayGamePlayScreen("Pick Up Object", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("Pick Up Object", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.LookAround, "");
         }
 
         public void DisplayGameObjectInfo(GameObject gameObject)
         {
-            DisplayGamePlayScreen("Current Location", Text.LookAt(gameObject), ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("Current Location", Text.LookAt(gameObject), ActionMenu.LookAround, "");
 
         }
 
         public void DisplayInventory()
         {
-            DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.MainMenu, "");
+            DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.LookAround, "");
         }
 
         public void DisplayClosingScreen(Player player)
