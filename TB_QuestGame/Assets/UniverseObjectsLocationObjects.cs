@@ -46,7 +46,7 @@ namespace TB_QuestGame
                 LocationId = 3,
                 Region = "Norge",
                 Description = "Located in southern Bohuslän. This is a center for royal authority. \n" +
-                "A good place to make connections. Located by the river Nordre älv, with access to Kattageat. \n" +
+                "A good place to make connections. Located by the river Nordre älv, with access to Kattagat. \n" +
                 "From here you can access the sea Norgeshav.",
                 ExperiencePoints = 5,
                 AccessableLocations = new List<int>(){1,2,5,6,7,9}
