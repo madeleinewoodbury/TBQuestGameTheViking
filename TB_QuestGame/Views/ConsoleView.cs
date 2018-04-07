@@ -914,47 +914,6 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("Trade", Text.DisplayTradeScreenText(_gamePlayer.Inventory, currentLocation), ActionMenu.TradeMenu, "");
         }
 
-        public int DisplayGetTradeObjectToPurchase(Location currentLocation)
-        {
-            int tradeObjectId = 0;
-            bool validObjectId = false;
-
-            DisplayGamePlayScreen("Buy", Text.ListTradeObjects(currentLocation.TradeObjects), ActionMenu.TradeMenu, "");
-
-            while (!validObjectId)
-            {
-                //
-                // get an integer from the player
-                //
-                GetInteger($"Enter the Id number of the object you wish to purchase: ", 0, 0, out tradeObjectId);
-
-                //
-                // validate integer as valid game object id in current location
-                if (_gameUniverse.IsValidTradeObjectId(tradeObjectId, _gamePlayer.LocationId))
-                {
-                    GameObject tradeObject = _gameUniverse.GetGameObjectById(tradeObjectId) as GameObject;
-
-                    if (tradeObject.Value <= _gamePlayer.Capital)
-                    {
-                        validObjectId = true;
-                    }
-                    else
-                    {
-                        ClearInputBox();
-                        DisplayInputErrorMessage($"It appears you don't have enough capital to purchase the {tradeObject.Name}. Please try again.");
-                    }
-                }
-                else
-                {
-                    ClearInputBox();
-                    DisplayInputErrorMessage("It appears you entered an invalid id. Please try again.");
-                }
-            }
- 
-            return tradeObjectId;
-
-        }
-
         public void DisplayConfirmPurchase(GameObject objectAdded)
         {
             DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.TradeMenu, "");
@@ -1015,6 +974,57 @@ namespace TB_QuestGame
         {
             DisplayGamePlayScreen("Exiting Game", Text.DisplayClosingScreenText(player), ActionMenu.QuestIntro, "");
             GetContinueKey();
+        }
+
+        public int DisplayGetTradeItemToPurchase(Location currentLocation)
+        {
+            int tradeObjectId = 0;
+            bool validObjectId = false;
+
+            List<GameObject> tradeObjects = new List<GameObject>();
+            foreach (int item in currentLocation.TradeObjects)
+            {
+                if (_gameUniverse.TestValidTradeItemByLocation(item, _gamePlayer.LocationId))
+                {
+                    GameObject tradeObject = _gameUniverse.GetGameObjectById(item) as GameObject;
+                    tradeObjects.Add(tradeObject);
+                }
+            }
+
+            DisplayGamePlayScreen("Buy", Text.ListTradeObjects(tradeObjects), ActionMenu.TradeMenu, "");
+
+            while (!validObjectId)
+            {
+                //
+                // get an integer from the player
+                //
+                GetInteger($"Enter the Id number of the object you wish to purchase: ", 0, 0, out tradeObjectId);
+
+                //
+                // validate integer as valid game object id in current location
+                if (_gameUniverse.IsValidTradeObjectId(tradeObjectId, _gamePlayer.LocationId))
+                {
+                    GameObject tradeObject = _gameUniverse.GetGameObjectById(tradeObjectId) as GameObject;
+
+                    if (tradeObject.Value <= _gamePlayer.Capital)
+                    {
+                        validObjectId = true;
+                    }
+                    else
+                    {
+                        ClearInputBox();
+                        DisplayInputErrorMessage($"It appears you don't have enough capital to purchase the {tradeObject.Name}. Please try again.");
+                    }
+                }
+                else
+                {
+                    ClearInputBox();
+                    DisplayInputErrorMessage("It appears you entered an invalid id. Please try again.");
+                }
+            }
+
+            return tradeObjectId;
+
         }
         #endregion
 

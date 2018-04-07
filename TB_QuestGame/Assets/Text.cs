@@ -467,7 +467,7 @@ namespace TB_QuestGame
             messageBoxText += inventoryObjectRows;
             return messageBoxText;
         }
-
+       
         public static string ListTradeObjects(IEnumerable<GameObject> tradeObjects)
         {
             //

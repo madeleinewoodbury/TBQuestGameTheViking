@@ -296,7 +296,7 @@ namespace TB_QuestGame
                 //
                 // add initial items to inventory
                 //
-                _gamePlayer.Inventory.Add(_gameUniverse.GetGameObjectById(4) as GameObject);
+                _gamePlayer.Inventory.Add(_gameUniverse.GetGameObjectById(17) as GameObject);
 
             }
 
@@ -369,7 +369,7 @@ namespace TB_QuestGame
                 //
                 // display a list of trade objects in location and get a player choice
                 //
-                int tradeObjectIdToBuy = _gameConsoleView.DisplayGetTradeObjectToPurchase(_currentLocaton);
+                int tradeObjectIdToBuy = _gameConsoleView.DisplayGetTradeItemToPurchase(_currentLocaton);
 
                 //
                 // add the traveler object to traveler's inventory
@@ -388,7 +388,7 @@ namespace TB_QuestGame
                     _gamePlayer.Inventory.Add(tradeObject);
                     tradeObject.LocationId = 0;
 
-                _gameConsoleView.DisplayConfirmPurchase(tradeObject);
+                    _gameConsoleView.DisplayConfirmPurchase(tradeObject);
                 }
 
             }

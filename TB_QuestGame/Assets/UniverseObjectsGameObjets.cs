@@ -14,9 +14,9 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 01,
+                Id = 1,
                 Name = "Ulfberht Sword",
-                LocationId = 2,
+                LocationId = 0,
                 Description = "Crafted by the Nordic smith named Ulfberht, this is one of the first all steel blades.",
                 Value = 25,
                 CanInventory = true
@@ -24,7 +24,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 02,
+                Id = 2,
                 Name = "Stiklestad Viking Sword",
                 LocationId = 0,
                 Description = "This is a beautiful crafted sword. The pommel and guard are decorated with copper. \n" +
@@ -35,7 +35,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 03,
+                Id = 3,
                 Name = "Maldon Sword",
                 LocationId = 0,
                 Description = "This is a light, agile and resilient fighting blade. It is smaller than a regular sword, which makes \n" +
@@ -46,7 +46,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 04,
+                Id = 4,
                 Name = "Bearded Axe",
                 LocationId = 0,
                 Description = "This quite capable of cleaving helms or armours. Made from though steel, great for battles.",
@@ -56,7 +56,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 05,
+                Id = 5,
                 Name = "Double-Bladed Barbarian Battle Axe",
                 LocationId = 0,
                 Description = "This axe is meant only for the most ferocious and stout warriours.",
@@ -66,7 +66,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 06,
+                Id = 6,
                 Name = "Short Viking Axe",
                 LocationId = 0,
                 Description = "Shorter than most axes, this axe is great for throwing. Don't be fooled by it's length, \n" +
@@ -77,7 +77,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 07,
+                Id = 7,
                 Name = "Norse Viking Shield",
                 LocationId = 0,
                 Description = "This is a common shield among the vikings. With it's thick plywood center and steel rim, \n" +
@@ -88,7 +88,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 08,
+                Id = 8,
                 Name = "Huskarl Shield",
                 LocationId = 0,
                 Description = "This is a sturdy Viking Shiels made out of red oak and plywood. It is lighter than most shields, \n" +
@@ -99,7 +99,7 @@ namespace TB_QuestGame
 
             new Weapon
             {
-                Id = 09,
+                Id = 9,
                 Name = "Berserker Shield",
                 LocationId = 0,
                 Description = "This is one of the stringest shields, made from thick wood and steel. It is heavy, but not much can go through it.",
@@ -166,7 +166,7 @@ namespace TB_QuestGame
             {
                 Id = 15,
                 Name = "Gold Bar",
-                LocationId = 4,
+                LocationId = 0,
                 Description = "This is a test for treasure item",
                 Value = 50,
                 CanInventory = true
@@ -178,7 +178,7 @@ namespace TB_QuestGame
 
             new Item
             {
-                Id = 4,
+                Id = 16,
                 Name = "Helmet",
                 LocationId = 0,
                 Description = "Protects the head",
@@ -194,9 +194,9 @@ namespace TB_QuestGame
 
             new Item
             {
-                Id = 1,
+                Id = 17,
                 Name = "Horn",
-                LocationId = 1,
+                LocationId = 0,
                 Description = "This is a must have item for all Vikings. How else are you going to consume your mead?!",
                 Value = 5,
                 CanInventory = true,

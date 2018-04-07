@@ -20,7 +20,7 @@ namespace TB_QuestGame
         private string _region;
         private List<int> _acessableLocations;
         private int _experiencePoints;
-        private List<GameObject> _tradeObjects;
+        private List<int> _tradeObjects;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace TB_QuestGame
             set { _experiencePoints = value; }
         }
 
-        public List<GameObject> TradeObjects
+        public List<int> TradeObjects
         {
             get { return _tradeObjects; }
             set { _tradeObjects = value; }
