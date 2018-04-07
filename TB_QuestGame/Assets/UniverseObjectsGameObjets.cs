@@ -160,7 +160,7 @@ namespace TB_QuestGame
 
             #endregion
 
-            #region Treasure (15-20)
+            #region Treasure (15-30)
 
             new Treasure
             {
@@ -177,7 +177,7 @@ namespace TB_QuestGame
             {
                 Id = 16,
                 Name = "Bear Claw Pendant",
-                LocationId = 0,
+                LocationId = 1,
                 Description = "This is a well decorated and unique bear claw pendant. Made from steel and will look great on a berserker.",
                 Value = 20,
                 CanInventory = true
@@ -187,7 +187,7 @@ namespace TB_QuestGame
             {
                 Id = 17,
                 Name = "Kattegat Brooch",
-                LocationId = 0,
+                LocationId = 3,
                 Description = "A nice brooch cast from bronze. Only made in Kattegat.",
                 Value = 15,
                 CanInventory = true
@@ -227,7 +227,7 @@ namespace TB_QuestGame
             {
                 Id =21,
                 Name = "Tortoise Brooches",
-                LocationId = 0,
+                LocationId = 3,
                 Description = "The name comes from their resmblance to the tortoise. Made from brass and bronze.",
                 Value = 20,
                 CanInventory = true
@@ -248,7 +248,7 @@ namespace TB_QuestGame
             {
                 Id = 23,
                 Name = "Oseberg Earrings",
-                LocationId = 0,
+                LocationId = 2,
                 Description = "A Viking doesn't wear any earrings, but earrings made out of silver made to represent the sea.",
                 Value = 20,
                 CanInventory = true
@@ -257,8 +257,8 @@ namespace TB_QuestGame
             new Treasure
             {
                 Id = 24,
-                Name = "Thor;s Hammer Bronze",
-                LocationId = 0,
+                Name = "Thor's Hammer Bronze",
+                LocationId = 3,
                 Description = "A unique and beautiful pendant representing the Hammer of Thor.",
                 Value = 50,
                 CanInventory = true
@@ -268,7 +268,7 @@ namespace TB_QuestGame
             {
                 Id = 25,
                 Name = "Fylkirfold ring",
-                LocationId = 0,
+                LocationId = 1,
                 Description = "Made out pewter and silver. With the name Fylkirfold carved into it.",
                 Value = 20,
                 CanInventory = true
@@ -332,7 +332,7 @@ namespace TB_QuestGame
             {
                 Id = 31,
                 Name = "Leather Helmet",
-                LocationId = 0,
+                LocationId = 1,
                 Description = "Made from sturdy leather, this helmet is lighter than steel, but not the most protective in battle.",
                 Value = 10,
                 CanInventory = true,
@@ -428,51 +428,11 @@ namespace TB_QuestGame
 
             #endregion
 
-            #region Miscellaneous (39-41)
+            #region Food (39-46)
 
             new Item
             {
                 Id = 39,
-                Name = "Horn",
-                LocationId = 0,
-                Description = "This is a must have item for all Vikings. How else are you going to consume your mead?!",
-                Value = 5,
-                CanInventory = true,
-                IsConsumable = false,
-                Health = 0
-            },
-
-            new Item
-            {
-                Id = 40,
-                Name = "Dragon Tankard",
-                LocationId = 0,
-                Description = "Hold about 1 pint, this tankard has a sculpted dragon as a handle. Made fron pewter.",
-                Value = 15,
-                CanInventory = true,
-                IsConsumable = false,
-                Health = 0
-            },
-
-            new Item
-            {
-                Id = 41,
-                Name = "Comb",
-                LocationId = 0,
-                Description = "Comb made from animal bones.",
-                Value = 5,
-                CanInventory = true,
-                IsConsumable = false,
-                Health = 0
-            },
-
-            #endregion
-
-            #region Food (42-47)
-
-            new Item
-            {
-                Id = 42,
                 Name = "",
                 LocationId = 0,
                 Description = "",
@@ -484,7 +444,7 @@ namespace TB_QuestGame
 
             new Item
             {
-                Id = 43,
+                Id = 40,
                 Name = "Mead",
                 LocationId = 0,
                 Description = "Drink to the gods.",
@@ -496,7 +456,7 @@ namespace TB_QuestGame
 
             new Item
             {
-                Id = 44,
+                Id = 41,
                 Name = "Meat",
                 LocationId = 0,
                 Description = "",
@@ -508,7 +468,7 @@ namespace TB_QuestGame
 
             new Item
             {
-                Id = 45,
+                Id = 42,
                 Name = "Fish",
                 LocationId = 0,
                 Description = "",
@@ -520,7 +480,7 @@ namespace TB_QuestGame
 
             new Item
             {
-                Id = 46,
+                Id = 43,
                 Name = "Apple",
                 LocationId = 0,
                 Description = "",
@@ -532,7 +492,7 @@ namespace TB_QuestGame
 
             new Item
             {
-                Id = 47,
+                Id = 44,
                 Name = "Skyr",
                 LocationId = 0,
                 Description = "A soft, yoghurt-like cheese.",
@@ -540,7 +500,103 @@ namespace TB_QuestGame
                 CanInventory = true,
                 IsConsumable = true,
                 Health = 5
+            },
+
+            new Item
+            {
+                Id = 45,
+                Name = "",
+                LocationId = 0,
+                Description = "",
+                Value = 0,
+                CanInventory = true,
+                IsConsumable = true,
+                Health = 5
+            },
+
+            new Item
+            {
+                Id = 46,
+                Name = "",
+                LocationId = 0,
+                Description = "",
+                Value = 0,
+                CanInventory = true,
+                IsConsumable = true,
+                Health = 5
+            },
+
+            #endregion
+
+            #region Miscellaneous (47-)
+
+            new Item
+            {
+                Id = 47,
+                Name = "Horn",
+                LocationId = 2,
+                Description = "This is a must have item for all Vikings. How else are you going to consume your mead?!",
+                Value = 5,
+                CanInventory = true,
+                IsConsumable = false,
+                Health = 0
+            },
+
+            new Item
+            {
+                Id = 48,
+                Name = "Dragon Tankard",
+                LocationId = 3,
+                Description = "Hold about 1 pint, this tankard has a sculpted dragon as a handle. Made fron pewter.",
+                Value = 15,
+                CanInventory = true,
+                IsConsumable = false,
+                Health = 0
+            },
+
+            new Item
+            {
+                Id = 49,
+                Name = "Comb",
+                LocationId = 2,
+                Description = "Comb made from animal bones.",
+                Value = 5,
+                CanInventory = true,
+                IsConsumable = false,
+                Health = 0
+            },
+
+            #endregion
+
+            #region Places (50-)
+
+            //
+            // Places in Kapuang
+            //
+            new Place
+            {
+                Id = 50,
+                Name = "Mead and Shield Tavern",
+                LocationId = 1,
+                Description = "Here you can eat and gain some strength",
+                CanInventory = false,
+                Health = 10,
+                Experience = 10,
+                Rest = false
+            },
+
+            new Place
+            {
+                Id = 51,
+                Name = "Magda's Inn",
+                LocationId = 1,
+                Description = "Magda's door is always open. Here you'll find the rest you need to continue your journey",
+                CanInventory = false,
+                Health = 10,
+                Experience = 0,
+                Rest = true
             }
+
 
             #endregion
 

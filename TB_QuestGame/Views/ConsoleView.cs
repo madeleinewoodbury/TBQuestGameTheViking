@@ -1026,6 +1026,64 @@ namespace TB_QuestGame
             return tradeObjectId;
 
         }
+
+        public void DisplayConfirmPlaceEntered(Place placeEntered)
+        {
+            DisplayGamePlayScreen($"Enter Place", $"You have entered {placeEntered.Name}", ActionMenu.LookAround, "");
+        }
+
+        public int DisplayGetPlaceToEnter()
+        {
+            int placeId = 0;
+            bool validPlaceId = false;
+
+            //
+            // get a list of place objects in current location
+            //
+            List<GameObject> gameObjectsInLocation = _gameUniverse.GetGameObjectsByLocationId(_gamePlayer.LocationId);
+            List<Place> places = new List<Place>();
+
+            foreach (GameObject gameObject in gameObjectsInLocation)
+            {
+                if (gameObject is Place)
+                {
+                    places.Add(gameObject as Place);
+                }
+            }
+
+            if (places.Count > 0)
+            {
+                DisplayGamePlayScreen("Enter Place", Text.GameObjectsChooseList(places), ActionMenu.LookAround, "");
+
+                while (!validPlaceId)
+                {
+                    //
+                    // get an integer from the player
+                    //
+                    GetInteger($"Enter the Id number of the place you wish to enter: ", 0, 0, out placeId);
+
+                    //
+                    // validate integer as a valid game object id and in current location
+                    //
+                    if (_gameUniverse.IsValidPlaceByLocation(placeId, _gamePlayer.LocationId))
+                    {
+                        validPlaceId = true;
+                    }
+                    else
+                    {
+                        ClearInputBox();
+                        DisplayInputErrorMessage("It appears you entered an invalid place id. Please try again.");
+                    }
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Enter Place", "It appears there are no places to enter here.", ActionMenu.LookAround, "");
+            }
+
+            return placeId;
+        }
+
         #endregion
 
         #endregion

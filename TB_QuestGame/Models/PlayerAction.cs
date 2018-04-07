@@ -19,6 +19,7 @@ namespace TB_QuestGame
         ChangeAge,
         ChangeHomeVillage,
         GoBack,
+        EnterPlace,
         Inventory,
         ListDestinations,
         ListItems,

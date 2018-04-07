@@ -59,7 +59,8 @@ namespace TB_QuestGame
                     { '3', PlayerAction.PutDownItem },
                     { '4', PlayerAction.Inventory },
                     { '5', PlayerAction.Trade },
-                    { '6', PlayerAction.ReturnToMainMenu }
+                    { '6', PlayerAction.EnterPlace },
+                    { '7', PlayerAction.ReturnToMainMenu }
 
                 }
         };

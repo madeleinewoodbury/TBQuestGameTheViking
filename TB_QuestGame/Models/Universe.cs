@@ -286,6 +286,38 @@ namespace TB_QuestGame
             }
         }
 
+        public bool IsValidPlaceByLocation(int placeId, int currentLocationId)
+        {
+            List<int> placeIds = new List<int>();
+
+            //
+            // create a list of game object ids in current space-time location
+            //
+            foreach (GameObject gameObject in _gameObjects)
+            {
+                if (gameObject is Place)
+                {
+                    if (gameObject.LocationId == currentLocationId)
+                    {
+                        placeIds.Add(gameObject.Id);
+                    }
+                }
+
+
+            }
+
+            //
+            // determine if the game object id is a valid id and return the result
+            //
+            if (placeIds.Contains(placeId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         #endregion
     }

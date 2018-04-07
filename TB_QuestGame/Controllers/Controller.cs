@@ -198,6 +198,9 @@ namespace TB_QuestGame
                             ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
                             _gameConsoleView.DisplayTrade(_currentLocaton);
                             break;
+                        case PlayerAction.EnterPlace:
+                            EnterAction();
+                            break;
 
                         //
                         // Admin Menu choices
@@ -313,6 +316,28 @@ namespace TB_QuestGame
                 }
             }
 
+        private void EnterAction()
+        {
+            //
+            // display list of places in current location
+            //
+            int placeId = _gameConsoleView.DisplayGetPlaceToEnter();
+
+            if (placeId != 0)
+            {
+                GameObject gameObject = _gameUniverse.GetGameObjectById(placeId);
+                Place placeToEnter = gameObject as Place;
+
+                // update game stats
+                _gamePlayer.ExperiencePoints += placeToEnter.Experience;
+                _gamePlayer.Health += placeToEnter.Health;
+
+                _gameConsoleView.DisplayConfirmPlaceEntered(placeToEnter);
+            }
+
+            
+        }
+            
             /// <summary>
             /// process the Look At action
             /// </summary>
