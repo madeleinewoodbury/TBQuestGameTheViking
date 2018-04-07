@@ -513,6 +513,87 @@ namespace TB_QuestGame
 
         #endregion
 
+        #region LOOK AROUND MENU
+
+        public static string DisplayTradeScreenText(IEnumerable<GameObject> inventory, Location currentLocation)
+        {
+            string messageBoxText = "";
+
+            //
+            // display table header
+            //
+            messageBoxText =
+                $"Here in {currentLocation.LocationName}, you can trade in your valuables for money or you can purchase items. \n" +
+                "The question is...do you wish to buy or sell? \n" +
+                " \n" +
+                "Here is your current Inventory: \n" +
+                " \n" +
+                "ID".PadRight(10) +
+                "Name".PadRight(30) +
+                "Value".PadRight(10) +
+                "\n" +
+                "---".PadRight(10) +
+                "-----------------------------".PadRight(30) +
+                "---".PadRight(10) +
+                "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string inventoryObjectRows = null;
+            foreach (GameObject inventoryObject in inventory)
+            {
+                inventoryObjectRows +=
+                $"{inventoryObject.Id}".PadRight(10) +
+                $"{inventoryObject.Name}".PadRight(30) +
+                $"{inventoryObject.Value}".PadRight(10) +
+                Environment.NewLine;
+
+            }
+
+            messageBoxText += inventoryObjectRows;
+            return messageBoxText;
+        }
+
+        public static string ListTradeObjects(IEnumerable<GameObject> tradeObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Available Items for Purchases\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(30) +
+                "Value".PadRight(10) + "\n" +
+                "---".PadRight(10) +
+                "----------------------".PadRight(30) +
+                "---".PadRight(10) + "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (GameObject tradeObject in tradeObjects)
+            {
+                gameObjectRows +=
+                    $"{tradeObject.Id}".PadRight(10) +
+                    $"{tradeObject.Name}".PadRight(30) +
+                    $"{tradeObject.Value}".PadRight(10) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        #endregion
+
         #region ADMIN MENU
 
         public static string ListLocations(IEnumerable<Location> locations)

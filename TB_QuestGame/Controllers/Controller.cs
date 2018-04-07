@@ -104,12 +104,12 @@ namespace TB_QuestGame
             // game loop
             //
             while (_playingGame)
-            { 
+            {
 
                 //
                 // get the next action from the player
                 //
-                if(ActionMenu.currentMenu == ActionMenu.CurrentMenu.MainMenu)
+                if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.MainMenu)
                 {
                     playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.MainMenu);
                 }
@@ -125,219 +125,274 @@ namespace TB_QuestGame
                 {
                     playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.LookAround);
                 }
-
-
-                //
-                // choose an action based on the user's menu choice
-                //
-                switch (playerActionChoice)
+                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.TradeMenu)
                 {
-                    //
-                    // Main Menu Choices
-                    //
-                    case PlayerAction.None:
-                        break;
-                    case PlayerAction.PlayerInfo:
-                        _gameConsoleView.DisplayPlayerInfo();
-                        break;
+                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.TradeMenu);
+                }
 
-                    case PlayerAction.Inventory:
-                        _gameConsoleView.DisplayInventory();
-                        break;
-                    case PlayerAction.Travel:
-                        // get new locationId and update the curentLocation
-                        _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
-                        _currentLocaton = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
+                    //
+                    // choose an action based on the user's menu choice
+                    //
+                    switch (playerActionChoice)
+                    {
+                        //
+                        // Main Menu Choices
+                        //
+                        case PlayerAction.None:
+                            break;
+                        case PlayerAction.PlayerInfo:
+                            _gameConsoleView.DisplayPlayerInfo();
+                            break;
+
+                        case PlayerAction.Inventory:
+                            _gameConsoleView.DisplayInventory();
+                            break;
+                        case PlayerAction.Travel:
+                            // get new locationId and update the curentLocation
+                            _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
+                            _currentLocaton = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
+
+                            //
+                            // update the status of the game
+                            //
+                            UpdateGameStatus();
+
+                            // set the game play screen to current location info
+                            _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
+                            break;
+
+                        case PlayerAction.AdminMenu:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
+                            break;
+                        case PlayerAction.Exit:
+                            _gameConsoleView.DisplayClosingScreen(_gamePlayer);
+                            _playingGame = false;
+                            break;
 
                         //
-                        // update the status of the game
+                        // Look Around Menu choices
                         //
-                        UpdateGameStatus();
+                        case PlayerAction.LookAround:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                            _gameConsoleView.DisplayLookAround();
+                            break;
+                        case PlayerAction.LookAt:
+                            LookAtAction();
+                            break;
+                        case PlayerAction.PickUpItem:
+                            PickUpAction();
+                            break;
+                        case PlayerAction.Trade:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
+                            _gameConsoleView.DisplayTrade(_currentLocaton);
+                            break;
 
-                        // set the game play screen to current location info
-                        _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
-                        break;
+                        //
+                        // Admin Menu choices
+                        //
+                        case PlayerAction.PlayerEdit:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.EditPlayerMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
+                        case PlayerAction.ListDestinations:
+                            _gameConsoleView.DisplayListOfLocations();
+                            break;
+                        case PlayerAction.ListGameObjects:
+                            _gameConsoleView.DisplayListOfAllGameObjects();
+                            break;
+                        case PlayerAction.LocationsVisited:
+                            _gameConsoleView.DisplayLocationsVisited();
+                            break;
+                        case PlayerAction.ReturnToMainMenu:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
+                            break;
 
-                    case PlayerAction.AdminMenu:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
-                        break;
-                    case PlayerAction.Exit:
-                        _gameConsoleView.DisplayClosingScreen(_gamePlayer);
-                        _playingGame = false;
-                        break;
+                        //
+                        // Edit player info menu choices
+                        //
+                        case PlayerAction.ChangeName:
+                            _gamePlayer.Name = _gameConsoleView.DisplayEditName(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
+                        case PlayerAction.ChangeGender:
+                            _gamePlayer.Viking = _gameConsoleView.DisplayEditGender(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
+                        case PlayerAction.ChangeAge:
+                            _gamePlayer.Age = _gameConsoleView.DisplayEditAge(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
+                        case PlayerAction.ChangeHomeVillage:
+                            _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
+                        case PlayerAction.PurchaseWeapon:
+                            _gamePlayer = _gameConsoleView.DisplayPurchaseWeapon(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
+                        case PlayerAction.GoBack:
+                            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.EditPlayerMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                                _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
+                            }
+                            else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.TradeMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                                _gameConsoleView.DisplayLookAround();
+                            }
 
-                    //
-                    // Look Around Menu choices
-                    //
-                    case PlayerAction.LookAround:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
-                        _gameConsoleView.DisplayLookAround();  
-                        break;
-                    case PlayerAction.LookAt:
-                        LookAtAction();
-                        break;
-                    case PlayerAction.PickUpItem:
-                        PickUpAction();
-                        break;
+                            break;
 
-                    //
-                    // Admin Menu choices
-                    //
-                    case PlayerAction.PlayerEdit:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.EditPlayerMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
-                    case PlayerAction.ListDestinations:
-                        _gameConsoleView.DisplayListOfLocations();
-                        break;
-                    case PlayerAction.ListGameObjects:
-                        _gameConsoleView.DisplayListOfAllGameObjects();
-                        break;
-                    case PlayerAction.LocationsVisited:
-                        _gameConsoleView.DisplayLocationsVisited();
-                        break;
-                    case PlayerAction.ReturnToMainMenu:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
-                        break;
+                        //
+                        // Trade Menu Choices
+                        //
+                        case PlayerAction.Buy:
+                            BuyAction();
+                            break;
+                        case PlayerAction.Sell:
+                            break;
 
-                    //
-                    // Edit player info menu choices
-                    //
-                    case PlayerAction.ChangeName:
-                        _gamePlayer.Name = _gameConsoleView.DisplayEditName(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
-                    case PlayerAction.ChangeGender:
-                        _gamePlayer.Viking = _gameConsoleView.DisplayEditGender(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
-                    case PlayerAction.ChangeAge:
-                        _gamePlayer.Age = _gameConsoleView.DisplayEditAge(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
-                    case PlayerAction.ChangeHomeVillage:
-                        _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
-                    case PlayerAction.PurchaseWeapon:
-                        _gamePlayer = _gameConsoleView.DisplayPurchaseWeapon(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
-                    case PlayerAction.GoBack:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
+                        default:
+                            break;
+                    }
+                }
 
-                    default:
-                        break;
+                //
+                // close the application
+                //
+                Environment.Exit(1);
+            }
+
+            /// <summary>
+            /// Initialize the player info
+            /// </summary>
+            private void InitializeQuest()
+            {
+                Player player = _gameConsoleView.GetInitialPlayerInfo();
+
+                _gamePlayer.Name = player.Name;
+                _gamePlayer.Age = player.Age;
+                _gamePlayer.Viking = player.Viking;
+                _gamePlayer.LocationId = 1;
+                _gamePlayer.HomeVillage = player.HomeVillage;
+                _gamePlayer.Capital = player.Capital;
+                _gamePlayer.WeaponType = player.WeaponType;
+                _gamePlayer.IsArmed = player.IsArmed;
+
+                _gamePlayer.ExperiencePoints = 0;
+                _gamePlayer.Health = 100;
+                _gamePlayer.Lives = 3;
+
+                //
+                // add initial items to inventory
+                //
+                _gamePlayer.Inventory.Add(_gameUniverse.GetGameObjectById(4) as GameObject);
+
+            }
+
+            private void UpdateGameStatus()
+            {
+                if (!_gamePlayer.HasVisited(_currentLocaton.LocationId))
+                {
+                    // add new location to the list of visited locations
+                    _gamePlayer.LocationsVisted.Add(_currentLocaton.LocationId);
+
+                    // update experience points and health for visiting locations
+                    _gamePlayer.ExperiencePoints += _currentLocaton.ExperiencePoints;
+
                 }
             }
 
-            //
-            // close the application
-            //
-            Environment.Exit(1);
-        }
-
-        /// <summary>
-        /// Initialize the player info
-        /// </summary>
-        private void InitializeQuest()
-        {
-            Player player = _gameConsoleView.GetInitialPlayerInfo();
-
-            _gamePlayer.Name = player.Name;
-            _gamePlayer.Age = player.Age;
-            _gamePlayer.Viking = player.Viking;
-            _gamePlayer.LocationId = 1; 
-            _gamePlayer.HomeVillage = player.HomeVillage;
-            _gamePlayer.Capital = player.Capital;
-            _gamePlayer.WeaponType = player.WeaponType;
-            _gamePlayer.IsArmed = player.IsArmed;
-
-            _gamePlayer.ExperiencePoints = 0;
-            _gamePlayer.Health = 100;
-            _gamePlayer.Lives = 3;
-
-            //
-            // add initial items to inventory
-            //
-            _gamePlayer.Inventory.Add(_gameUniverse.GetGameObjectById(4) as GameObject);
-
-        }
-
-        private void UpdateGameStatus()
-        {
-            if (!_gamePlayer.HasVisited(_currentLocaton.LocationId))
-            {
-                // add new location to the list of visited locations
-                _gamePlayer.LocationsVisted.Add(_currentLocaton.LocationId);
-
-                // update experience points and health for visiting locations
-                _gamePlayer.ExperiencePoints += _currentLocaton.ExperiencePoints;
-
-            }
-        }
-
-        /// <summary>
-        /// process the Look At action
-        /// </summary>
-        private void LookAtAction()
-        {
-            //
-            // display a list of game objects in space-time location and get a player choice
-            //
-            int gameObjectToLookAtId = _gameConsoleView.DisplayGetGameObjectToLookAt();
-
-            //
-            // display game object info
-            //
-            if (gameObjectToLookAtId != 0)
+            /// <summary>
+            /// process the Look At action
+            /// </summary>
+            private void LookAtAction()
             {
                 //
-                // get the game object from the universe
+                // display a list of game objects in space-time location and get a player choice
                 //
-                GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectToLookAtId);
+                int gameObjectToLookAtId = _gameConsoleView.DisplayGetGameObjectToLookAt();
 
                 //
-                // display information for the object chosen
+                // display game object info
                 //
-                _gameConsoleView.DisplayGameObjectInfo(gameObject);
+                if (gameObjectToLookAtId != 0)
+                {
+                    //
+                    // get the game object from the universe
+                    //
+                    GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectToLookAtId);
+
+                    //
+                    // display information for the object chosen
+                    //
+                    _gameConsoleView.DisplayGameObjectInfo(gameObject);
+                }
             }
-        }
 
-        private void PickUpAction()
-        {
-            //
-            // display a list of traveler objects in space-time location and get a player choice
-            //
-            int gameObjectToPickUpId = _gameConsoleView.DisplayGetGameObjectToPickUp();
-
-            //
-            // add the traveler object to traveler's inventory
-            //
-            if (gameObjectToPickUpId != 0)
+            private void BuyAction()
             {
                 //
-                // get the game object from the universe
+                // display a list of traveler objects in space-time location and get a player choice
                 //
-                GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectToPickUpId) as GameObject;
+                int tradeObjectIdToBuy = _gameConsoleView.DisplayGetTradeObjectToPurchase(_currentLocaton);
 
                 //
-                // note: traveler object is added to list and space-time location is set to 0
+                // add the traveler object to traveler's inventory
                 //
-                _gamePlayer.Inventory.Add(gameObject);
-                gameObject.LocationId = 0;
+                if (tradeObjectIdToBuy != 0)
+                {
+                    //
+                    // get the game object from the universe
+                    //
+                    GameObject tradeObject = _gameUniverse.GetGameObjectById(tradeObjectIdToBuy) as GameObject;
 
-                //
-                // display confirmation message
-                //
-                _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
+                    //
+                    // update the capital and add to inventory
+                    //
+                    _gamePlayer.Capital -= tradeObject.Value;
+                    _gamePlayer.Inventory.Add(tradeObject);
+                    tradeObject.LocationId = 0;
+
+                _gameConsoleView.DisplayConfirmPurchase(tradeObject);
+                }
+
             }
-        }
 
-        #endregion
+            private void PickUpAction()
+            {
+                //
+                // display a list of traveler objects in space-time location and get a player choice
+                //
+                int gameObjectToPickUpId = _gameConsoleView.DisplayGetGameObjectToPickUp();
+
+                //
+                // add the traveler object to traveler's inventory
+                //
+                if (gameObjectToPickUpId != 0)
+                {
+                    //
+                    // get the game object from the universe
+                    //
+                    GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectToPickUpId) as GameObject;
+
+                    //
+                    // note: traveler object is added to list and space-time location is set to 0
+                    //
+                    _gamePlayer.Inventory.Add(gameObject);
+                    gameObject.LocationId = 0;
+
+                    //
+                    // display confirmation message
+                    //
+                    _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
+                }
+            }
+
+            #endregion
+        
     }
 }

@@ -23,7 +23,52 @@ namespace TB_QuestGame
                 "Kaupang is located by the sea Norgeshav, from here you can venture out on the open sea \n" +
                 "and explore new places.",
                 ExperiencePoints = 0,
-                AccessableLocations = new List<int>(){2,3,5,6,7,9}
+                AccessableLocations = new List<int>(){2,3,5,6,7,9},
+                TradeObjects = new List<GameObject>()
+                {
+                    new Weapon
+                    {
+                        Id = 2,
+                        Name = "Sword",
+                        Description = "This is a test for weapon objects",
+                        Value = 25,
+                        CanInventory = true
+                    },
+                    new Weapon
+                    {
+                        Id = 5,
+                        Name = "Axe",
+                        Description = "Description Needed",
+                        Value = 25,
+                        CanInventory = true
+                    },
+                    new Weapon
+                    {
+                        Id = 6,
+                        Name = "Shield",
+                        Description = "Description Needed",
+                        Value = 20,
+                        CanInventory = true
+                    },
+
+                    new Weapon
+                    {
+                        Id = 7,
+                        Name = "Bow",
+                        Description = "Description Needed",
+                        Value = 25,
+                        CanInventory = true
+                    },
+
+                    new Weapon
+                    {
+                        Id = 8,
+                        Name = "Knife",
+                        Description = "Description Needed",
+                        Value = 10,
+                        CanInventory = true
+                    },
+                }
             },
 
 

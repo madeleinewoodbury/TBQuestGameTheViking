@@ -240,6 +240,32 @@ namespace TB_QuestGame
             return gameObjects;
         }
 
+        public bool IsValidTradeObjectId(int tradeObjectId, int currentLocationId)
+        {
+            List<int> tradeObjectIds = new List<int>();
+            Location currentLocation = GetLocationById(currentLocationId);
+
+            //
+            // create a list of game object ids in current location
+            //
+            foreach (GameObject tradeObject in currentLocation.TradeObjects)
+            {
+                tradeObjectIds.Add(tradeObject.Id);
+            }
+
+            //
+            // determine if the game object id is a valid id and return the result
+            //
+            if (tradeObjectIds.Contains(tradeObjectId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
     }
 }

@@ -17,6 +17,7 @@ namespace TB_QuestGame
             MainMenu,
             LookAround,
             AdminMenu,
+            TradeMenu,
             EditPlayerMenu
         }
 
@@ -40,12 +41,9 @@ namespace TB_QuestGame
                 {
                     { '1', PlayerAction.PlayerInfo },
                     { '2', PlayerAction.LookAround },
-                    //{ '3', PlayerAction.LookAt },
-                    //{ '4', PlayerAction.PickUpItem },
-                    //{ '5', PlayerAction.PutDownItem },
-                    { '6', PlayerAction.Inventory },
-                    { '7', PlayerAction.Travel },    
-                    { '8', PlayerAction.AdminMenu },
+                    { '3', PlayerAction.Inventory },
+                    { '4', PlayerAction.Travel },    
+                    { '5', PlayerAction.AdminMenu },
                     { '0', PlayerAction.Exit }
                 }
         };
@@ -60,7 +58,8 @@ namespace TB_QuestGame
                     { '2', PlayerAction.PickUpItem },
                     { '3', PlayerAction.PutDownItem },
                     { '4', PlayerAction.Inventory },
-                    { '5', PlayerAction.ReturnToMainMenu }
+                    { '5', PlayerAction.Trade },
+                    { '6', PlayerAction.ReturnToMainMenu }
 
                 }
         };
@@ -91,6 +90,18 @@ namespace TB_QuestGame
                 {'4', PlayerAction.ChangeHomeVillage },
                 {'5', PlayerAction.PurchaseWeapon},
                 {'6', PlayerAction.GoBack }
+            }
+        };
+
+        public static Menu TradeMenu = new Menu()
+        {
+            MenuName = "TradeMenu",
+            MenuTitle = "Trade Menu",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                { '1', PlayerAction.Buy },
+                { '2', PlayerAction.Sell },
+                { '3', PlayerAction.GoBack }
             }
         };
 

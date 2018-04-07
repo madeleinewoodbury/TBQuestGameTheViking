@@ -13,6 +13,7 @@ namespace TB_QuestGame
     {
         None,
         AdminMenu,
+        Buy,
         ChangeName,
         ChangeGender,
         ChangeAge,
@@ -32,6 +33,8 @@ namespace TB_QuestGame
         PlayerInventory,
         PurchaseWeapon,
         PutDownItem,
+        Sell,
+        Trade,
         Travel,
         ReturnToMainMenu,
         Exit

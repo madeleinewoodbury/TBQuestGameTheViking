@@ -28,17 +28,17 @@ namespace TB_QuestGame
                 Name = "Sword",
                 LocationId = 2,
                 Description = "This is a test for weapon objects",
-                Value = 20,
+                Value = 25,
                 CanInventory = true
             },
 
             new Treasure
             {
                 Id = 3,
-                Name = "Gold",
+                Name = "Gold Bar",
                 LocationId = 4,
                 Description = "This is a test for treasure item",
-                Value = 25,
+                Value = 50,
                 CanInventory = true
             },
 
