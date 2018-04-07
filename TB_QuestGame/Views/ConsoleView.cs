@@ -778,7 +778,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here.", ActionMenu.MainMenu, "");
+                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here.", ActionMenu.LookAround, "");
             }
 
             return gameObjectId;
@@ -842,6 +842,57 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("Pick Up Object", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.LookAround, "");
         }
 
+        public int DisplayGetGameObjectToPutDown()
+        {
+            int gameObjectId = 0;
+            bool validObjectId = false;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Put Down Item", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.LookAround, "");
+
+
+                while (!validObjectId)
+                {
+                    //
+                    // get an integer from the player
+                    //
+                    GetInteger($"Enter the Id number of the object you wish to put down: ", 0, 0, out gameObjectId);
+
+                    //
+                    // find object in inventory
+                    //
+                    GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                    //
+                    // validate object in inventory
+                    //
+                    if (gameObject != null)
+                    {
+                        validObjectId = true;
+                    }
+                    else
+                    {
+                        ClearInputBox();
+                        DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                    }
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Put Down Item", "You don't have any items to put down. Your inventory is empty.", ActionMenu.LookAround, "");
+            }
+
+
+            return gameObjectId;
+
+        }
+
+        public void DisplayConfirmItemRemovedFromInventory(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Put Down Item", $"The {gameObject.Name} has been removed from your invnetory.", ActionMenu.LookAround, "");
+        }
+
         public void DisplayGameObjectInfo(GameObject gameObject)
         {
             DisplayGamePlayScreen("Current Location", Text.LookAt(gameObject), ActionMenu.LookAround, "");
@@ -849,6 +900,11 @@ namespace TB_QuestGame
         }
 
         public void DisplayInventory()
+        {
+            DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.MainMenu, "");
+        }
+
+        public void DisplayInventoryLookAroundMenu()
         {
             DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.LookAround, "");
         }
@@ -952,7 +1008,7 @@ namespace TB_QuestGame
 
         public void DisplayConfirmSale(GameObject objectAdded)
         {
-            DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been removed from your inevntort.", ActionMenu.TradeMenu, "");
+            DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been removed from your inevntory.", ActionMenu.TradeMenu, "");
         }
 
         public void DisplayClosingScreen(Player player)

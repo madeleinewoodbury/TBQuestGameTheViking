@@ -145,7 +145,15 @@ namespace TB_QuestGame
                             break;
 
                         case PlayerAction.Inventory:
-                            _gameConsoleView.DisplayInventory();
+                            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.MainMenu)
+                            {
+                                _gameConsoleView.DisplayInventory();
+                            }
+                            else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.LookAround)
+                            {
+                                _gameConsoleView.DisplayInventoryLookAroundMenu();
+                            }
+                            
                             break;
                         case PlayerAction.Travel:
                             // get new locationId and update the curentLocation
@@ -182,6 +190,9 @@ namespace TB_QuestGame
                             break;
                         case PlayerAction.PickUpItem:
                             PickUpAction();
+                            break;
+                        case PlayerAction.PutDownItem:
+                            PutDownAction();
                             break;
                         case PlayerAction.Trade:
                             ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
@@ -385,7 +396,7 @@ namespace TB_QuestGame
             private void PickUpAction()
             {
                 //
-                // display a list of traveler objects in space-time location and get a player choice
+                // display a list of game objects in location and get a player choice
                 //
                 int gameObjectToPickUpId = _gameConsoleView.DisplayGetGameObjectToPickUp();
 
@@ -411,6 +422,30 @@ namespace TB_QuestGame
                     _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
                 }
             }
+
+        private void PutDownAction()
+        {
+            //
+            // display a list of game objects in inventory and get player's choice
+            //
+            int objectToPutDown = _gameConsoleView.DisplayGetGameObjectToPutDown();
+
+            //
+            // get the game object from the universe
+            //
+            GameObject gameObject = _gameUniverse.GetGameObjectById(objectToPutDown) as GameObject;
+
+            //
+            // remove the object from the inventory and set the location to the current value
+            //
+            _gamePlayer.Inventory.Remove(gameObject);
+            gameObject.LocationId = _gamePlayer.LocationId;
+
+            //
+            // display confirmation message
+            //
+            _gameConsoleView.DisplayConfirmItemRemovedFromInventory(gameObject);
+        }
 
             #endregion
         
