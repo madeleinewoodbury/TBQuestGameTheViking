@@ -243,33 +243,6 @@ namespace TB_QuestGame
         }
 
         /// <summary>
-        /// get type of weapon from user
-        /// </summary>
-        /// <returns></returns>
-        public Player.Weapon GetWeapon()
-        {
-            bool validInput = false;
-            Player.Weapon weaponType = Player.Weapon.None;
-
-            while (!validInput)
-            {
-                if (!Enum.TryParse<Player.Weapon>(Console.ReadLine(), out weaponType))
-                {
-                    ClearInputBox();
-                    DisplayInputErrorMessage("You need to enter the name of a weapon. Please try again");
-                    DisplayInputBoxPrompt("Enter weapon: ");
-                }
-                else
-                {
-                    validInput = true;
-                }
-            }
-
-
-            return weaponType;
-        }
-
-        /// <summary>
         /// display splash screen
         /// </summary>
         /// <returns>player chooses to play</returns>
@@ -543,14 +516,11 @@ namespace TB_QuestGame
             // instantiate a new player
             Player player = new Player();
 
-            // instantiate a new list of weapons
-            player.WeaponType = new List<Player.Weapon>();
-
-            //instantiate a new waeapon
-            Player.Weapon weaponType;
-
             // isArmed is set to false to begin with
             player.IsArmed = false;
+
+            // starting capital is set to 100
+            player.Capital = 100;
 
             string prompt;
 
@@ -589,38 +559,6 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.QuestIntro, "");
             prompt ="Enter the name of the Village: ";
             player.HomeVillage = GetString(prompt);
-
-            //
-            // Player's capital. Prompt for purchase of weapon
-            // Starting capital is 100 coins
-            player.Capital = 100;
-            DisplayGamePlayScreen("The Viking Setup - Capital", Text.DisplayPlayerStartingCapital(player), ActionMenu.QuestIntro, "");
-            DisplayInputBoxPrompt("Enter yes or no: ");
-            string userResponse = GetYesOrNo();
-
-            if (userResponse == "YES")
-            {
-                DisplayGamePlayScreen("The Viking Setup - Purchase Weapon", Text.DisplayPlayerPurchaseWeapon(player), ActionMenu.QuestIntro, "");
-                DisplayInputBoxPrompt("Enter weapon: ");
-                weaponType =GetWeapon();
-
-                if (weaponType != Player.Weapon.None)
-                {
-                    // subtract 25 coins from the player's capital
-                    player.Capital -= 25;
-                    player.IsArmed = true;
-                    player.WeaponType.Add(weaponType);
-                }
-                else
-                {
-                    player.IsArmed = false;
-                }
-            }
-            else
-            {
-                weaponType = Player.Weapon.None;
-                player.IsArmed = false;
-            }
 
             //
             // echo the player's info
@@ -792,37 +730,6 @@ namespace TB_QuestGame
         }
 
         /// <summary>
-        /// Purchase Weapon
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
-        public Player DisplayPurchaseWeapon(Player player)
-        {
-            if (player.Capital < 25)
-            {
-                DisplayGamePlayScreen("Edit Viking Info - Weapons", Text.DisplayNotEnoughCapital(player), ActionMenu.EditPlayer, "");
-                GetContinueKey();
-            }
-            else
-            {
-                DisplayGamePlayScreen("Edit Viking Info - Weapons", Text.DisplayPlayerPurchaseWeapon(player), ActionMenu.EditPlayer, "");
-                DisplayInputBoxPrompt("Enter weapon: ");
-                Player.Weapon weaponType = GetWeapon();
-
-                if (weaponType != Player.Weapon.None)
-                {
-                    // subtract 25 coins from the player's capital
-                    player.Capital -= 25;
-                    player.WeaponType.Add(weaponType);
-                    player.IsArmed = true;
-                }
-            }
-
-
-            return player;
-        }
-
-        /// <summary>
         /// display list of game objects in the universe
         /// </summary>
         public void DisplayListOfAllGameObjects()
@@ -951,11 +858,6 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("Trade", Text.DisplayTradeScreenText(_gamePlayer.Inventory, currentLocation), ActionMenu.TradeMenu, "");
         }
 
-        public void DisplayBuy(Location currentLocation)
-        {
-            DisplayGamePlayScreen("Buy", Text.ListTradeObjects(currentLocation.TradeObjects), ActionMenu.TradeMenu, "");
-        }
-
         public int DisplayGetTradeObjectToPurchase(Location currentLocation)
         {
             int tradeObjectId = 0;
@@ -1000,6 +902,57 @@ namespace TB_QuestGame
         public void DisplayConfirmPurchase(GameObject objectAdded)
         {
             DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.TradeMenu, "");
+        }
+
+        public int DisplayGetTradeObjectToSell()
+        {
+            int tradeObjectId = 0;
+            bool validObjectId = false;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Sell", Text.DisplayObjectsForSale(_gamePlayer.Inventory), ActionMenu.TradeMenu, "");
+
+
+                while (!validObjectId)
+                {
+                    //
+                    // get an integer from the player
+                    //
+                    GetInteger($"Enter the Id number of the object you wish to trade in for money: ", 0, 0, out tradeObjectId);
+
+                    //
+                    // find object in inventory
+                    //
+                    GameObject tradeObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == tradeObjectId);
+
+                    //
+                    // validate object in inventory
+                    //
+                    if (tradeObject != null)
+                    {
+                        validObjectId = true;
+                    }
+                    else
+                    {
+                        ClearInputBox();
+                        DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                    }
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Sell", "You don't have any items to sell. Your inventory is empty.", ActionMenu.TradeMenu, "");
+            }
+            
+
+            return tradeObjectId;
+            
+        }
+
+        public void DisplayConfirmSale(GameObject objectAdded)
+        {
+            DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been removed from your inevntort.", ActionMenu.TradeMenu, "");
         }
 
         public void DisplayClosingScreen(Player player)

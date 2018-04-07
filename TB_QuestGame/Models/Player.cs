@@ -20,16 +20,6 @@ namespace TB_QuestGame
             Shieldmaiden
         }
 
-        public enum Weapon
-        {
-            None,
-            Sword,
-            Axe,
-            Shield,
-            Bow, 
-            Knife
-        }
-
         #endregion
 
         #region FIELDS
@@ -37,7 +27,6 @@ namespace TB_QuestGame
         private VikingType _viking;
         private string _homeVillage;
         private int _capital;
-        private List<Weapon> _weaponType;
         private bool _isArmed;
         private int _health;
         private int _lives;
@@ -65,12 +54,6 @@ namespace TB_QuestGame
         {
             get { return _capital; }
             set { _capital = value; }
-        }
-
-        public List<Weapon> WeaponType
-        {
-            get { return _weaponType; }
-            set { _weaponType = value; }
         }
 
         public bool IsArmed

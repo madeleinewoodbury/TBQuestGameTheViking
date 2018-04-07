@@ -110,42 +110,6 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string DisplayPlayerPurchaseWeapon(Player gamePlayer)
-        {
-            string messageBoxText =
-                "The weapons available for purchase are listed below.\n" +
-                " \n";
-
-            string weaponList = null;
-
-            foreach (Player.Weapon weapon in Enum.GetValues(typeof(Player.Weapon)))
-            {
-                if (weapon != Player.Weapon.None)
-                {
-                    weaponList += $"\t{weapon} \n";
-                }
-            }
-            messageBoxText += weaponList;
-
-            if (gamePlayer.IsArmed)
-            {
-                messageBoxText += " \n The weapons currently in your inventory are: ";
-
-                string inventroyList = null;
-
-                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
-                {
-                    inventroyList += $"\t{weapon}, ";
-                }
-                messageBoxText += inventroyList;
-            }
-            messageBoxText += " \n" +
-            " \n" +
-            "Please type the name of the weapon you would like to purchase below.";
-
-            return messageBoxText;
-        }
-
         public static string SetupEchoPlayerInfo(Player gamePlayer)
         {
             string messageBoxText =
@@ -158,25 +122,9 @@ namespace TB_QuestGame
                 $"\tGender: {gamePlayer.Viking}\n" +
                 $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                $"\tCapital: {gamePlayer.Capital} coins\n" +
-                $"\tWeapons: ";
-
-            string inventoryList = null;
-
-            if (gamePlayer.IsArmed)
-            {
-                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
-                {
-                    inventoryList += $"{weapon}, ";
-                }
-            }
-            else
-            {
-                inventoryList += "You are currently unarmed.";
-            }
-
-
-            messageBoxText += inventoryList += "\n \n Press any key to begin your mission.";
+                $"\tStarting capital: {gamePlayer.Capital} coins\n" +
+                "\tWeapon: You are currently unarmed" +
+                "\n \n Press any key to begin your mission.";
 
             return messageBoxText;
         }
@@ -193,25 +141,7 @@ namespace TB_QuestGame
                 $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
                 $"\tCapital: {gamePlayer.Capital} coins\n" +
-                $"\tWeapon: ";
-
-            string inventoryList = null;
-
-            if (gamePlayer.IsArmed)
-            {
-                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
-                {
-                    inventoryList += $"{weapon.ToString()}, ";
-                }
-            }
-            else
-            {
-                inventoryList += "You are currently unarmed.";
-            }
-
-
-            messageBoxText += inventoryList;
-            messageBoxText += $"\n\n\t{gamePlayer.Name}, choose which information you want to edit from the menu on the left.";
+                $"\n\n\t{gamePlayer.Name}, choose which information you want to edit from the menu on the left.";
 
             return messageBoxText;
         }
@@ -264,24 +194,7 @@ namespace TB_QuestGame
                 $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
                 $"\tCapital: {gamePlayer.Capital} coins\n" +
-                $"\tWeapon: ";
-
-            string inventoryList = null;
-
-            if (gamePlayer.IsArmed)
-            {
-                foreach (Player.Weapon weapon in gamePlayer.WeaponType)
-                {
-                    inventoryList += $"{weapon.ToString()}, ";
-                }
-            }
-            else
-            {
-                inventoryList += "You are currently unarmed.";
-            }
-
-
-            messageBoxText += inventoryList += "\n\tViking greeting: " + gamePlayer.Greeting();
+                "\tViking greeting: " + gamePlayer.Greeting();
 
             return messageBoxText;
         }
@@ -589,6 +502,43 @@ namespace TB_QuestGame
 
             messageBoxText += gameObjectRows;
 
+            return messageBoxText;
+        }
+
+        public static string DisplayObjectsForSale(IEnumerable<GameObject> inventory)
+        {
+            string messageBoxText = "";
+
+            //
+            // display table header
+            //
+            messageBoxText =
+                "Your current Inventory and their trade value: \n" +
+                " \n" +
+                "ID".PadRight(10) +
+                "Name".PadRight(30) +
+                "Value".PadRight(10) +
+                "\n" +
+                "---".PadRight(10) +
+                "-----------------------------".PadRight(30) +
+                "---".PadRight(10) +
+                "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string inventoryObjectRows = null;
+            foreach (GameObject inventoryObject in inventory)
+            {
+                inventoryObjectRows +=
+                $"{inventoryObject.Id}".PadRight(10) +
+                $"{inventoryObject.Name}".PadRight(30) +
+                $"{inventoryObject.Value}".PadRight(10) +
+                Environment.NewLine;
+
+            }
+
+            messageBoxText += inventoryObjectRows;
             return messageBoxText;
         }
 

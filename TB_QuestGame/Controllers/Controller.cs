@@ -228,10 +228,6 @@ namespace TB_QuestGame
                             _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
                             _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
                             break;
-                        case PlayerAction.PurchaseWeapon:
-                            _gamePlayer = _gameConsoleView.DisplayPurchaseWeapon(_gamePlayer);
-                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                            break;
                         case PlayerAction.GoBack:
                             if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.EditPlayerMenu)
                             {
@@ -253,6 +249,7 @@ namespace TB_QuestGame
                             BuyAction();
                             break;
                         case PlayerAction.Sell:
+                            SellAction();
                             break;
 
                         default:
@@ -279,8 +276,7 @@ namespace TB_QuestGame
                 _gamePlayer.LocationId = 1;
                 _gamePlayer.HomeVillage = player.HomeVillage;
                 _gamePlayer.Capital = player.Capital;
-                _gamePlayer.WeaponType = player.WeaponType;
-                _gamePlayer.IsArmed = player.IsArmed;
+                _gamePlayer.IsArmed = false;
 
                 _gamePlayer.ExperiencePoints = 0;
                 _gamePlayer.Health = 100;
@@ -333,10 +329,34 @@ namespace TB_QuestGame
                 }
             }
 
+
+            private void SellAction()
+            {
+                int tradeObjectToSell = _gameConsoleView.DisplayGetTradeObjectToSell();
+
+                if (tradeObjectToSell != 0)
+                {
+                    //
+                    // get the game object from the universe
+                    //
+                    GameObject tradeObject = _gameUniverse.GetGameObjectById(tradeObjectToSell) as GameObject;
+
+                    //
+                    // update the capital and remover from inventory
+                    //
+                    _gamePlayer.Capital += tradeObject.Value;
+                    _gamePlayer.Inventory.Remove(tradeObject);
+
+                    _gameConsoleView.DisplayConfirmSale(tradeObject);
+                }
+
+
+            }
+
             private void BuyAction()
             {
                 //
-                // display a list of traveler objects in space-time location and get a player choice
+                // display a list of trade objects in location and get a player choice
                 //
                 int tradeObjectIdToBuy = _gameConsoleView.DisplayGetTradeObjectToPurchase(_currentLocaton);
 
