@@ -842,7 +842,9 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here.", ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.LookAround, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
             }
 
             return gameObjectId;
@@ -909,7 +911,9 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here.", ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.LookAround, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
             }
 
             return gameObjectId;
@@ -974,7 +978,9 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Put Down Item", "You don't have any items to put down. Your inventory is empty.", ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Put Down Item", "You don't have any items to put down. Your inventory is empty. \n Press any key to continue.", ActionMenu.LookAround, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
             }
 
 
@@ -1067,7 +1073,9 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Sell", "You don't have any items to sell. Your inventory is empty.", ActionMenu.TradeMenu, "");
+                DisplayGamePlayScreen("Sell", "You don't have any items to sell. Your inventory is empty. \nPress any key to continue,", ActionMenu.TradeMenu, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
             }
             
 
@@ -1077,7 +1085,7 @@ namespace TB_QuestGame
 
         public void DisplayConfirmSale(GameObject objectAdded)
         {
-            DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been removed from your inevntory.", ActionMenu.TradeMenu, "");
+            DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been removed from your inventory.", ActionMenu.TradeMenu, "");
         }
 
         public void DisplayClosingScreen(Player player)
@@ -1229,7 +1237,9 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Enter Place", "It appears there are no places to enter here.", ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Enter Place", "It appears there are no places to enter here. \nPress any key to continue.", ActionMenu.LookAround, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
             }
 
             return placeId;

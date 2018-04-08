@@ -166,7 +166,7 @@ namespace TB_QuestGame
             {
                 Id = 15,
                 Name = "Amber Dragon Hammer",
-                LocationId = 0,
+                LocationId = 6,
                 Description = "This is a highly intricate amulet of power and protection, fit for a high ranking Saxon or Viking leader. \n" +
                 "The head of a Celtic dragon has been sculpted to bite the chain that it hangs from.",
                 Value = 50,
@@ -197,7 +197,7 @@ namespace TB_QuestGame
             {
                 Id = 18,
                 Name = "Bronze Wolf Hammer",
-                LocationId = 0,
+                LocationId = 5,
                 Description = "Bronze hammer pendant with a wolf's heas on it.",
                 Value = 10,
                 CanInventory = true
@@ -207,7 +207,7 @@ namespace TB_QuestGame
             {
                 Id = 19,
                 Name = "Eagle Ring",
-                LocationId = 0,
+                LocationId = 4,
                 Description = "The ring has two eagles on it, made out of brass. Represent strength and resilience.",
                 Value = 20,
                 CanInventory = true
@@ -217,7 +217,7 @@ namespace TB_QuestGame
             {
                 Id = 20,
                 Name = "Gold Necklace",
-                LocationId = 0,
+                LocationId = 9,
                 Description = "A beautful necklace made from gold. Wore by the reach Anglo-Saxons.",
                 Value = 40,
                 CanInventory = true
@@ -237,7 +237,7 @@ namespace TB_QuestGame
             {
                 Id = 22,
                 Name = "Odin Pendant",
-                LocationId = 0,
+                LocationId = 8,
                 Description = "Odin, known as the Norse All-Father. He sist astride his horse, Sleipnerm who carries souls to the \n" +
                 "unseen realms. This gold pendant has an eye in the middle, it is the eye of Odin.",
                 Value = 100,
@@ -278,12 +278,12 @@ namespace TB_QuestGame
             {
                 Id = 26,
                 Name = "Valhalla Necklace",
-                LocationId = 0,
+                LocationId = 5,
                 Description = "A heavy necklace made from gold, the name implies that you must be worthy of wearing it.",
                 Value = 50,
                 CanInventory = true
             },
-
+            /*
             new Treasure
             {
                 Id = 27,
@@ -293,7 +293,7 @@ namespace TB_QuestGame
                 Value = 50,
                 CanInventory = true
             },
-            /*
+            
             new Treasure
             {
                 Id = 28,
@@ -344,7 +344,7 @@ namespace TB_QuestGame
             {
                 Id = 32,
                 Name = "Coppergate Helmet",
-                LocationId = 0,
+                LocationId = 9,
                 Description = "Also known as the York Helmet. This is an Anglo-Saxon crested helmet, richly decorated with brass ornamentation.",
                 Value = 25,
                 CanInventory = true,
@@ -369,7 +369,7 @@ namespace TB_QuestGame
             {
                 Id = 34,
                 Name = "Chainmill",
-                LocationId = 0,
+                LocationId = 7,
                 Description = "Covers the upperbody, it's heavy, but it could save your life in battle.",
                 Value = 15,
                 CanInventory = true,
@@ -381,9 +381,9 @@ namespace TB_QuestGame
             {
                 Id = 35,
                 Name = "Battle Arm Braces",
-                LocationId = 0,
+                LocationId = 3,
                 Description = "",
-                Value = 0,
+                Value = 5,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -393,9 +393,9 @@ namespace TB_QuestGame
             {
                 Id = 36,
                 Name = "Leather Armour",
-                LocationId = 0,
+                LocationId = 1,
                 Description = "",
-                Value = 0,
+                Value = 10,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -429,7 +429,7 @@ namespace TB_QuestGame
             #endregion
 
             #region Food (39-46)
-
+            /*
             new Item
             {
                 Id = 39,
@@ -440,13 +440,13 @@ namespace TB_QuestGame
                 CanInventory = true,
                 IsConsumable = true,
                 Health = 0
-            },
+            },*/
 
             new Item
             {
                 Id = 40,
                 Name = "Mead",
-                LocationId = 0,
+                LocationId = 2,
                 Description = "Drink to the gods.",
                 Value = 0,
                 CanInventory = true,
@@ -458,7 +458,7 @@ namespace TB_QuestGame
             {
                 Id = 41,
                 Name = "Meat",
-                LocationId = 0,
+                LocationId = 5,
                 Description = "",
                 Value = 0,
                 CanInventory = true,
@@ -470,7 +470,7 @@ namespace TB_QuestGame
             {
                 Id = 42,
                 Name = "Fish",
-                LocationId = 0,
+                LocationId = 6,
                 Description = "",
                 Value = 0,
                 CanInventory = true,
@@ -482,7 +482,7 @@ namespace TB_QuestGame
             {
                 Id = 43,
                 Name = "Apple",
-                LocationId = 0,
+                LocationId = 8,
                 Description = "",
                 Value = 0,
                 CanInventory = true,
@@ -494,7 +494,7 @@ namespace TB_QuestGame
             {
                 Id = 44,
                 Name = "Skyr",
-                LocationId = 0,
+                LocationId = 4,
                 Description = "A soft, yoghurt-like cheese.",
                 Value = 0,
                 CanInventory = true,
@@ -651,6 +651,140 @@ namespace TB_QuestGame
                 CanTrain = false
             },
 
+            //
+            // Places in Nidaros
+            //
+            new Place
+            {
+                Id = 54,
+                Name = "The Oxe Cave",
+                LocationId = 4,
+                Description = "The Oxe Cave have the best meats in town. \n +" +
+                "But here you will also find some of the most feared vikings in the land.",
+                EntryMessage = "Welcome in to the Oxe Cave \n +" +
+                "Please, enjoy our meats. But be aware, not everyone in here is a friend. \n",
+                CanInventory = false,
+                Health = 20,
+                ExperiencePoints = 5,
+                EnytryPoints = 20,
+                CanRest = false,
+                CanEeat = true,
+                CanTrain = false
+            },
+
+            new Place
+            {
+                Id = 55,
+                Name = "The Willow",
+                LocationId = 4,
+                Description = "Need some rest. The Willow can help with that",
+                EntryMessage = "Welcome to the Willow \n +" +
+                "You look tired, why don't you get some rest in one of pur rooms. \n",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = true,
+                CanEeat = false,
+                CanTrain = false
+            },
+
+            //
+            // Places in Stavanger
+            //
+            new Place
+            {
+                Id = 56,
+                Name = "The Seamonster Training Center",
+                LocationId = 5,
+                Description = "Come in a work on your seafaring skills. They may come in handy.",
+                EntryMessage = "Welcome to the Seamonster Training Center \n " +
+                "We will teach you all you need to know to travel the open seas. \n",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 25,
+                EnytryPoints = 0,
+                CanRest = false,
+                CanEeat = false,
+                CanTrain = true
+            },
+
+            //
+            // Places in Leirvik
+            //
+            /*
+            new Place
+            {
+                Id = 00,
+                Name = "",
+                LocationId = 6,
+                Description = "",
+                EntryMessage = "",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = true,
+                CanEeat = true,
+                CanTrain = false
+            },
+
+            //
+            // Places in Lindisfarner
+            //
+            new Place
+            {
+                Id = 00,
+                Name = "",
+                LocationId = 7,
+                Description = "",
+                EntryMessage = "",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = true,
+                CanEeat = true,
+                CanTrain = false
+            },
+
+            //
+            // Places in Jorvik
+            //
+            new Place
+            {
+                Id = 00,
+                Name = "",
+                LocationId = 8,
+                Description = "",
+                EntryMessage = "",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = true,
+                CanEeat = true,
+                CanTrain = false
+            },
+
+            //
+            // Places in Norfolk
+            //
+            new Place
+            {
+                Id = 00,
+                Name = "",
+                LocationId = 9,
+                Description = "",
+                EntryMessage = "",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = true,
+                CanEeat = true,
+                CanTrain = false
+            },*/
 
             #endregion
 

@@ -585,7 +585,7 @@ namespace TB_QuestGame
 
             if (placeEntered.CanEeat)
             {
-                messageBoxText += $"You have gained {placeEntered.Health} points here. \n";
+                messageBoxText += $"You have gained {placeEntered.Health} health points here. \n";
             }
             if (placeEntered.CanTrain)
             {
@@ -828,7 +828,6 @@ namespace TB_QuestGame
             statusBoxText.Add($"Health: {gamePlayer.Health}\n");
             statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
             statusBoxText.Add($"Experience Point: {gamePlayer.ExperiencePoints}\n");
-            statusBoxText.Add($"Energy: {gamePlayer.Energy}");
 
             return statusBoxText;
         }
