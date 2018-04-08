@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace TB_QuestGame
 {
@@ -31,8 +32,26 @@ namespace TB_QuestGame
         private int _health;
         private int _lives;
         private int _experiencePoints;
+        private int _energy;
         private List<int> _locationsVisited;
         private List<GameObject> _inventory;
+        private Timer _gameTimer;
+        private string _test;
+
+        public string Test
+        {
+            get { return _test; }
+            set { _test = value; }
+        }
+
+
+        public Timer GameTimer
+        {
+            get { return _gameTimer; }
+            set { _gameTimer = value; }
+        }
+
+
 
         #endregion
 
@@ -78,6 +97,12 @@ namespace TB_QuestGame
         {
             get { return _experiencePoints; }
             set { _experiencePoints = value; }
+        }
+
+        public int Energy
+        {
+            get { return _energy; }
+            set { _energy = value; }
         }
 
         public List<int> LocationsVisted
