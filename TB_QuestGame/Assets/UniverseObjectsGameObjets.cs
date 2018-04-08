@@ -293,7 +293,7 @@ namespace TB_QuestGame
                 Value = 50,
                 CanInventory = true
             },
-
+            /*
             new Treasure
             {
                 Id = 28,
@@ -323,7 +323,7 @@ namespace TB_QuestGame
                 Value = 0,
                 CanInventory = true
             },
-
+            */
             #endregion
 
             #region Armour and Clothing (31-38)
@@ -400,7 +400,7 @@ namespace TB_QuestGame
                 IsConsumable = false,
                 Health = 0,
             },
-
+            /*
             new Item
             {
                 Id = 37,
@@ -424,7 +424,7 @@ namespace TB_QuestGame
                 IsConsumable = false,
                 Health = 0,
             },
-
+            */
 
             #endregion
 
@@ -501,7 +501,7 @@ namespace TB_QuestGame
                 IsConsumable = true,
                 Health = 5
             },
-
+            /*
             new Item
             {
                 Id = 45,
@@ -525,7 +525,7 @@ namespace TB_QuestGame
                 IsConsumable = true,
                 Health = 5
             },
-
+            */
             #endregion
 
             #region Miscellaneous (47-)

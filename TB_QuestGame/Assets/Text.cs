@@ -280,9 +280,11 @@ namespace TB_QuestGame
                 // display table header
                 //
                 "ID".PadRight(10) +
-                "Name".PadRight(30) + "\n" +
+                "Name".PadRight(40) + 
+                "Value".PadRight(10) + "\n" +
                 "---".PadRight(10) +
-                "----------------------".PadRight(30) + "\n";
+                "----------------------".PadRight(40) + 
+                "------".PadRight(10) + "\n";
 
             //
             // display all traveler objects in rows
@@ -292,7 +294,8 @@ namespace TB_QuestGame
             {
                 gameObjectRows +=
                     $"{gameObject.Id}".PadRight(10) +
-                    $"{gameObject.Name}".PadRight(30) +
+                    $"{gameObject.Name}".PadRight(40) +
+                    $"{gameObject.Value}".PadRight(10) +
                     Environment.NewLine;
             }
 
@@ -374,10 +377,10 @@ namespace TB_QuestGame
             //
             messageBoxText =
                 "ID".PadRight(10) +
-                "Name".PadRight(30) +
+                "Name".PadRight(40) +
                 "\n" +
                 "---".PadRight(10) +
-                "-----------------------------".PadRight(30) +
+                "-----------------------------".PadRight(40) +
                 "\n";
 
             //
@@ -388,7 +391,7 @@ namespace TB_QuestGame
             {
                 inventoryObjectRows +=
                 $"{inventoryObject.Id}".PadRight(10) +
-                $"{inventoryObject.Name}".PadRight(30) +
+                $"{inventoryObject.Name}".PadRight(40) +
                 Environment.NewLine;
 
             }
@@ -429,11 +432,11 @@ namespace TB_QuestGame
                 "Here is your current Inventory: \n" +
                 " \n" +
                 "ID".PadRight(10) +
-                "Name".PadRight(30) +
+                "Name".PadRight(40) +
                 "Value".PadRight(10) +
                 "\n" +
                 "---".PadRight(10) +
-                "-----------------------------".PadRight(30) +
+                "-----------------------------".PadRight(40) +
                 "---".PadRight(10) +
                 "\n";
 
@@ -445,7 +448,7 @@ namespace TB_QuestGame
             {
                 inventoryObjectRows +=
                 $"{inventoryObject.Id}".PadRight(10) +
-                $"{inventoryObject.Name}".PadRight(30) +
+                $"{inventoryObject.Name}".PadRight(40) +
                 $"{inventoryObject.Value}".PadRight(10) +
                 Environment.NewLine;
 
@@ -468,10 +471,10 @@ namespace TB_QuestGame
                 // display table header
                 //
                 "ID".PadRight(10) +
-                "Name".PadRight(30) +
+                "Name".PadRight(40) +
                 "Value".PadRight(10) + "\n" +
                 "---".PadRight(10) +
-                "----------------------".PadRight(30) +
+                "----------------------".PadRight(40) +
                 "---".PadRight(10) + "\n";
 
             //
@@ -482,7 +485,7 @@ namespace TB_QuestGame
             {
                 gameObjectRows +=
                     $"{tradeObject.Id}".PadRight(10) +
-                    $"{tradeObject.Name}".PadRight(30) +
+                    $"{tradeObject.Name}".PadRight(40) +
                     $"{tradeObject.Value}".PadRight(10) +
                     Environment.NewLine;
             }
@@ -503,11 +506,11 @@ namespace TB_QuestGame
                 "Your current Inventory and their trade value: \n" +
                 " \n" +
                 "ID".PadRight(10) +
-                "Name".PadRight(30) +
+                "Name".PadRight(40) +
                 "Value".PadRight(10) +
                 "\n" +
                 "---".PadRight(10) +
-                "-----------------------------".PadRight(30) +
+                "-----------------------------".PadRight(40) +
                 "---".PadRight(10) +
                 "\n";
 
@@ -519,7 +522,7 @@ namespace TB_QuestGame
             {
                 inventoryObjectRows +=
                 $"{inventoryObject.Id}".PadRight(10) +
-                $"{inventoryObject.Name}".PadRight(30) +
+                $"{inventoryObject.Name}".PadRight(40) +
                 $"{inventoryObject.Value}".PadRight(10) +
                 Environment.NewLine;
 
@@ -566,7 +569,7 @@ namespace TB_QuestGame
             {
                 gameObjectRows +=
                 $"{place.Id}".PadRight(10) +
-                $"{place.Name}".PadRight(30) +
+                $"{place.Name}".PadRight(40) +
                 $"{place.EnytryPoints}".PadRight(10) +
                 Environment.NewLine;
             }
@@ -625,35 +628,186 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string ListAllGameObjects(IEnumerable<GameObject> gameObjects)
+        public static string ListWeapons(IEnumerable<GameObject> gameObjects)
         {
             //
             // display table name and column headers
             //
             string messageBoxText =
-                "Game Objects\n" +
+                "Weapons\n" +
                 " \n" +
 
                 //
                 // display table header
                 //
                 "ID".PadRight(10) +
-                "Name".PadRight(30) +
+                "Name".PadRight(40) +
                 "Location Id".PadRight(10) + "\n" +
                 "---".PadRight(10) +
-                "----------------------".PadRight(30) +
+                "----------------------".PadRight(40) +
                 "----------------------".PadRight(10) + "\n";
+
+            List<Weapon> weaponObjects = new List<Weapon>();
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if (gameObject is Weapon)
+                {
+                    weaponObjects.Add(gameObject as Weapon);
+                }
+
+            }
 
             //
             // display all traveler objects in rows
             //
             string gameObjectRows = null;
-            foreach (GameObject gameObject in gameObjects)
+            foreach (Weapon weapon in weaponObjects)
             {
                 gameObjectRows +=
-                    $"{gameObject.Id}".PadRight(10) +
-                    $"{gameObject.Name}".PadRight(30) +
-                    $"{gameObject.LocationId}".PadRight(10) +
+                    $"{weapon.Id}".PadRight(10) +
+                    $"{weapon.Name}".PadRight(40) +
+                    $"{weapon.LocationId}".PadRight(10) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        public static string ListTreasures(IEnumerable<GameObject> gameObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Game Treasures\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(40) +
+                "Location Id".PadRight(10) + "\n" +
+                "---".PadRight(10) +
+                "----------------------".PadRight(40) +
+                "----------------------".PadRight(10) + "\n";
+
+            List<Treasure> treasureObjects = new List<Treasure>();
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if (gameObject is Treasure)
+                {
+                    treasureObjects.Add(gameObject as Treasure);
+                }
+
+            }
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (Treasure treasure in treasureObjects)
+            {
+                gameObjectRows +=
+                    $"{treasure.Id}".PadRight(10) +
+                    $"{treasure.Name}".PadRight(40) +
+                    $"{treasure.LocationId}".PadRight(10) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        public static string ListItems(IEnumerable<GameObject> gameObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Game Items\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(40) +
+                "Location Id".PadRight(10) + "\n" +
+                "---".PadRight(10) +
+                "----------------------".PadRight(40) +
+                "----------------------".PadRight(10) + "\n";
+
+            List<Item> itemObjects = new List<Item>();
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if (gameObject is Item)
+                {
+                    itemObjects.Add(gameObject as Item);
+                }
+
+            }
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (Item item in itemObjects)
+            {
+                gameObjectRows +=
+                    $"{item.Id}".PadRight(10) +
+                    $"{item.Name}".PadRight(40) +
+                    $"{item.LocationId}".PadRight(10) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        public static string ListPlaces(IEnumerable<GameObject> gameObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Game Places\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(40) +
+                "Location Id".PadRight(10) + "\n" +
+                "---".PadRight(10) +
+                "----------------------".PadRight(40) +
+                "----------------------".PadRight(10) + "\n";
+
+            List<Place> placeObjects = new List<Place>();
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if (gameObject is Place)
+                {
+                    placeObjects.Add(gameObject as Place);
+                }
+
+            }
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (Place place in placeObjects)
+            {
+                gameObjectRows +=
+                    $"{place.Id}".PadRight(10) +
+                    $"{place.Name}".PadRight(40) +
+                    $"{place.LocationId}".PadRight(10) +
                     Environment.NewLine;
             }
 
@@ -674,6 +828,7 @@ namespace TB_QuestGame
             statusBoxText.Add($"Health: {gamePlayer.Health}\n");
             statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
             statusBoxText.Add($"Experience Point: {gamePlayer.ExperiencePoints}\n");
+            statusBoxText.Add($"Energy: {gamePlayer.Energy}");
 
             return statusBoxText;
         }

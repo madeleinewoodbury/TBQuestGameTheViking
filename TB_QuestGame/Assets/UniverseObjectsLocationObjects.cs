@@ -24,8 +24,8 @@ namespace TB_QuestGame
                 "and explore new places.",
                 ExperiencePoints = 0,
                 AccessableLocations = new List<int>(){2,3,5,6,7,9},
-                TradeObjects = new List<int>(){1, 4, 6, 7, 8, 11, 12, 33, 35, 36}   
-                
+                TradeObjects = new List<int>(){1, 4, 6, 7, 8, 11, 12, 33, 35, 36}
+
             },
 
 

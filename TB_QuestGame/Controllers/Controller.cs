@@ -102,7 +102,6 @@ namespace TB_QuestGame
             //
             _gamePlayer.GameTimer = new Timer(1000);
             _gamePlayer.GameTimer.Start();
-            //UpdateGameStatus();
 
             //
             // game loop
@@ -132,6 +131,10 @@ namespace TB_QuestGame
                 else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.TradeMenu)
                 {
                     playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.TradeMenu);
+                }
+                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ListGameObjectsMenu)
+                {
+                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.ListGameObjectsMenu);
                 }
 
                 //
@@ -163,11 +166,6 @@ namespace TB_QuestGame
                         // get new locationId and update the curentLocation
                         _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
                         _currentLocaton = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
-
-                        //
-                        // update the status of the game
-                        //
-                        UpdateGameStatus();
 
                         // set the game play screen to current location info
                         _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
@@ -217,7 +215,8 @@ namespace TB_QuestGame
                         _gameConsoleView.DisplayListOfLocations();
                         break;
                     case PlayerAction.ListGameObjects:
-                        _gameConsoleView.DisplayListOfAllGameObjects();
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.ListGameObjectsMenu;
+                        _gameConsoleView.DisplayListGameObjects();
                         break;
                     case PlayerAction.LocationsVisited:
                         _gameConsoleView.DisplayLocationsVisited();
@@ -225,6 +224,23 @@ namespace TB_QuestGame
                     case PlayerAction.ReturnToMainMenu:
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
                         _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
+                        break;
+
+
+                    //
+                    // List Game Objects Menu
+                    //
+                    case PlayerAction.ListWeapons:
+                        _gameConsoleView.DisplayListWeapons();
+                        break;
+                    case PlayerAction.ListTreasures:
+                        _gameConsoleView.DisplayListTreasures();
+                        break;
+                    case PlayerAction.ListItems:
+                        _gameConsoleView.DisplayListItems();
+                        break;
+                    case PlayerAction.ListPlaces:
+                        _gameConsoleView.DisplayListPlaces();
                         break;
 
                     //
@@ -256,6 +272,11 @@ namespace TB_QuestGame
                         {
                             ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                             _gameConsoleView.DisplayLookAround();
+                        }
+                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ListGameObjectsMenu)
+                        {
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
                         }
 
                         break;
@@ -319,13 +340,21 @@ namespace TB_QuestGame
                 _gamePlayer.ExperiencePoints += _currentLocaton.ExperiencePoints;
 
             }
+            /*
+                _gamePlayer.GameTimer.Elapsed += GameTickTimer_Elapsed;
 
-            _gamePlayer.GameTimer.Elapsed += GameTickTimer_Elapsed;
-            if (_gamePlayer.Energy == 0)
-            {
-                _gamePlayer.Lives -= 1;
-                _gamePlayer.Energy = 100;
-            }
+                if (_gamePlayer.Energy <= 0)
+                {
+                    _gameConsoleView.DisplayGamePlayScreen("Warning", "Your energy levels are too low. You need rest!", ActionMenu.MainMenu, "");
+                
+                }
+
+                if (_gamePlayer.Health <= 0)
+                {
+                    _gamePlayer.Lives -= 1;
+                    _gamePlayer.Energy = 100;
+                }
+            */
         }
 
         private void EnterAction()
@@ -513,15 +542,24 @@ namespace TB_QuestGame
         }
 
         private void GameTickTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
+        { 
             Timer timer = sender as Timer; //cast the sender as a timer
             TimeSpan gameTime = TimeSpan.FromSeconds(_gameTick);
-            _gameTick++;
-            if (_gameTick == 100)
-            {
-                _gamePlayer.Energy -= 10;
+            _gameTick = _gameTick + 1;
+            if (_gameTick == 30)
+            { 
+
+                if (_gamePlayer.Energy <= 0)
+                {
+                    _gamePlayer.Health -= 10;
+                }
+                else
+                {
+                    _gamePlayer.Energy -= 10;
+                }
                 _gameTick = 1;
             }
+
 
         }
 

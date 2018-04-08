@@ -760,9 +760,29 @@ namespace TB_QuestGame
         /// <summary>
         /// display list of game objects in the universe
         /// </summary>
-        public void DisplayListOfAllGameObjects()
+        public void DisplayListGameObjects()
         {
-            DisplayGamePlayScreen("List: Game Objects", Text.ListAllGameObjects(_gameUniverse.GameObjects), ActionMenu.AdminMenu, "");
+            DisplayGamePlayScreen("List Game Objects", "Choose from the menu options", ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListWeapons()
+        {
+            DisplayGamePlayScreen("List: Weapons", Text.ListWeapons(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListTreasures()
+        {
+            DisplayGamePlayScreen("List: Treasures", Text.ListTreasures(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListItems()
+        {
+            DisplayGamePlayScreen("List: Items", Text.ListItems(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListPlaces()
+        {
+            DisplayGamePlayScreen("List: Places", Text.ListPlaces(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
         }
 
         /// <summary>
@@ -1221,6 +1241,7 @@ namespace TB_QuestGame
             Console.CursorVisible = false;
             Console.ReadLine();
         }
+
 
 
         #endregion

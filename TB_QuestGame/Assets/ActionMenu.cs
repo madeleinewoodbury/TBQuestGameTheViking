@@ -16,6 +16,7 @@ namespace TB_QuestGame
             QuestIntro,
             MainMenu,
             LookAround,
+            ListGameObjectsMenu,
             AdminMenu,
             TradeMenu,
             EditPlayerMenu
@@ -75,6 +76,20 @@ namespace TB_QuestGame
                 {'2', PlayerAction.LocationsVisited },
                 {'3', PlayerAction.ListDestinations },
                 {'4', PlayerAction.ListGameObjects },
+                {'5', PlayerAction.ReturnToMainMenu }
+            }
+        };
+
+        public static Menu ListGameObjectsMenu = new Menu()
+        {
+            MenuName = "ListGameObjects",
+            MenuTitle = "List Game Objects",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                {'1', PlayerAction.ListWeapons },
+                {'2', PlayerAction.ListTreasures},
+                {'3', PlayerAction.ListItems },
+                {'4', PlayerAction.ListPlaces },
                 {'5', PlayerAction.ReturnToMainMenu }
             }
         };
