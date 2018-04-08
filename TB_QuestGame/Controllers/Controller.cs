@@ -346,6 +346,10 @@ namespace TB_QuestGame
 
                 _gameConsoleView.DisplayConfirmPlaceEntered(placeToEnter);
             }
+            else
+            {
+                _gameConsoleView.DisplayLookAround();
+            }
 
 
         }
@@ -375,6 +379,10 @@ namespace TB_QuestGame
                 //
                 _gameConsoleView.DisplayGameObjectInfo(gameObject);
             }
+            else
+            {
+                _gameConsoleView.DisplayLookAround();
+            }
         }
 
 
@@ -398,6 +406,10 @@ namespace TB_QuestGame
                 _gameConsoleView.DisplayConfirmSale(tradeObject);
             }
 
+            else
+            {
+                _gameConsoleView.DisplayTrade(_currentLocaton);
+            }
 
         }
 
@@ -426,6 +438,10 @@ namespace TB_QuestGame
                 tradeObject.LocationId = 0;
 
                 _gameConsoleView.DisplayConfirmPurchase(tradeObject);
+            }
+            else
+            {
+                _gameConsoleView.DisplayTrade(_currentLocaton);
             }
 
         }
@@ -458,6 +474,10 @@ namespace TB_QuestGame
                 //
                 _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
             }
+            else
+            {
+                _gameConsoleView.DisplayLookAround();
+            }
         }
 
         private void PutDownAction()
@@ -467,21 +487,29 @@ namespace TB_QuestGame
             //
             int objectToPutDown = _gameConsoleView.DisplayGetGameObjectToPutDown();
 
-            //
-            // get the game object from the universe
-            //
-            GameObject gameObject = _gameUniverse.GetGameObjectById(objectToPutDown) as GameObject;
+            if (objectToPutDown != 0)
+            {
+                //
+                // get the game object from the universe
+                //
+                GameObject gameObject = _gameUniverse.GetGameObjectById(objectToPutDown) as GameObject;
 
-            //
-            // remove the object from the inventory and set the location to the current value
-            //
-            _gamePlayer.Inventory.Remove(gameObject);
-            gameObject.LocationId = _gamePlayer.LocationId;
+                //
+                // remove the object from the inventory and set the location to the current value
+                //
+                _gamePlayer.Inventory.Remove(gameObject);
+                gameObject.LocationId = _gamePlayer.LocationId;
 
-            //
-            // display confirmation message
-            //
-            _gameConsoleView.DisplayConfirmItemRemovedFromInventory(gameObject);
+                //
+                // display confirmation message
+                //
+                _gameConsoleView.DisplayConfirmItemRemovedFromInventory(gameObject);
+            }
+            else
+            {
+                _gameConsoleView.DisplayLookAround();
+            }
+
         }
 
         private void GameTickTimer_Elapsed(object sender, ElapsedEventArgs e)

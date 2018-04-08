@@ -146,6 +146,9 @@ namespace TB_QuestGame
         {
             bool validResponse = false;
             integerChoice = 0;
+            int maxAttempts = 3;
+            int attempt = 0;
+            bool maxAttemptsExceed = false;
 
             //
             // validate on range if either minimumValue and maximumValue are not 0
@@ -155,7 +158,14 @@ namespace TB_QuestGame
             DisplayInputBoxPrompt(prompt);
             while (!validResponse)
             {
-                if (int.TryParse(Console.ReadLine(), out integerChoice))
+                attempt++;
+                if (attempt > maxAttempts)
+                {
+                    maxAttemptsExceed = true;
+                    validResponse = true;
+                    ClearInputBox();
+                }
+                else if (int.TryParse(Console.ReadLine(), out integerChoice))
                 {
                     if (validateRange)
                     {
@@ -184,7 +194,7 @@ namespace TB_QuestGame
                 }
             }
 
-            return true;
+            return maxAttemptsExceed;
         }
 
         /// <summary>
@@ -550,7 +560,14 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("The Viking Setup - Age", Text.SetupGetPlayerAge(player), ActionMenu.QuestIntro, "");
             int gamePlayerAge;
 
-            GetInteger($"Enter your age {player.Name}: ", 0, 1000000, out gamePlayerAge);
+            bool maxAttemptsExceeded = GetInteger($"Enter your age {player.Name}: ", 0, 1000000, out gamePlayerAge);
+            if (maxAttemptsExceeded)
+            {
+                ClearInputBox();
+                DisplayInputErrorMessage("You have exceed your attempts. Your age will be set to 0. Press any key to contine.");
+                Console.CursorVisible = false;
+                Console.ReadLine();
+            }
             player.Age = gamePlayerAge;
 
             //
@@ -602,15 +619,26 @@ namespace TB_QuestGame
         {
             int locationId = 0;
             bool validLocationId = false;
+            int attempt = 0;
 
             DisplayGamePlayScreen("Travel to a new location", Text.Travel(_gamePlayer, _gameUniverse.Locations), ActionMenu.MainMenu, "");
 
             while (!validLocationId)
             {
-                //
-                // get integer from user
-                //
-                GetInteger("Enter the new location: ", 1, _gameUniverse.GetMaxLocationID(), out locationId);
+                attempt++;
+                if (attempt > 3)
+                {
+                    validLocationId = true;
+                    locationId = _gamePlayer.LocationId;
+                    DisplayMaxAttemptsExceeded();
+                }
+                else
+                {
+                    //
+                    // get integer from user
+                    //
+                    GetInteger("Enter the new location: ", 1, _gameUniverse.GetMaxLocationID(), out locationId);
+                }
 
                 //
                 // validate the locationID and determine accesability
@@ -745,6 +773,7 @@ namespace TB_QuestGame
         {
             int gameObjectId = 0;
             bool validGamerObjectId = false;
+            int attempt = 0;
 
             //
             // get a list of game objects in the current space-time location
@@ -757,23 +786,38 @@ namespace TB_QuestGame
 
                 while (!validGamerObjectId)
                 {
-                    //
-                    // get an integer from the player
-                    //
-                    GetInteger($"Enter the Id number of the object you wish to look at: ", 0, 0, out gameObjectId);
+                    attempt++;
 
-                    //
-                    // validate integer as a valid game object id and in current location
-                    //
-                    if (_gameUniverse.IsValidGameObjectByLocationId(gameObjectId, _gamePlayer.LocationId))
+                    if (attempt > 3)
                     {
+                        gameObjectId = 0;
                         validGamerObjectId = true;
+                        DisplayMaxAttemptsExceeded();
                     }
                     else
                     {
-                        ClearInputBox();
-                        DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to look at: ", 0, 0, out gameObjectId);
                     }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // validate integer as a valid game object id and in current location
+                        //
+                        if (_gameUniverse.IsValidGameObjectByLocationId(gameObjectId, _gamePlayer.LocationId))
+                        {
+                            validGamerObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
+                        }
+                    }
+
                 }
             }
             else
@@ -788,6 +832,7 @@ namespace TB_QuestGame
         {
             int gameObjectId = 0;
             bool validGameObjectId = false;
+            int attempt = 0;
 
             //
             // get a list of objects in the current location
@@ -800,31 +845,45 @@ namespace TB_QuestGame
 
                 while (!validGameObjectId)
                 {
-                    //
-                    // get an integer from the player
-                    //
-                    GetInteger($"Enter the Id number of the object you wish to add to your inventory: ", 0, 0, out gameObjectId);
-
-                    //
-                    // validate integer as valid game object id in current location
-                    if (_gameUniverse.IsValidGameObjectByLocationId(gameObjectId, _gamePlayer.LocationId))
+                    attempt++;
+                    if (attempt > 3)
                     {
-                        GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectId) as GameObject;
-                        if (gameObject.CanInventory)
+                        validGameObjectId = true;
+                        gameObjectId = 0;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to add to your inventory: ", 0, 0, out gameObjectId);
+                    }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // validate integer as valid game object id in current location
+                        if (_gameUniverse.IsValidGameObjectByLocationId(gameObjectId, _gamePlayer.LocationId))
                         {
-                            validGameObjectId = true;
+                            GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectId) as GameObject;
+                            if (gameObject.CanInventory)
+                            {
+                                validGameObjectId = true;
+                            }
+                            else
+                            {
+                                ClearInputBox();
+                                DisplayInputErrorMessage($"It appears you may not add {gameObject.Name} to your inventory.");
+                            }
                         }
                         else
                         {
                             ClearInputBox();
-                            DisplayInputErrorMessage($"It appears you may not add {gameObject.Name} to your inventory.");
+                            DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
                         }
                     }
-                    else
-                    {
-                        ClearInputBox();
-                        DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
-                    }
+
 
                 }
             }
@@ -846,6 +905,7 @@ namespace TB_QuestGame
         {
             int gameObjectId = 0;
             bool validObjectId = false;
+            int attempt = 0;
 
             if (_gamePlayer.Inventory.Count > 0)
             {
@@ -854,28 +914,42 @@ namespace TB_QuestGame
 
                 while (!validObjectId)
                 {
-                    //
-                    // get an integer from the player
-                    //
-                    GetInteger($"Enter the Id number of the object you wish to put down: ", 0, 0, out gameObjectId);
-
-                    //
-                    // find object in inventory
-                    //
-                    GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
-
-                    //
-                    // validate object in inventory
-                    //
-                    if (gameObject != null)
+                    attempt++;
+                    if (attempt > 3)
                     {
+                        gameObjectId = 0;
                         validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
                     }
                     else
                     {
-                        ClearInputBox();
-                        DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to put down: ", 0, 0, out gameObjectId);
                     }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (gameObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
                 }
             }
             else
@@ -923,6 +997,7 @@ namespace TB_QuestGame
         {
             int tradeObjectId = 0;
             bool validObjectId = false;
+            int attempt = 0;
 
             if (_gamePlayer.Inventory.Count > 0)
             {
@@ -931,28 +1006,43 @@ namespace TB_QuestGame
 
                 while (!validObjectId)
                 {
-                    //
-                    // get an integer from the player
-                    //
-                    GetInteger($"Enter the Id number of the object you wish to trade in for money: ", 0, 0, out tradeObjectId);
-
-                    //
-                    // find object in inventory
-                    //
-                    GameObject tradeObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == tradeObjectId);
-
-                    //
-                    // validate object in inventory
-                    //
-                    if (tradeObject != null)
+                    attempt++;
+                    if (attempt > 3)
                     {
                         validObjectId = true;
+                        tradeObjectId = 0;
+                        DisplayMaxAttemptsExceeded();
                     }
                     else
                     {
-                        ClearInputBox();
-                        DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to trade in for money: ", 0, 0, out tradeObjectId);
                     }
+
+                    if (tradeObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject tradeObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == tradeObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (tradeObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
+
                 }
             }
             else
@@ -980,6 +1070,7 @@ namespace TB_QuestGame
         {
             int tradeObjectId = 0;
             bool validObjectId = false;
+            int attempt = 0;
 
             List<GameObject> tradeObjects = new List<GameObject>();
             foreach (int item in currentLocation.TradeObjects)
@@ -995,32 +1086,46 @@ namespace TB_QuestGame
 
             while (!validObjectId)
             {
-                //
-                // get an integer from the player
-                //
-                GetInteger($"Enter the Id number of the object you wish to purchase: ", 0, 0, out tradeObjectId);
-
-                //
-                // validate integer as valid game object id in current location
-                if (_gameUniverse.IsValidTradeObjectId(tradeObjectId, _gamePlayer.LocationId))
+                attempt++;
+                if (attempt > 3)
                 {
-                    GameObject tradeObject = _gameUniverse.GetGameObjectById(tradeObjectId) as GameObject;
+                    tradeObjectId = 0;
+                    validObjectId = true;
+                    DisplayMaxAttemptsExceeded();
+                }
+                else
+                {
+                    //
+                    // get an integer from the player
+                    //
+                    GetInteger($"Enter the Id number of the object you wish to purchase: ", 0, 0, out tradeObjectId);
+                }
 
-                    if (tradeObject.Value <= _gamePlayer.Capital)
+                if (tradeObjectId != 0)
+                {
+                    //
+                    // validate integer as valid game object id in current location
+                    if (_gameUniverse.IsValidTradeObjectId(tradeObjectId, _gamePlayer.LocationId))
                     {
-                        validObjectId = true;
+                        GameObject tradeObject = _gameUniverse.GetGameObjectById(tradeObjectId) as GameObject;
+
+                        if (tradeObject.Value <= _gamePlayer.Capital)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage($"It appears you don't have enough capital to purchase the {tradeObject.Name}. Please try again.");
+                        }
                     }
                     else
                     {
                         ClearInputBox();
-                        DisplayInputErrorMessage($"It appears you don't have enough capital to purchase the {tradeObject.Name}. Please try again.");
+                        DisplayInputErrorMessage("It appears you entered an invalid id. Please try again.");
                     }
                 }
-                else
-                {
-                    ClearInputBox();
-                    DisplayInputErrorMessage("It appears you entered an invalid id. Please try again.");
-                }
+
             }
 
             return tradeObjectId;
@@ -1036,6 +1141,7 @@ namespace TB_QuestGame
         {
             int placeId = 0;
             bool validPlaceId = false;
+            int attempt = 0;
 
             //
             // get a list of place objects in current location
@@ -1057,34 +1163,48 @@ namespace TB_QuestGame
 
                 while (!validPlaceId)
                 {
-                    //
-                    // get an integer from the player
-                    //
-                    GetInteger($"Enter the Id number of the place you wish to enter: ", 0, 0, out placeId);
-
-                    //
-                    // validate integer as a valid game object id and in current location
-                    //
-                    if (_gameUniverse.IsValidPlaceByLocation(placeId, _gamePlayer.LocationId))
+                    attempt++;
+                    if (attempt > 3)
                     {
-                        Place placeChosen = _gameUniverse.GetGameObjectById(placeId) as Place;
-                        
-                        if (_gamePlayer.ExperiencePoints >= placeChosen.EnytryPoints)
+                        placeId = 0;
+                        validPlaceId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the place you wish to enter: ", 0, 0, out placeId);
+                    }
+
+                    if (placeId != 0)
+                    {
+                        //
+                        // validate integer as a valid game object id and in current location
+                        //
+                        if (_gameUniverse.IsValidPlaceByLocation(placeId, _gamePlayer.LocationId))
                         {
-                            validPlaceId = true;
+                            Place placeChosen = _gameUniverse.GetGameObjectById(placeId) as Place;
+
+                            if (_gamePlayer.ExperiencePoints >= placeChosen.EnytryPoints)
+                            {
+                                validPlaceId = true;
+                            }
+                            else
+                            {
+                                ClearInputBox();
+                                DisplayInputErrorMessage($"You don't have enough experience points to enter {placeChosen.Name}. Please try again.");
+                            }
+
                         }
                         else
                         {
                             ClearInputBox();
-                            DisplayInputErrorMessage($"You don't have enough experience points to enter {placeChosen.Name}. Please try again.");
+                            DisplayInputErrorMessage("It appears you entered an invalid place id. Please try again.");
                         }
-                        
                     }
-                    else
-                    {
-                        ClearInputBox();
-                        DisplayInputErrorMessage("It appears you entered an invalid place id. Please try again.");
-                    }
+
                 }
             }
             else
@@ -1094,6 +1214,14 @@ namespace TB_QuestGame
 
             return placeId;
         }
+
+        public void DisplayMaxAttemptsExceeded()
+        {
+            DisplayInputErrorMessage("You have exceeded your maximum attempts. Press any key to continue.                                      ");
+            Console.CursorVisible = false;
+            Console.ReadLine();
+        }
+
 
         #endregion
 
