@@ -96,20 +96,6 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-
-        public static string DisplayPlayerStartingCapital(Player gamePlayer)
-        {
-            string messageBoxText =
-                $"Ok, {gamePlayer.Name} from {gamePlayer.HomeVillage}, starting the game your capital is at: {gamePlayer.Capital} coins. \n" +
-                " \n" +
-                "You are currently unarmed, the price of a weapon is 25 coins. \n" +
-                "Do you wish to purchase a weapon? \n" +
-                " \n" +
-                "Please respond yes or no below: ";
-
-            return messageBoxText;
-        }
-
         public static string SetupEchoPlayerInfo(Player gamePlayer)
         {
             string messageBoxText =
@@ -286,7 +272,7 @@ namespace TB_QuestGame
             // display table name and column headers
             //
             string messageBoxText =
-                "Game Objects\n" +
+                "Choose from the list below\n" +
                 " \n" +
 
                 //
@@ -539,6 +525,69 @@ namespace TB_QuestGame
             }
 
             messageBoxText += inventoryObjectRows;
+            return messageBoxText;
+        }
+
+        public static string GamePlaceChooseList(IEnumerable<GameObject> gameObjects)
+        {
+            //
+            // display table name and column headers
+            //
+            string messageBoxText =
+                "Choose from the list below\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) +
+                "Name".PadRight(40) + 
+                "Entry Points".PadRight(10) + "\n" +
+                "---".PadRight(10) +
+                "---------------------------".PadRight(40) + 
+                "-------------".PadRight(10) + "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            List<Place> placeObjects = new List<Place>();
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if (gameObject is Place)
+                {
+                    placeObjects.Add(gameObject as Place);
+                }
+                
+            }
+
+            foreach (Place place in placeObjects)
+            {
+                gameObjectRows +=
+                $"{place.Id}".PadRight(10) +
+                $"{place.Name}".PadRight(30) +
+                $"{place.EnytryPoints}".PadRight(10) +
+                Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        public static string DisplayEnterPlaceText(Place placeEntered)
+        {
+            string messageBoxText = placeEntered.EntryMessage;
+
+            if (placeEntered.CanEeat)
+            {
+                messageBoxText += $"You have gained {placeEntered.Health} points here. \n";
+            }
+            if (placeEntered.CanTrain)
+            {
+                messageBoxText += $"You have gaines {placeEntered.ExperiencePoints} experience points here. \n";
+            }
+
             return messageBoxText;
         }
 

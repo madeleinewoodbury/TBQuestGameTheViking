@@ -1029,7 +1029,7 @@ namespace TB_QuestGame
 
         public void DisplayConfirmPlaceEntered(Place placeEntered)
         {
-            DisplayGamePlayScreen($"Enter Place", $"You have entered {placeEntered.Name}", ActionMenu.LookAround, "");
+            DisplayGamePlayScreen($"Enter Place", Text.DisplayEnterPlaceText(placeEntered), ActionMenu.LookAround, "");
         }
 
         public int DisplayGetPlaceToEnter()
@@ -1053,7 +1053,7 @@ namespace TB_QuestGame
 
             if (places.Count > 0)
             {
-                DisplayGamePlayScreen("Enter Place", Text.GameObjectsChooseList(places), ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Enter Place", Text.GamePlaceChooseList(places), ActionMenu.LookAround, "");
 
                 while (!validPlaceId)
                 {
@@ -1067,7 +1067,18 @@ namespace TB_QuestGame
                     //
                     if (_gameUniverse.IsValidPlaceByLocation(placeId, _gamePlayer.LocationId))
                     {
-                        validPlaceId = true;
+                        Place placeChosen = _gameUniverse.GetGameObjectById(placeId) as Place;
+                        
+                        if (_gamePlayer.ExperiencePoints >= placeChosen.EnytryPoints)
+                        {
+                            validPlaceId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage($"You don't have enough experience points to enter {placeChosen.Name}. Please try again.");
+                        }
+                        
                     }
                     else
                     {

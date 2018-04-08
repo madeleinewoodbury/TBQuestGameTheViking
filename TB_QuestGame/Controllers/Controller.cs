@@ -329,7 +329,7 @@ namespace TB_QuestGame
                 Place placeToEnter = gameObject as Place;
 
                 // update game stats
-                _gamePlayer.ExperiencePoints += placeToEnter.Experience;
+                _gamePlayer.ExperiencePoints += placeToEnter.ExperiencePoints;
                 _gamePlayer.Health += placeToEnter.Health;
 
                 _gameConsoleView.DisplayConfirmPlaceEntered(placeToEnter);

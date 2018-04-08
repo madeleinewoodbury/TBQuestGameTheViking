@@ -576,13 +576,18 @@ namespace TB_QuestGame
             new Place
             {
                 Id = 50,
-                Name = "Mead and Shield Tavern",
+                Name = "The Mead and Shield Tavern",
                 LocationId = 1,
                 Description = "Here you can eat and gain some strength",
+                EntryMessage ="Welcome to The Mead and Shield Tavern. \n" +
+                "Our mead is warm, the fish is fresh, and the people are in a festive mood. \n",
                 CanInventory = false,
                 Health = 10,
-                Experience = 10,
-                Rest = false
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = false,
+                CanEeat = true,
+                CanTrain = false
             },
 
             new Place
@@ -591,11 +596,60 @@ namespace TB_QuestGame
                 Name = "Magda's Inn",
                 LocationId = 1,
                 Description = "Magda's door is always open. Here you'll find the rest you need to continue your journey",
+                EntryMessage = "Welcome to Magda's Inn \n" +
+                "The bed is ready for you, lay down and get some rest before you continue your quest.",
                 CanInventory = false,
                 Health = 10,
-                Experience = 0,
-                Rest = true
-            }
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = true,
+                CanEeat = false,
+                CanTrain = false
+            },
+
+            //
+            // Places in Storhamar
+            //
+            new Place
+            {
+                Id = 52,
+                Name = "The Wood Hut",
+                LocationId = 2,
+                Description = "Come in to the Wood Hut and rest you weary bones.",
+                EntryMessage ="Welcome to The Wood Hut \n" +
+                "We don't get a lot of visitors here, but we started a fire for you. \n" +
+                "You look like a warrior, go head, sleep wherever you like. \n" +
+                "\n",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 0,
+                EnytryPoints = 0,
+                CanRest = true,
+                CanEeat = false,
+                CanTrain = false
+            },
+
+            //
+            // Places in Kungahälla
+            //
+            new Place
+            {
+                Id = 53,
+                Name = "Bohus Fästning",
+                LocationId = 3,
+                Description = "Imporant Viking leaders gather at this fortress, you'll need to be experienced to enter here.",
+                EntryMessage = "Welcome into Bohus Fästning \n" +
+                "You must be important to have been granted entry to this strong fortress. \n" +
+                "Please, help yourself to one of our rooms, and don't be shy, dine with us if you wish. \n" +
+                "\n",
+                CanInventory = false,
+                Health = 0,
+                ExperiencePoints = 10,
+                EnytryPoints = 50,
+                CanRest = true,
+                CanEeat = true,
+                CanTrain = false
+            },
 
 
             #endregion
