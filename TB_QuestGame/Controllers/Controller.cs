@@ -112,30 +112,7 @@ namespace TB_QuestGame
                 //
                 // get the next action from the player
                 //
-                if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.MainMenu)
-                {
-                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.MainMenu);
-                }
-                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.AdminMenu)
-                {
-                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.AdminMenu);
-                }
-                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.EditPlayerMenu)
-                {
-                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.EditPlayer);
-                }
-                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.LookAround)
-                {
-                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.LookAround);
-                }
-                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.TradeMenu)
-                {
-                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.TradeMenu);
-                }
-                else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ListGameObjectsMenu)
-                {
-                    playerActionChoice = _gameConsoleView.GetActionMenuChoice(ActionMenu.ListGameObjectsMenu);
-                }
+                playerActionChoice = GetNextPlayerAction();
 
                 //
                 // choose an action based on the user's menu choice
@@ -152,16 +129,10 @@ namespace TB_QuestGame
                         break;
 
                     case PlayerAction.Inventory:
-                        if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.MainMenu)
-                        {
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.InventoryMenu;
                             _gameConsoleView.DisplayInventory();
-                        }
-                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.LookAround)
-                        {
-                            _gameConsoleView.DisplayInventoryLookAroundMenu();
-                        }
-
                         break;
+
                     case PlayerAction.Travel:
                         // get new locationId and update the curentLocation
                         _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
@@ -181,6 +152,14 @@ namespace TB_QuestGame
                         break;
 
                     //
+                    // Pick Up Menu Choices
+                    //
+                    case PlayerAction.AddToInventory:
+                        break;
+                    case PlayerAction.Consume:
+                        break;
+
+                    //
                     // Look Around Menu choices
                     //
                     case PlayerAction.LookAround:
@@ -188,9 +167,18 @@ namespace TB_QuestGame
                         _gameConsoleView.DisplayLookAround();
                         break;
                     case PlayerAction.LookAt:
-                        LookAtAction();
+                        if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.InventoryMenu)
+                        {
+                            InventoryLookAtAction();
+                        }
+                        else
+                        {
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.PickUp;
+                            LookAtAction();
+                        }
                         break;
                     case PlayerAction.PickUpItem:
+   
                         PickUpAction();
                         break;
                     case PlayerAction.PutDownItem:
@@ -278,7 +266,11 @@ namespace TB_QuestGame
                             ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
                             _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
                         }
-
+                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.PickUp)
+                        {
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                            _gameConsoleView.DisplayLookAround();
+                        }
                         break;
 
                     //
@@ -357,6 +349,43 @@ namespace TB_QuestGame
             */
         }
 
+        private PlayerAction GetNextPlayerAction()
+        {
+            PlayerAction playerActionChocie = PlayerAction.None;
+
+            switch (ActionMenu.currentMenu)
+            {
+                case ActionMenu.CurrentMenu.MainMenu:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.MainMenu);
+                    break;
+                case ActionMenu.CurrentMenu.LookAround:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.LookAround);
+                    break;
+                case ActionMenu.CurrentMenu.ListGameObjectsMenu:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.ListGameObjectsMenu);
+                    break;
+                case ActionMenu.CurrentMenu.AdminMenu:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.AdminMenu);
+                    break;
+                case ActionMenu.CurrentMenu.TradeMenu:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.TradeMenu);
+                    break;
+                case ActionMenu.CurrentMenu.EditPlayerMenu:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.EditPlayer);
+                    break;
+                case ActionMenu.CurrentMenu.InventoryMenu:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.InventoryMenu);
+                    break;
+                case ActionMenu.CurrentMenu.PickUp:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.PickUpMenu);
+                    break;
+                default:
+                    break;
+            }
+
+            return playerActionChocie;
+        }
+
         private void EnterAction()
         {
             //
@@ -383,6 +412,28 @@ namespace TB_QuestGame
 
         }
 
+        private void InventoryLookAtAction()
+        {
+            int objectId = _gameConsoleView.DisplayGetInventoryObjectToLookAt();
+
+            //
+            // display game object info
+            //
+            if (objectId != 0)
+            {
+                //
+                // get the game object from the universe
+                //
+                GameObject gameObject = _gameUniverse.GetGameObjectById(objectId);
+
+                //
+                // display information for the object chosen and provide the option to pick it up
+                //
+                _gameConsoleView.DisplayInventoryObjectInfo(gameObject);
+            }
+            
+        }
+
         /// <summary>
         /// process the Look At action
         /// </summary>
@@ -404,12 +455,13 @@ namespace TB_QuestGame
                 GameObject gameObject = _gameUniverse.GetGameObjectById(gameObjectToLookAtId);
 
                 //
-                // display information for the object chosen
+                // display information for the object chosen and provide the option to pick it up
                 //
                 _gameConsoleView.DisplayGameObjectInfo(gameObject);
             }
             else
             {
+                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                 _gameConsoleView.DisplayLookAround();
             }
         }
@@ -501,6 +553,7 @@ namespace TB_QuestGame
                 //
                 // display confirmation message
                 //
+                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                 _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
             }
             else
@@ -508,6 +561,8 @@ namespace TB_QuestGame
                 _gameConsoleView.DisplayLookAround();
             }
         }
+
+     
 
         private void PutDownAction()
         {

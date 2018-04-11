@@ -13,10 +13,13 @@ namespace TB_QuestGame
     {
         public enum CurrentMenu
         {
+            None,
             QuestIntro,
             MainMenu,
             LookAround,
             ListGameObjectsMenu,
+            InventoryMenu,
+            PickUp,
             AdminMenu,
             TradeMenu,
             EditPlayerMenu
@@ -58,10 +61,9 @@ namespace TB_QuestGame
                     { '1', PlayerAction.LookAt },
                     { '2', PlayerAction.PickUpItem },
                     { '3', PlayerAction.PutDownItem },
-                    { '4', PlayerAction.Inventory },
-                    { '5', PlayerAction.Trade },
-                    { '6', PlayerAction.EnterPlace },
-                    { '7', PlayerAction.ReturnToMainMenu }
+                    { '4', PlayerAction.Trade },
+                    { '5', PlayerAction.EnterPlace },
+                    { '0', PlayerAction.ReturnToMainMenu }
 
                 }
         };
@@ -76,7 +78,7 @@ namespace TB_QuestGame
                 {'2', PlayerAction.LocationsVisited },
                 {'3', PlayerAction.ListDestinations },
                 {'4', PlayerAction.ListGameObjects },
-                {'5', PlayerAction.ReturnToMainMenu }
+                {'0', PlayerAction.ReturnToMainMenu }
             }
         };
 
@@ -90,7 +92,7 @@ namespace TB_QuestGame
                 {'2', PlayerAction.ListTreasures},
                 {'3', PlayerAction.ListItems },
                 {'4', PlayerAction.ListPlaces },
-                {'5', PlayerAction.ReturnToMainMenu }
+                {'0', PlayerAction.ReturnToMainMenu }
             }
         };
 
@@ -105,7 +107,7 @@ namespace TB_QuestGame
                 {'3', PlayerAction.ChangeAge},
                 {'4', PlayerAction.ChangeHomeVillage },
                 {'5', PlayerAction.PurchaseWeapon},
-                {'6', PlayerAction.GoBack }
+                {'0', PlayerAction.GoBack }
             }
         };
 
@@ -117,9 +119,35 @@ namespace TB_QuestGame
             {
                 { '1', PlayerAction.Buy },
                 { '2', PlayerAction.Sell },
-                { '3', PlayerAction.GoBack }
+                { '0', PlayerAction.GoBack }
             }
         };
+
+        public static Menu InventoryMenu = new Menu()
+        {
+            MenuName = "InventoryMenu",
+            MenuTitle = "Inventory Menu",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                { '1', PlayerAction.LookAt },
+                { '0', PlayerAction.ReturnToMainMenu }
+            }
+        };
+
+        public static Menu PickUpMenu = new Menu()
+        {
+            MenuName = "PickUpMenu",
+            MenuTitle = "Pick Up Menu",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                { '1', PlayerAction.LookAt },
+                { '2', PlayerAction.AddToInventory},
+                { '3', PlayerAction.Consume},
+                { '4', PlayerAction.PutDownItem},
+                { '0', PlayerAction.GoBack }
+            }
+        };
+
 
     }
 }

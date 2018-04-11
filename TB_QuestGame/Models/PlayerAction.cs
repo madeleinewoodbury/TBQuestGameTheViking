@@ -13,11 +13,13 @@ namespace TB_QuestGame
     {
         None,
         AdminMenu,
+        AddToInventory,
         Buy,
         ChangeName,
         ChangeGender,
         ChangeAge,
         ChangeHomeVillage,
+        Consume,
         GoBack,
         EnterPlace,
         Inventory,

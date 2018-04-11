@@ -802,7 +802,7 @@ namespace TB_QuestGame
 
             if (gameObjectsInLocation.Count > 0)
             {
-                DisplayGamePlayScreen("Look at a Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Look at a Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.PickUpMenu, "");
 
                 while (!validGamerObjectId)
                 {
@@ -842,7 +842,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.PickUpMenu, "");
                 Console.CursorVisible = false;
                 Console.ReadKey();
             }
@@ -863,7 +863,7 @@ namespace TB_QuestGame
 
             if (gameObjectsInLocation.Count > 0)
             {
-                DisplayGamePlayScreen("Pick Up Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Pick Up Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.PickUpMenu, "");
 
                 while (!validGameObjectId)
                 {
@@ -911,7 +911,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.LookAround, "");
+                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.PickUpMenu, "");
                 Console.CursorVisible = false;
                 Console.ReadKey();
             }
@@ -995,18 +995,27 @@ namespace TB_QuestGame
 
         public void DisplayGameObjectInfo(GameObject gameObject)
         {
-            DisplayGamePlayScreen("Current Location", Text.LookAt(gameObject), ActionMenu.LookAround, "");
+            DisplayGamePlayScreen("Current Location", Text.LookAt(gameObject), ActionMenu.PickUpMenu, "");
+
+        }
+
+        public void DisplayInventoryObjectInfo(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Inventory", Text.LookAt(gameObject), ActionMenu.InventoryMenu, "");
 
         }
 
         public void DisplayInventory()
         {
-            DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.MainMenu, "");
-        }
-
-        public void DisplayInventoryLookAroundMenu()
-        {
-            DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.LookAround, "");
+            if (_gamePlayer.Inventory.Count < 0)
+            {
+                DisplayGamePlayScreen("Current Inventory", "You currently have no items in your inventory", ActionMenu.InventoryMenu, "");
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
+            }
+            
         }
 
         public void DisplayTrade(Location currentLocation)
@@ -1252,6 +1261,65 @@ namespace TB_QuestGame
             Console.ReadLine();
         }
 
+        public int DisplayGetInventoryObjectToLookAt()
+        {
+            int inventoryObjectId = 0;
+            bool validInventoryObjectId = false;
+            int attempt = 0;
+
+            //
+            // get a list of all objects in inventory
+            //
+            List<GameObject> gameObjectsInInventory = _gamePlayer.Inventory;
+
+            if (gameObjectsInInventory.Count > 0)
+            {   
+                while (!validInventoryObjectId)
+                {
+                    attempt++;
+
+                    if (attempt > 3)
+                    {
+                        inventoryObjectId = 0;
+                        validInventoryObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to look at: ", 0, 0, out inventoryObjectId);
+                    }
+
+                    if (inventoryObjectId != 0)
+                    {
+                        GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryObjectId) as GameObject;
+                        //
+                        // validate integer as a valid game object id and in current location
+                        //
+                        if (_gamePlayer.Inventory.Contains(inventoryObject))
+                        {
+                            validInventoryObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.LookAround, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+            }
+
+            return inventoryObjectId;
+        }
 
 
         #endregion
