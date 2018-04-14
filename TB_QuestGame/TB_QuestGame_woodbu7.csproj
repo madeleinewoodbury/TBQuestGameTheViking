@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Assets\ActionMenu.cs" />
     <Compile Include="Assets\Text.cs" />
+    <Compile Include="Assets\UniverseNPCs.cs" />
     <Compile Include="Assets\UniverseObjectsLocationObjects.cs" />
     <Compile Include="Assets\UniverseObjectsGameObjets.cs" />
     <Compile Include="ConsoleUtilities\ConsoleLayout.cs" />
@@ -52,6 +53,8 @@
     <Compile Include="ConsoleUtilities\ConsoleWindowControl.cs" />
     <Compile Include="ConsoleUtilities\ConsoleWindowHelper.cs" />
     <Compile Include="Controllers\Controller.cs" />
+    <Compile Include="Models\ITalk.cs" />
+    <Compile Include="Models\NPC.cs" />
     <Compile Include="Models\Place.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\GameObject.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="Models\PlayerAction.cs" />
     <Compile Include="Models\Treasure.cs" />
     <Compile Include="Models\Universe.cs" />
+    <Compile Include="Models\Viking.cs" />
     <Compile Include="Models\Weapon.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

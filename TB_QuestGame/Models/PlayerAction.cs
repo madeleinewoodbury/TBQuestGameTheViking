@@ -28,6 +28,7 @@ namespace TB_QuestGame
         ListGameObjects,
         ListWeapons,
         ListPlaces,
+        ListNonPlayerCharacters,
         ListTreasures,
         LocationsVisited,
         LookAround,

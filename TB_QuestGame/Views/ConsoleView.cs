@@ -1394,6 +1394,11 @@ namespace TB_QuestGame
             
         }
 
+        public void DisplayListAllNpcObjects()
+        {
+            DisplayGamePlayScreen("List: NPC Objects", Text.ListAllNpcObjects(_gameUniverse.NPCs), ActionMenu.AdminMenu, "");
+        }
+
 
         #endregion
 

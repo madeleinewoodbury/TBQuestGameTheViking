@@ -16,6 +16,7 @@ namespace TB_QuestGame
         public enum CharacterType
         {
             None,
+            Royalty,
             Viking,
             Farmer,
             Englishman,

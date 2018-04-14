@@ -202,6 +202,9 @@ namespace TB_QuestGame
                     case PlayerAction.LocationsVisited:
                         _gameConsoleView.DisplayLocationsVisited();
                         break;
+                    case PlayerAction.ListNonPlayerCharacters:
+                        _gameConsoleView.DisplayListAllNpcObjects();
+                        break;
                     case PlayerAction.ReturnToMainMenu:
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
                         _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");

@@ -77,6 +77,7 @@ namespace TB_QuestGame
                 {'2', PlayerAction.LocationsVisited },
                 {'3', PlayerAction.ListDestinations },
                 {'4', PlayerAction.ListGameObjects },
+                {'5', PlayerAction.ListNonPlayerCharacters},
                 {'0', PlayerAction.ReturnToMainMenu }
             }
         };

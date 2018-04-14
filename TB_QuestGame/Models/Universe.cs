@@ -13,6 +13,7 @@ namespace TB_QuestGame
 
         private List<Location> _locations;
         private List<GameObject> _gameObjects;
+        private List<NPC> _npcs;
 
         #endregion
 
@@ -28,6 +29,12 @@ namespace TB_QuestGame
         {
             get { return _gameObjects; }
             set { _gameObjects = value; }
+        }
+
+        public List<NPC> NPCs
+        {
+            get { return _npcs; }
+            set { _npcs = value; }
         }
 
         #endregion
@@ -50,6 +57,7 @@ namespace TB_QuestGame
         {
             _locations = UniverseObjects.Locations;
             _gameObjects = UniverseObjects.GameObjetcs;
+            _npcs = UniverseObjects.NPCs;
         }
 
         /// <summary>
@@ -319,6 +327,65 @@ namespace TB_QuestGame
                 return false;
             }
         }
+
+        public bool IsValidNpcByLocationId(int npcId, int currentLocation)
+        {
+            List<int> npcIds = new List<int>();
+
+            foreach (NPC npc in _npcs)
+            {
+                if (npc.LocationId == currentLocation)
+                {
+                    npcIds.Add(npc.Id);
+                }
+            }
+
+            if (npcIds.Contains(npcId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public NPC GetNpcById(int Id)
+        {
+            NPC npcToReturn = null;
+
+            foreach (NPC npc in _npcs)
+            {
+                if (npc.Id == Id)
+                {
+                    npcToReturn = npc;
+                }
+            }
+
+            if (npcToReturn == null)
+            {
+                string feedBackMessage = $"The NPC ID {Id} does not exist in the current universe.";
+                throw new ArgumentException(feedBackMessage, Id.ToString());
+            }
+
+            return npcToReturn;
+        }
+
+        public List<NPC> GetNpcByLocationId(int locationId)
+        {
+            List<NPC> npcs = new List<NPC>();
+
+            foreach (NPC npc in _npcs)
+            {
+                if (npc.LocationId == locationId)
+                {
+                    npcs.Add(npc);
+                }
+            }
+
+            return npcs;
+        }
+
 
         #endregion
     }
