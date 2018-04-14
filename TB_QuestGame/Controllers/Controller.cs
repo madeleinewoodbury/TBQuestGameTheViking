@@ -66,6 +66,7 @@ namespace TB_QuestGame
         private void ManageGameLoop()
         {
             PlayerAction playerActionChoice = PlayerAction.None;
+            int objectId = 0;
 
             //
             // display splash screen
@@ -127,12 +128,10 @@ namespace TB_QuestGame
                     case PlayerAction.PlayerInfo:
                         _gameConsoleView.DisplayPlayerInfo();
                         break;
-
                     case PlayerAction.Inventory:
                             ActionMenu.currentMenu = ActionMenu.CurrentMenu.InventoryMenu;
                             _gameConsoleView.DisplayInventory();
                         break;
-
                     case PlayerAction.Travel:
                         // get new locationId and update the curentLocation
                         _gamePlayer.LocationId = _gameConsoleView.DisplayGetLocation();
@@ -141,7 +140,6 @@ namespace TB_QuestGame
                         // set the game play screen to current location info
                         _gameConsoleView.DisplayGamePlayScreen("Current Location: ", Text.CurrrentLocationInfo(_currentLocaton), ActionMenu.MainMenu, "");
                         break;
-
                     case PlayerAction.AdminMenu:
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
                         _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
@@ -151,12 +149,8 @@ namespace TB_QuestGame
                         _playingGame = false;
                         break;
 
-                    //
-                    // Pick Up Menu Choices
-                    //
-                    case PlayerAction.AddToInventory:
-                        break;
                     case PlayerAction.Consume:
+                            ConsumeAction();
                         break;
 
                     //
@@ -169,17 +163,16 @@ namespace TB_QuestGame
                     case PlayerAction.LookAt:
                         if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.InventoryMenu)
                         {
+                            _gameConsoleView.DisplayInventory();
                             InventoryLookAtAction();
                         }
                         else
                         {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.PickUp;
-                            LookAtAction();
+                            objectId = LookAtAction();
                         }
                         break;
                     case PlayerAction.PickUpItem:
-   
-                        PickUpAction();
+                            PickUpAction();
                         break;
                     case PlayerAction.PutDownItem:
                         PutDownAction();
@@ -265,11 +258,6 @@ namespace TB_QuestGame
                         {
                             ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
                             _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
-                        }
-                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.PickUp)
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
-                            _gameConsoleView.DisplayLookAround();
                         }
                         break;
 
@@ -376,9 +364,6 @@ namespace TB_QuestGame
                 case ActionMenu.CurrentMenu.InventoryMenu:
                     playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.InventoryMenu);
                     break;
-                case ActionMenu.CurrentMenu.PickUp:
-                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.PickUpMenu);
-                    break;
                 default:
                     break;
             }
@@ -437,7 +422,7 @@ namespace TB_QuestGame
         /// <summary>
         /// process the Look At action
         /// </summary>
-        private void LookAtAction()
+        private int LookAtAction()
         {
             //
             // display a list of game objects in space-time location and get a player choice
@@ -457,13 +442,14 @@ namespace TB_QuestGame
                 //
                 // display information for the object chosen and provide the option to pick it up
                 //
-                _gameConsoleView.DisplayGameObjectInfo(gameObject);
+                _gameConsoleView.DisplayGameObjectInfo(gameObject);  
             }
             else
             {
-                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                 _gameConsoleView.DisplayLookAround();
             }
+
+            return gameObjectToLookAtId;
         }
 
 
@@ -553,7 +539,6 @@ namespace TB_QuestGame
                 //
                 // display confirmation message
                 //
-                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                 _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
             }
             else
@@ -594,6 +579,47 @@ namespace TB_QuestGame
                 _gameConsoleView.DisplayLookAround();
             }
 
+        }
+
+        private void ConsumeAction()
+        {
+            //
+            // display a list of game objects in inventory and get player's choice
+            //
+            int objectToConsume = _gameConsoleView.DisplayGetInventoryItemToConsume();
+
+            if (objectToConsume != 0)
+            {
+                //
+                // get the game object from the universe
+                //
+                GameObject gameObject = _gameUniverse.GetGameObjectById(objectToConsume) as GameObject;
+
+                if (gameObject is Item)
+                {
+                    Item item = gameObject as Item;
+                    if (item.IsConsumable)
+                    {
+                        _gamePlayer.Inventory.Remove(item);
+                        _gamePlayer.Health += item.Health;
+
+                        _gameConsoleView.DisplayConsumeItem(item);
+                    }
+                    else
+                    {
+                        _gameConsoleView.DisplayGamePlayScreen("Current Inventory", $"{item.Name} cannot be consumed.", ActionMenu.InventoryMenu, "");
+                    }
+                }
+                else
+                {
+                    _gameConsoleView.DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} cannot be consumed.", ActionMenu.InventoryMenu, "");
+                }
+
+            }
+            else
+            {
+                _gameConsoleView.DisplayInventory();
+            }
         }
 
         private void GameTickTimer_Elapsed(object sender, ElapsedEventArgs e)

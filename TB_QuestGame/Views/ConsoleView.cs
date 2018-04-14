@@ -802,7 +802,7 @@ namespace TB_QuestGame
 
             if (gameObjectsInLocation.Count > 0)
             {
-                DisplayGamePlayScreen("Look at a Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.PickUpMenu, "");
+                DisplayGamePlayScreen("Look at a Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.LookAround, "");
 
                 while (!validGamerObjectId)
                 {
@@ -842,7 +842,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.PickUpMenu, "");
+                DisplayGamePlayScreen("Look at a Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.LookAround, "");
                 Console.CursorVisible = false;
                 Console.ReadKey();
             }
@@ -863,7 +863,7 @@ namespace TB_QuestGame
 
             if (gameObjectsInLocation.Count > 0)
             {
-                DisplayGamePlayScreen("Pick Up Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.PickUpMenu, "");
+                DisplayGamePlayScreen("Pick Up Object", Text.GameObjectsChooseList(gameObjectsInLocation), ActionMenu.LookAround, "");
 
                 while (!validGameObjectId)
                 {
@@ -911,7 +911,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.PickUpMenu, "");
+                DisplayGamePlayScreen("Pick Up Object", "It appears there are no game objects here. \nPress any key to continue.", ActionMenu.LookAround, "");
                 Console.CursorVisible = false;
                 Console.ReadKey();
             }
@@ -923,6 +923,66 @@ namespace TB_QuestGame
         public void DisplayConfirmGameObjectAddedToInventory(GameObject objectAdded)
         {
             DisplayGamePlayScreen("Pick Up Object", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.LookAround, "");
+        }
+
+        public int DisplayGetInventoryItemToConsume()
+        {
+            int gameObjectId = 0;
+            bool validObjectId = false;
+            int attempt = 0;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Current Inventory", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        gameObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the item you wish to consume: ", 0, 0, out gameObjectId);
+                    }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (gameObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", "You don't have any items to consume. Your inventory is empty. \n Press any key to continue.", ActionMenu.InventoryMenu, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+            }
+
+            return gameObjectId;
         }
 
         public int DisplayGetGameObjectToPutDown()
@@ -995,7 +1055,7 @@ namespace TB_QuestGame
 
         public void DisplayGameObjectInfo(GameObject gameObject)
         {
-            DisplayGamePlayScreen("Current Location", Text.LookAt(gameObject), ActionMenu.PickUpMenu, "");
+            DisplayGamePlayScreen("Look at", Text.LookAt(gameObject), ActionMenu.LookAround, "");
 
         }
 
@@ -1319,6 +1379,19 @@ namespace TB_QuestGame
             }
 
             return inventoryObjectId;
+        }
+
+        public void DisplayConsumeItem(Item consumedItem)
+        {
+            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.LookAround)
+            {
+                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} points.", ActionMenu.LookAround, "");
+            }
+            else
+            {
+                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} points.", ActionMenu.MainMenu, "");
+            }
+            
         }
 
 

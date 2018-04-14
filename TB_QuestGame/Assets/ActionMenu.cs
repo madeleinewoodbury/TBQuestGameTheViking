@@ -19,7 +19,6 @@ namespace TB_QuestGame
             LookAround,
             ListGameObjectsMenu,
             InventoryMenu,
-            PickUp,
             AdminMenu,
             TradeMenu,
             EditPlayerMenu
@@ -130,24 +129,10 @@ namespace TB_QuestGame
             MenuChoices = new Dictionary<char, PlayerAction>()
             {
                 { '1', PlayerAction.LookAt },
+                { '2', PlayerAction.Consume},
                 { '0', PlayerAction.ReturnToMainMenu }
             }
         };
-
-        public static Menu PickUpMenu = new Menu()
-        {
-            MenuName = "PickUpMenu",
-            MenuTitle = "Pick Up Menu",
-            MenuChoices = new Dictionary<char, PlayerAction>()
-            {
-                { '1', PlayerAction.LookAt },
-                { '2', PlayerAction.AddToInventory},
-                { '3', PlayerAction.Consume},
-                { '4', PlayerAction.PutDownItem},
-                { '0', PlayerAction.GoBack }
-            }
-        };
-
 
     }
 }
