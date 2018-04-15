@@ -166,9 +166,8 @@ namespace TB_QuestGame
         public static string CurrrentLocationInfo(Location currentLocation)
         {
             string messageBoxText =
-            $"You are located in {currentLocation.LocationName}. \n" +
-            " \n" +
-            "\tChoose from the menu options to proceed.\n";
+            $"You are located in {currentLocation.LocationName}\n" +
+            "Here is what you will find here:";
 
             return messageBoxText;
         }
@@ -273,7 +272,7 @@ namespace TB_QuestGame
             // display table name and column headers
             //
             string messageBoxText =
-                "Choose from the list below\n" +
+                "Game Objects\n" +
                 " \n" +
 
                 //
@@ -300,6 +299,32 @@ namespace TB_QuestGame
             }
 
             messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
+        public static string NpcsChooseList(IEnumerable<NPC> npcs)
+        {
+            string messageBoxText =
+                "NPCs\n" +
+                " \n" +
+
+                "ID".PadRight(10) +
+                "Name".PadRight(30) + "\n" +
+                "---".PadRight(10) +
+                "------------------------".PadRight(30) + "\n";
+
+            string npcObjectRows = null;
+            foreach (NPC npcObject in npcs)
+            {
+                npcObjectRows +=
+                    $"{npcObject.Id}".PadRight(10) +
+                    $"{npcObject.Name}".PadRight(30) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += npcObjectRows;
+
 
             return messageBoxText;
         }
@@ -413,6 +438,8 @@ namespace TB_QuestGame
 
             return messageBox;
         }
+
+
 
         #endregion
 

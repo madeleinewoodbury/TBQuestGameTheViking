@@ -16,7 +16,9 @@ namespace TB_QuestGame
             None,
             QuestIntro,
             MainMenu,
+            NpcMenu,
             LookAround,
+            ItemMenu,
             ListGameObjectsMenu,
             InventoryMenu,
             AdminMenu,
@@ -57,14 +59,24 @@ namespace TB_QuestGame
             MenuTitle = "Look Around Menu",
             MenuChoices = new Dictionary<char, PlayerAction>()
                 {
-                    { '1', PlayerAction.LookAt },
-                    { '2', PlayerAction.PickUpItem },
-                    { '3', PlayerAction.PutDownItem },
-                    { '4', PlayerAction.Trade },
-                    { '5', PlayerAction.EnterPlace },
+                    { '1', PlayerAction.ItemMenu},
+                    { '2', PlayerAction.NpcMenu},
+                    { '3', PlayerAction.Trade },
+                    { '4', PlayerAction.EnterPlace },
                     { '0', PlayerAction.ReturnToMainMenu }
 
                 }
+        };
+
+        public static Menu NpcMenu = new Menu()
+        {
+            MenuName = "NpcMenu",
+            MenuTitle = "NPC Menu",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                { '1', PlayerAction.TalkTo},
+                { '0', PlayerAction.GoBack}
+            }
         };
 
         public static Menu AdminMenu = new Menu()
@@ -111,6 +123,19 @@ namespace TB_QuestGame
             }
         };
 
+        public static Menu ItemMenu = new Menu()
+        {
+            MenuName = "Item Menu",
+            MenuTitle = "Item Menu",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                { '1', PlayerAction.LookAt },
+                { '2', PlayerAction.PickUpItem },
+                { '3', PlayerAction.Consume},
+                { '0', PlayerAction.GoBack }
+            }
+        };
+
         public static Menu TradeMenu = new Menu()
         {
             MenuName = "TradeMenu",
@@ -131,6 +156,7 @@ namespace TB_QuestGame
             {
                 { '1', PlayerAction.LookAt },
                 { '2', PlayerAction.Consume},
+                { '3', PlayerAction.PutDownItem},
                 { '0', PlayerAction.ReturnToMainMenu }
             }
         };
