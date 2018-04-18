@@ -20,6 +20,8 @@ namespace TB_QuestGame
         private bool _playingGame;
         private Location _currentLocaton;
         private int _gameTick = 1;
+        Timer timer = new Timer(1000);
+        
 
         #endregion
 
@@ -58,6 +60,8 @@ namespace TB_QuestGame
             _playingGame = true;
 
             Console.CursorVisible = false;
+
+            timer.Elapsed += GameTickTimer_Elapsed;
         }
 
         /// <summary>
@@ -101,8 +105,9 @@ namespace TB_QuestGame
             //
             // update game stauts
             //
-            _gamePlayer.GameTimer = new Timer(1000);
-            _gamePlayer.GameTimer.Start();
+            //_gamePlayer.GameTimer = new Timer(1000);
+            //_gamePlayer.GameTimer.Start();
+            timer.Start();
 
             //
             // game loop
@@ -175,6 +180,10 @@ namespace TB_QuestGame
                     #endregion
 
                     #region Object Options (LookAt, Trade/Sell, NPC)
+                    case PlayerAction.NpcMenu:
+                        _gameConsoleView.DisplayGamePlayScreen("NPC Menu", "Select an operation from the menu", ActionMenu.NpcMenu, "");
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                        break;
                     case PlayerAction.Buy:
                         BuyAction();
                         break;
@@ -220,6 +229,10 @@ namespace TB_QuestGame
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
                         _gameConsoleView.DisplayTrade(_currentLocaton);
                         break;
+                    case PlayerAction.TalkTo:
+                        TalkToAction();
+                        break;
+
                     #endregion
 
                     #region Main Menu Options
@@ -274,6 +287,11 @@ namespace TB_QuestGame
                             ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                             _gameConsoleView.DisplayLookAround();
                         }
+                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.NpcMenu)
+                        {
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                            _gameConsoleView.DisplayLookAround();
+                        }
                         break;
                     case PlayerAction.Exit:
                         _gameConsoleView.DisplayClosingScreen(_gamePlayer);
@@ -306,11 +324,13 @@ namespace TB_QuestGame
             _gamePlayer.HomeVillage = player.HomeVillage;
             _gamePlayer.Capital = player.Capital;
             _gamePlayer.IsArmed = false;
+            _gamePlayer.VikingRank = Character.Rank.Viking;
 
             _gamePlayer.ExperiencePoints = 0;
             _gamePlayer.Health = 100;
             _gamePlayer.Lives = 3;
             _gamePlayer.Energy = 100;
+            _gamePlayer.CurrentLevel = 1;
 
             //
             // add initial items to inventory
@@ -330,9 +350,7 @@ namespace TB_QuestGame
                 _gamePlayer.ExperiencePoints += _currentLocaton.ExperiencePoints;
 
             }
-            /*
-                _gamePlayer.GameTimer.Elapsed += GameTickTimer_Elapsed;
-
+            
                 if (_gamePlayer.Energy <= 0)
                 {
                     _gameConsoleView.DisplayGamePlayScreen("Warning", "Your energy levels are too low. You need rest!", ActionMenu.MainMenu, "");
@@ -344,7 +362,9 @@ namespace TB_QuestGame
                     _gamePlayer.Lives -= 1;
                     _gamePlayer.Energy = 100;
                 }
-            */
+
+            _gamePlayer.CurrentLevel = _gameUniverse.GetLevel(_gamePlayer.ExperiencePoints, _gamePlayer.CurrentLevel);
+            _gamePlayer.VikingRank = _gameUniverse.GetVikingRank(_gamePlayer.CurrentLevel);
         }
 
         private PlayerAction GetNextPlayerAction()
@@ -663,12 +683,24 @@ namespace TB_QuestGame
             }
         }
 
+        private void TalkToAction()
+        {
+            // get id of npc to talk to
+            int npcId = _gameConsoleView.DisplayGetNpcToTalkTo();
+
+            // display npc message
+            if (npcId != 0)
+            {
+                NPC npc = _gameUniverse.GetNpcById(npcId);
+
+                _gameConsoleView.DisplayTalkTo(npc);
+            }
+        }
+
         private void GameTickTimer_Elapsed(object sender, ElapsedEventArgs e)
         { 
-            Timer timer = sender as Timer; //cast the sender as a timer
-            TimeSpan gameTime = TimeSpan.FromSeconds(_gameTick);
-            _gameTick = _gameTick + 1;
-            if (_gameTick == 30)
+            _gameTick++;
+            if (_gameTick % 5 == 0)
             { 
 
                 if (_gamePlayer.Energy <= 0)
@@ -679,7 +711,7 @@ namespace TB_QuestGame
                 {
                     _gamePlayer.Energy -= 10;
                 }
-                _gameTick = 1;
+
             }
 
 

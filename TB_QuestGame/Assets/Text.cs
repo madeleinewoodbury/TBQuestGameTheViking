@@ -880,8 +880,12 @@ namespace TB_QuestGame
 
             statusBoxText.Add($"Lives: {gamePlayer.Lives}\n");
             statusBoxText.Add($"Health: {gamePlayer.Health}\n");
+            statusBoxText.Add($"Energy: {gamePlayer.Energy}\n");
             statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
-            statusBoxText.Add($"Experience Point: {gamePlayer.ExperiencePoints}\n");
+            statusBoxText.Add($"Experience Points: {gamePlayer.ExperiencePoints}\n");
+            statusBoxText.Add($"Level: {gamePlayer.CurrentLevel}");
+            statusBoxText.Add($"Rank: {gamePlayer.VikingRank.ToString()}");
+
 
             return statusBoxText;
         }

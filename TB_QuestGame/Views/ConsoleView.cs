@@ -1498,6 +1498,63 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("List: NPC Objects", Text.ListAllNpcObjects(_gameUniverse.NPCs), ActionMenu.AdminMenu, "");
         }
 
+        public int DisplayGetNpcToTalkTo()
+        {
+            int npcId = 0;
+            bool validNpcId = false;
+
+            List<NPC> npcsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
+
+            if (npcsInLocation.Count > 0)
+            {
+                DisplayGamePlayScreen("Choose Character to Speak With", Text.NpcsChooseList(npcsInLocation), ActionMenu.NpcMenu, "");
+
+                while (!validNpcId)
+                {
+                    GetInteger($"Enter the id number of the character: ", 0, 0, out npcId);
+
+                    if (_gameUniverse.IsValidNpcByLocationId(npcId, _gamePlayer.LocationId))
+                    {
+                        NPC npc = _gameUniverse.GetNpcById(npcId);
+                        if (npc is ITalk)
+                        {
+                            validNpcId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears this character has nothing to say. Please try agian.");
+                        }
+                    }
+                    else
+                    {
+                        ClearInputBox();
+                        DisplayInputErrorMessage("It appears you entered an invalid id. Please try agian.");
+                    }
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Choose Character to Speak With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
+            }
+
+            return npcId;
+        }
+
+        public void DisplayTalkTo(NPC npc)
+        {
+            ITalk speakingNpc = npc as ITalk;
+
+            string message = speakingNpc.Talk();
+
+            if (message == "")
+            {
+                message = "It appears this character has nothing to say. Please try agian.";
+            }
+
+            DisplayGamePlayScreen("Speak to Character", message, ActionMenu.NpcMenu, "");
+
+        }
 
         #endregion
 

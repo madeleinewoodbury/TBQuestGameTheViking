@@ -23,6 +23,23 @@ namespace TB_QuestGame
             Soldier
         }
 
+        public enum Rank
+        {
+            None,
+            Viking, //rank 1
+            Marauder, //rank 2
+            Berserker, //rank 3
+            Huskarl, //rank 4
+            Radnigar, //rank 5
+            Hersir, // rank 6
+            Skald, //rank 7
+            Freyr, // rank 8 male
+            Freya, // rank 8 female
+            Jarl, // rank 9
+            King, // rank 10 male
+            Queen, //rank 10 female
+        }
+
         #endregion
 
         #region FIELDS
@@ -32,6 +49,7 @@ namespace TB_QuestGame
         private CharacterType _gameCharacter;
         private int _locationId;
         private bool _isFriendly;
+        private Rank _vikingRank;
 
         #endregion
 
@@ -65,6 +83,12 @@ namespace TB_QuestGame
         {
             get { return _isFriendly; }
             set { _isFriendly = value; }
+        }
+
+        public Rank VikingRank
+        {
+            get { return _vikingRank; }
+            set { _vikingRank = value; }
         }
 
         #endregion

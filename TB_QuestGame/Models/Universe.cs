@@ -14,6 +14,8 @@ namespace TB_QuestGame
         private List<Location> _locations;
         private List<GameObject> _gameObjects;
         private List<NPC> _npcs;
+        private Dictionary<int, Character.Rank> _ranks;
+        private Dictionary<int, int> _levels;
 
         #endregion
 
@@ -37,6 +39,18 @@ namespace TB_QuestGame
             set { _npcs = value; }
         }
 
+        public Dictionary<int, Character.Rank> Rank
+        {
+            get { return _ranks; }
+            set { _ranks = value; }
+        }
+
+        public Dictionary<int, int> Levels
+        {
+            get { return _levels; }
+            set { _levels = value; }
+        }
+
         #endregion
 
         #region Constructors
@@ -58,6 +72,34 @@ namespace TB_QuestGame
             _locations = UniverseObjects.Locations;
             _gameObjects = UniverseObjects.GameObjetcs;
             _npcs = UniverseObjects.NPCs;
+            _ranks = new Dictionary<int, Character.Rank>()
+            {
+                { 1, Character.Rank.Viking },
+                { 2, Character.Rank.Marauder },
+                { 3, Character.Rank.Berserker},
+                { 4, Character.Rank.Huskarl },
+                { 5, Character.Rank.Radnigar },
+                { 6, Character.Rank.Hersir },
+                { 7, Character.Rank.Skald },
+                { 8, Character.Rank.Freyr },
+                { 9, Character.Rank.Jarl },
+                { 10, Character.Rank.King }
+
+            };
+            _levels = new Dictionary<int, int>()
+            {
+                { 0, 0 },
+                { 100, 1 },
+                { 200, 2 },
+                { 300, 3 },
+                { 400, 4 },
+                { 500, 5 },
+                { 600, 6 },
+                { 700, 7 },
+                { 800, 8 },
+                { 900, 9 },
+                { 1000, 10 },
+            };
         }
 
         /// <summary>
@@ -386,6 +428,34 @@ namespace TB_QuestGame
             return npcs;
         }
 
+        public Character.Rank GetVikingRank(int currentLevel)
+        {
+            Character.Rank rank = Character.Rank.None;
+
+            foreach (var item in _ranks)
+            {
+                if (item.Key == currentLevel)
+                {
+                    rank = item.Value;
+                }
+            }
+
+            return rank;
+        }
+
+        public int GetLevel(int points, int level)
+        {
+
+            foreach (var item in _levels)
+            {
+                if (points == item.Key)
+                {
+                    level = item.Value;
+                }
+            }
+
+            return level;
+        }
 
         #endregion
     }

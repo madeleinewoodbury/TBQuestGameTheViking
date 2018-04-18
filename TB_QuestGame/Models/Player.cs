@@ -37,6 +37,8 @@ namespace TB_QuestGame
         private List<GameObject> _inventory;
         private Timer _gameTimer;
         private string _test;
+        private int _currentLevel;
+
 
         public string Test
         {
@@ -51,7 +53,11 @@ namespace TB_QuestGame
             set { _gameTimer = value; }
         }
 
-
+        public int CurrentLevel
+        {
+            get { return _currentLevel; }
+            set { _currentLevel = value; }
+        }
 
         #endregion
 
