@@ -36,7 +36,7 @@ namespace TB_QuestGame
                 Region = "Norge",
                 Description = "Located in Hedmark, which mean the 'Heden Forest'. This place is surrounded by forest \n" +
                 "and it is a great place for Viking settlements.",
-                ExperiencePoints = 0,
+                ExperiencePoints = 100,
                 AccessableLocations = new List<int>(){1,3,4},
                 TradeObjects = new List<int>(){1, 2, 5, 6, 7, 8, 10, 11, 12, 33, 35, 36}
             },
@@ -49,7 +49,7 @@ namespace TB_QuestGame
                 Description = "Located in southern Bohuslän. This is a center for royal authority. \n" +
                 "A good place to make connections. Located by the river Nordre älv, with access to Kattagat. \n" +
                 "From here you can access the sea Norgeshav.",
-                ExperiencePoints = 5,
+                ExperiencePoints = 100,
                 AccessableLocations = new List<int>(){1,2,5,6,7,9},
                 TradeObjects = new List<int>(){3, 5, 6, 9, 10, 13, 31}
             },

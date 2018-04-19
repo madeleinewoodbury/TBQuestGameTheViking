@@ -363,8 +363,16 @@ namespace TB_QuestGame
                     _gamePlayer.Energy = 100;
                 }
 
+            int level = _gamePlayer.CurrentLevel;
             _gamePlayer.CurrentLevel = _gameUniverse.GetLevel(_gamePlayer.ExperiencePoints, _gamePlayer.CurrentLevel);
             _gamePlayer.VikingRank = _gameUniverse.GetVikingRank(_gamePlayer.CurrentLevel);
+
+            if (level < _gamePlayer.CurrentLevel)
+            {
+                ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                _gameConsoleView.DisplayNewLevelMessage();
+            }
+
         }
 
         private PlayerAction GetNextPlayerAction()
@@ -700,7 +708,7 @@ namespace TB_QuestGame
         private void GameTickTimer_Elapsed(object sender, ElapsedEventArgs e)
         { 
             _gameTick++;
-            if (_gameTick % 5 == 0)
+            if (_gameTick % 60 == 0)
             { 
 
                 if (_gamePlayer.Energy <= 0)

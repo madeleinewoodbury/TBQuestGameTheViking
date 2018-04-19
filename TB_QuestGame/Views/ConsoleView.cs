@@ -501,6 +501,7 @@ namespace TB_QuestGame
             Console.CursorVisible = true;
         }
 
+
         /// <summary>
         /// clear the input box
         /// </summary>
@@ -1554,6 +1555,11 @@ namespace TB_QuestGame
 
             DisplayGamePlayScreen("Speak to Character", message, ActionMenu.NpcMenu, "");
 
+        }
+
+        public void DisplayNewLevelMessage()
+        {
+            DisplayGamePlayScreen("New Level Reacher", Text.NewLevelMessage(_gamePlayer), ActionMenu.MainMenu, "");
         }
 
         #endregion

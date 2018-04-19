@@ -890,6 +890,15 @@ namespace TB_QuestGame
             return statusBoxText;
         }
 
+        public static string NewLevelMessage(Player gamePlayer)
+        {
+            string messageBoxText = "Congratulations\n" +
+                $"You have reached a level {gamePlayer.CurrentLevel}! \n" +
+                $"Your new rank is {gamePlayer.VikingRank}. Way to go {gamePlayer.Name}!";
+
+            return messageBoxText;
+        }
+
         #endregion
 
     }
