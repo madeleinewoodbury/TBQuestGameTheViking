@@ -785,15 +785,39 @@ namespace TB_QuestGame
 
             if (playerPoints > opponentPoints)
             {
-                _gamePlayer.ExperiencePoints += npc.XP;
-                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
-                _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.", ActionMenu.LookAround, "");
+                if (_gamePlayer.IsArmed)
+                {
+                    _gamePlayer.ExperiencePoints += npc.XP;
+                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                    _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
+                        $"Your points: {playerPoints}\n" +
+                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
+                }
+                else if (!_gamePlayer.IsArmed && !npc.IsArmed)
+                {
+                    _gamePlayer.ExperiencePoints += npc.XP;
+                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                    _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
+                        $"Your points: {playerPoints}\n" +
+                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
+                }
+                else
+                {
+                    _gamePlayer.Lives -= 1;
+                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                    _gameConsoleView.DisplayGamePlayScreen("Battle", $"You lost the battle against {npc.Name}.\n" +
+                        $"Your points: {playerPoints}\n" +
+                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.MainMenu, "");
+                }
+
             }
             else
             {
                 _gamePlayer.Lives -= 1;
                 ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
-                _gameConsoleView.DisplayGamePlayScreen("Battle", $"You lost the battle against {npc.Name}.", ActionMenu.MainMenu, "");
+                _gameConsoleView.DisplayGamePlayScreen("Battle", $"You lost the battle against {npc.Name}.\n" +
+                    $"Your points: {playerPoints}\n" +
+                    $"{npc.Name}'s points: {opponentPoints}", ActionMenu.MainMenu, "");
             }
         }
 

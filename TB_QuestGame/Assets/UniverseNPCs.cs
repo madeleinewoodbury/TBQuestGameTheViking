@@ -35,13 +35,26 @@ namespace TB_QuestGame
                 Id = 2,
                 Name ="Skáldi",
                 LocationId = 1,
-                XP = 25,
+                XP = 20,
                 Description = "Skáldi is always looking for a fight. He has not seen many battles, \n" +
                 "but he is fearless and strong.",
                 IsFriendly = false,
                 PrimaryWeapon = 6,
                 PrimaryShield = 7,
-                VikingRank = Character.Rank.Viking
+                VikingRank = Character.Rank.Viking,
+                IsArmed = true
+            },
+
+            new Viking
+            {
+                Id = 3,
+                Name ="Ubbe",
+                LocationId = 2,
+                XP = 20,
+                Description = "Ubbe is a big string viking. He is armed with his fists.",
+                IsFriendly = false,
+                VikingRank = Character.Rank.Viking,
+                IsArmed = false
             }
         };
     }

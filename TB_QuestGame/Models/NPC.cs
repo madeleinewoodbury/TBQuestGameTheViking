@@ -11,16 +11,12 @@ namespace TB_QuestGame
         #region Fields
         public abstract int Id { get; set; }
         public abstract string Description { get; set; }
-        private int _xp;
+        public int XP { get; set; }
+        public bool IsArmed { get; set; }
 
         #endregion
 
         #region Properties
-        public int XP
-        {
-            get { return _xp; }
-            set { _xp = value; }
-        }
 
         #endregion
 

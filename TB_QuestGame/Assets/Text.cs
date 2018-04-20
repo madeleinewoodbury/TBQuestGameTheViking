@@ -636,8 +636,7 @@ namespace TB_QuestGame
 
         public static string DisplayOpponentInfo(NPC npc, string message)
         {
-            string messageBoxText = $"{npc.Name} is not a friend of yours and is prepared to fight you. \n" +
-            "\n ";
+            string messageBoxText = $"{npc.Name} is not a friend of yours and is prepared to fight you. \n";
 
             if (npc is Viking)
             {

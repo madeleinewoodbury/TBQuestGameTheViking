@@ -37,7 +37,7 @@ namespace TB_QuestGame
                 Region = "Norge",
                 Description = "Located in Hedmark, which mean the 'Heden Forest'. This place is surrounded by forest \n" +
                 "and it is a great place for Viking settlements.",
-                ExperiencePoints = 100,
+                ExperiencePoints = 10,
                 AccessableLocations = new List<int>(){1,3,4},
                 LevelNeeded = 1,
                 TradeObjects = new List<int>(){1, 2, 5, 6, 7, 8, 10, 11, 12, 33, 35, 36}
@@ -51,7 +51,7 @@ namespace TB_QuestGame
                 Description = "Located in southern Bohuslän. This is a center for royal authority. \n" +
                 "A good place to make connections. Located by the river Nordre älv, with access to Kattagat. \n" +
                 "From here you can access the sea Norgeshav.",
-                ExperiencePoints = 100,
+                ExperiencePoints = 10,
                 LevelNeeded = 2,
                 AccessableLocations = new List<int>(){1,2,5,6,7,9},
                 TradeObjects = new List<int>(){3, 5, 6, 9, 10, 13, 31}
@@ -65,7 +65,7 @@ namespace TB_QuestGame
                 Description = "Located in Trøndelag, north in Norge. Formerly known as Kapuangen, this is an \n" +
                 "important market place for vikings. There are also talks of this town to become the capital of \n" +
                 "Norge.",
-                ExperiencePoints = 5,
+                ExperiencePoints = 15,
                 LevelNeeded = 3,
                 AccessableLocations = new List<int>(){2,5},
                 TradeObjects = new List<int>(){1, 3, 4, 7, 9, 11, 12, 32, 35, 36}
@@ -78,7 +78,7 @@ namespace TB_QuestGame
                 Region = "Norge",
                 Description = "Located on the West coast of Norge, with great access to the Atlantic oceans. \n" +
                 "The Vikings that lives here are great seafarers and may a good resource to navigate the open seas.",
-                ExperiencePoints = 10,
+                ExperiencePoints = 20,
                 LevelNeeded = 4,
                 AccessableLocations = new List<int>(){1,3,4,6,7,9},
                 TradeObjects = new List<int>(){2, 4, 5, 7, 9, 10, 12, 32, 35, 36}
@@ -92,7 +92,7 @@ namespace TB_QuestGame
                 Description = "The main port of the Shetland Islands, located West of Norge and North-east of\n" +
                 "England. The rugged and beautiful island is a great place to rest before venturing out on the \n" +
                 "dangerous seas.",
-                ExperiencePoints = 10,
+                ExperiencePoints = 30,
                 LevelNeeded = 5,
                 AccessableLocations = new List<int>(){1,3,5,7,9},
                 TradeObjects = new List<int>(){1, 7, 12}
@@ -105,7 +105,7 @@ namespace TB_QuestGame
                 Region = "England",
                 Description = "The Holy Island of Lindisfarne is located in the Kingdom called Northumbria in England. \n" +
                 "This is said to be one of the first places that the Vikings raided in Anglo-Saxon England.",
-                ExperiencePoints = 15,
+                ExperiencePoints = 40,
                 LevelNeeded = 6,
                 AccessableLocations = new List<int>(){1,3,5,6,8,9},
                 TradeObjects = new List<int>(){20}
@@ -119,7 +119,7 @@ namespace TB_QuestGame
                 Description = "Also known as York, is the capital of Northumbria. The Great Heathen Army captured York\n" +
                 "and currently hold the city. Many Vikings are settling in Jorvik, but the Anglo-Saxons could try to take it" +
                 "back.",
-                ExperiencePoints = 20,
+                ExperiencePoints = 50,
                 LevelNeeded = 7,
                 AccessableLocations = new List<int>(){7,9},
                 TradeObjects = new List<int>(){3, 8, 14, 19, 23, 26, 32, 34}
@@ -133,7 +133,7 @@ namespace TB_QuestGame
                 Region = "England",
                 Description = "Located in East Anglia, which is under the rule of King Edumund. The English army is \n" +
                 "prepared for battle as the Vikings have their eye on the Kingdom.",
-                ExperiencePoints = 15,
+                ExperiencePoints = 60,
                 LevelNeeded = 8,
                 AccessableLocations = new List<int>(){1,3,5,6,7,8},
                 TradeObjects = new List<int>(){14, 20, 32, 34}
