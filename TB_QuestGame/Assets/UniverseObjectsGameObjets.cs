@@ -19,7 +19,9 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "Crafted by the Nordic smith named Ulfberht, this is one of the first all steel blades.",
                 Value = 25,
-                CanInventory = true
+                DamagePoints = 25,
+                CanInventory = true,
+                Shield = false
             },
 
             new Weapon
@@ -30,6 +32,7 @@ namespace TB_QuestGame
                 Description = "This is a beautiful crafted sword. The pommel and guard are decorated with copper. \n" +
                 "It is a heavy sword, but it can do a lot of damage.",
                 Value = 40,
+                DamagePoints = 45,
                 CanInventory = true
             },
 
@@ -41,7 +44,9 @@ namespace TB_QuestGame
                 Description = "This is a light, agile and resilient fighting blade. It is smaller than a regular sword, which makes \n" +
                 "it great for fighting armed with a shield or an axe in the other hand.",
                 Value = 30,
-                CanInventory = true
+                DamagePoints = 30,
+                CanInventory = true,
+                Shield = false
             },
 
             new Weapon
@@ -51,7 +56,9 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This quite capable of cleaving helms or armours. Made from though steel, great for battles.",
                 Value = 30,
-                CanInventory = true
+                DamagePoints = 25,
+                CanInventory = true,
+                Shield = false
             },
 
             new Weapon
@@ -61,7 +68,9 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This axe is meant only for the most ferocious and stout warriours.",
                 Value = 50,
-                CanInventory = true
+                DamagePoints = 50,
+                CanInventory = true,
+                Shield = false
             },
 
             new Weapon
@@ -72,7 +81,9 @@ namespace TB_QuestGame
                 Description = "Shorter than most axes, this axe is great for throwing. Don't be fooled by it's length, \n" +
                 "the shaft is sharp, and with great accuracy this could be the perfect battle weapon.",
                 Value = 20,
-                CanInventory = true
+                DamagePoints = 30,
+                CanInventory = true,
+                Shield = false
             },
 
             new Weapon
@@ -83,7 +94,9 @@ namespace TB_QuestGame
                 Description = "This is a common shield among the vikings. With it's thick plywood center and steel rim, \n" +
                 "it is built to withstand the sharpest of blades.",
                 Value = 20,
-                CanInventory = true
+                DamagePoints = 10,
+                CanInventory = true,
+                Shield = true
             },
 
             new Weapon
@@ -94,7 +107,9 @@ namespace TB_QuestGame
                 Description = "This is a sturdy Viking Shiels made out of red oak and plywood. It is lighter than most shields, \n" +
                 "which makes it easier to move around in combat.",
                 Value = 30,
-                CanInventory = true
+                DamagePoints = 10,
+                CanInventory = true,
+                Shield = true
             },
 
             new Weapon
@@ -104,7 +119,9 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This is one of the stringest shields, made from thick wood and steel. It is heavy, but not much can go through it.",
                 Value = 40,
-                CanInventory = true
+                DamagePoints = 15,
+                CanInventory = true,
+                Shield = true
             },
 
             new Weapon
@@ -114,7 +131,9 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This is a wide flatbow with narrow ends. Made to shoot far and with great force.",
                 Value = 35,
-                CanInventory = true
+                DamagePoints = 25,
+                CanInventory = true,
+                Shield = false
             },
 
              new Weapon
@@ -124,7 +143,9 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "A traditional bow, small and light. Great for hunting and shorter distances.",
                 Value = 20,
-                CanInventory = true
+                DamagePoints = 20,
+                CanInventory = true,
+                Shield = false
             },
 
             new Weapon
@@ -134,6 +155,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "A small but incredibilry sharp knife. Great for upclose combats.",
                 Value = 15,
+                DamagePoints = 10,
                 CanInventory = true
             },
 
@@ -144,7 +166,9 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "If it were any longer you could mistake this for a sword. This is a knife best suited for a warrior.",
                 Value = 30,
-                CanInventory = true
+                DamagePoints = 20,
+                CanInventory = true,
+                Shield = false
             },
 
             new Weapon
@@ -155,7 +179,9 @@ namespace TB_QuestGame
                 Description = "A multifunctional weapon, worn to show prestige and power, but it's sharp \n" +
                 "blade was made to kill.",
                 Value = 45,
-                CanInventory = true
+                DamagePoints = 30,
+                CanInventory = true,
+                Shield = false
             },
 
             #endregion

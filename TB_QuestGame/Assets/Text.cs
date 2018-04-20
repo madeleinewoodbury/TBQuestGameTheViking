@@ -179,8 +179,20 @@ namespace TB_QuestGame
                 $"\tGender: {gamePlayer.Viking}\n" +
                 $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                $"\tCapital: {gamePlayer.Capital} coins\n" +
-                "\tViking greeting: " + gamePlayer.Greeting();
+                $"\tCapital: {gamePlayer.Capital} coins\n";
+
+            string weaponInfo;
+
+            if (gamePlayer.IsArmed)
+            {
+                weaponInfo = $"\tPrimary Weapon: {gamePlayer.PrimaryShield.Name}";
+            }
+            else
+            {
+                weaponInfo = "\tPrimary Weapon: You are currently unarmed";
+            }
+
+            messageBoxText += weaponInfo;
 
             return messageBoxText;
         }
@@ -620,6 +632,30 @@ namespace TB_QuestGame
             }
 
             return messageBoxText;
+        }
+
+        public static string DisplayOpponentInfo(NPC npc, string message)
+        {
+            string messageBoxText = $"{npc.Name} is not a friend of yours and is prepared to fight you. \n" +
+            "\n ";
+
+            if (npc is Viking)
+            {
+                Viking opponent = npc as Viking;
+
+
+                if (message != null)
+                {
+                    messageBoxText += $"{npc.Name}: " + message + "\n ";
+                }
+
+                string opponentInfo = $"Viking Rank: {opponent.VikingRank.ToString()}";
+
+                messageBoxText += opponentInfo;
+            }
+
+            return messageBoxText;
+                
         }
 
         #endregion

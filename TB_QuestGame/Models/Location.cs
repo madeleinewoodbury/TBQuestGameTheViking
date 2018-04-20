@@ -22,6 +22,8 @@ namespace TB_QuestGame
         private int _experiencePoints;
         private List<int> _tradeObjects;
         private int _capitalNeeded;
+        private int _levelNeeded;
+
 
         #endregion
 
@@ -79,6 +81,12 @@ namespace TB_QuestGame
         {
             get { return _capitalNeeded; }
             set { _capitalNeeded = value; }
+        }
+
+        public int LevelNeeded
+        {
+            get { return _levelNeeded; }
+            set { _levelNeeded = value; }
         }
 
         #endregion

@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace TB_QuestGame
 {
-    public class Viking : NPC, ITalk
+    public class Viking : NPC, ITalk, IBattle
     {
         public override int Id { get; set; }
         public override string Description { get; set; }
         public List<string> Messages { get; set; }
+        public int PrimaryWeapon { get; set; }
+        public int PrimaryShield { get; set; }
+        public string BattleMessage { get; set; }
 
         /// <summary>
         /// Generate a message or use the default message
@@ -24,7 +27,7 @@ namespace TB_QuestGame
             }
             else
             {
-                return $"My name is {base.Name} and I am a {base.GameCharacter.ToString()}";
+                return "I have nothing to say to you.";
             }
         }
 
@@ -38,5 +41,18 @@ namespace TB_QuestGame
             int messageIndex = r.Next(0, Messages.Count());
             return Messages[messageIndex];
         }
+
+        public string Battle()
+        {
+            if (this.BattleMessage == null)
+            {
+                return "I will kill you!";
+            }
+            else
+            {
+                return this.BattleMessage
+            }
+        }
+
     }
 }

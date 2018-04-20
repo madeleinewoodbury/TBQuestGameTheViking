@@ -197,6 +197,9 @@ namespace TB_QuestGame
                             ConsumeInventoryItem();
                         }               
                         break;
+                    case PlayerAction.ChooseWeapon:
+                        ChooseWeaponAction();
+                        break;
                     case PlayerAction.EnterPlace:
                         EnterAction();
                         break;
@@ -231,6 +234,10 @@ namespace TB_QuestGame
                         break;
                     case PlayerAction.TalkTo:
                         TalkToAction();
+                        break;
+                    case PlayerAction.RunAway:
+                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.LookAround(_currentLocaton), ActionMenu.MainMenu, "");
                         break;
 
                     #endregion
@@ -325,6 +332,7 @@ namespace TB_QuestGame
             _gamePlayer.Capital = player.Capital;
             _gamePlayer.IsArmed = false;
             _gamePlayer.VikingRank = Character.Rank.Viking;
+            _gamePlayer.PrimaryWeapon = null;
 
             _gamePlayer.ExperiencePoints = 0;
             _gamePlayer.Health = 100;
@@ -350,7 +358,11 @@ namespace TB_QuestGame
                 _gamePlayer.ExperiencePoints += _currentLocaton.ExperiencePoints;
 
             }
-            
+
+            if (_gamePlayer.PrimaryWeapon != null)
+            {
+                _gamePlayer.IsArmed = true;
+            }
                 if (_gamePlayer.Energy <= 0)
                 {
                     _gameConsoleView.DisplayGamePlayScreen("Warning", "Your energy levels are too low. You need rest!", ActionMenu.MainMenu, "");
@@ -407,6 +419,9 @@ namespace TB_QuestGame
                     break;
                 case ActionMenu.CurrentMenu.NpcMenu:
                     playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.NpcMenu);
+                    break;
+                case ActionMenu.CurrentMenu.BattleMenu:
+                    playerActionChocie = _gameConsoleView.GetActionMenuChoice(ActionMenu.BattleMenu);
                     break;
                 default:
                     break;
@@ -691,6 +706,44 @@ namespace TB_QuestGame
             }
         }
 
+        private void ChooseWeaponAction()
+        {
+            //
+            // display a list of game objects in inventory and get player's choice
+            //
+            int weaponId = _gameConsoleView.DisplayGetInventoryItemToConsume();
+
+            if (weaponId != 0)
+            {
+                //
+                // get the game object from the universe
+                //
+                GameObject gameObject = _gameUniverse.GetGameObjectById(weaponId) as GameObject;
+
+                if (gameObject is Weapon)
+                {
+                    Weapon weapon = gameObject as Weapon;
+                    if (!weapon.Shield)
+                    {
+                        _gamePlayer.PrimaryWeapon = weapon; 
+                    }
+                    else
+                    {
+                        _gameConsoleView.DisplayGamePlayScreen("Current Inventory", $"{weapon.Name} is a shield and can't be your primary weapon..", ActionMenu.InventoryMenu, "");
+                    }
+                }
+                else
+                {
+                    _gameConsoleView.DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} is not a weapon.", ActionMenu.InventoryMenu, "");
+                }
+
+            }
+            else
+            {
+                _gameConsoleView.DisplayInventory();
+            }
+        }
+
         private void TalkToAction()
         {
             // get id of npc to talk to
@@ -700,8 +753,17 @@ namespace TB_QuestGame
             if (npcId != 0)
             {
                 NPC npc = _gameUniverse.GetNpcById(npcId);
+                if (npc.IsFriendly)
+                {
+                    _gameConsoleView.DisplayTalkTo(npc);
+                }
+                else
+                {
+                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.BattleMenu;
+                    _gameConsoleView.DisplayTalkToOpponent(npc);
+                }
 
-                _gameConsoleView.DisplayTalkTo(npc);
+                
             }
         }
 

@@ -38,7 +38,8 @@ namespace TB_QuestGame
         private Timer _gameTimer;
         private string _test;
         private int _currentLevel;
-
+        private Weapon _primaryWeapon;
+        private Weapon _primaryShield;
 
         public string Test
         {
@@ -123,6 +124,17 @@ namespace TB_QuestGame
             set { _inventory = value; }
         }
 
+        public Weapon PrimaryWeapon
+        {
+            get { return _primaryWeapon; }
+            set { _primaryWeapon = value; }
+        }
+
+        public Weapon PrimaryShield
+        {
+            get { return _primaryShield; }
+            set { _primaryShield = value; }
+        }
 
         #endregion
 

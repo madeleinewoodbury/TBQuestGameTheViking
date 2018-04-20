@@ -53,6 +53,7 @@
     <Compile Include="ConsoleUtilities\ConsoleWindowControl.cs" />
     <Compile Include="ConsoleUtilities\ConsoleWindowHelper.cs" />
     <Compile Include="Controllers\Controller.cs" />
+    <Compile Include="Models\IBattle.cs" />
     <Compile Include="Models\ITalk.cs" />
     <Compile Include="Models\NPC.cs" />
     <Compile Include="Models\Place.cs" />

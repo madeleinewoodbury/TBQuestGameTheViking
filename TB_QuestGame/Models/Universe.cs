@@ -456,6 +456,47 @@ namespace TB_QuestGame
             return level;
         }
 
+        public int GetOpponentPoints(int opponentId)
+        {
+            int opponentPoints = 0;
+
+            NPC npc = GetNpcById(opponentId);
+
+            if (npc != null)
+            {
+                if (!npc.IsFriendly && npc is Viking)
+                {
+                    Viking opponent = npc as Viking;
+                    foreach (var rank in _ranks)
+                    {
+                        if (rank.Value == opponent.VikingRank)
+                        {
+                            opponentPoints += rank.Key;
+                        }
+                    }
+
+                    GameObject weapon = GetGameObjectById(opponent.PrimaryWeapon);
+                    GameObject shield = GetGameObjectById(opponent.PrimaryShield);
+                    if (weapon != null && weapon is Weapon)
+                    {
+                        Weapon opponentWeapon = weapon as Weapon;
+                        opponentPoints += opponentWeapon.DamagePoints;
+                    }
+
+                    if (shield != null && shield is Weapon)
+                    {
+                        Weapon opponentShield = shield as Weapon;
+                        opponentPoints += opponentShield.DamagePoints;
+                    }
+
+                    opponentPoints += opponent.XP;
+                    
+                }
+            }
+
+            return opponentPoints;
+        }
+
         #endregion
     }
 }

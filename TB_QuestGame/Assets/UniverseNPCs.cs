@@ -13,26 +13,35 @@ namespace TB_QuestGame
             new Viking
             {
                 Id = 1,
-                Name ="Name",
-                GameCharacter = Character.CharacterType.Farmer,
+                Name ="Egill",
                 LocationId = 1,
-                Description = "Description",
+                XP = 50,
+                Description = "A wise and experienced warrior, he has seen a great deal on his quests.",
                 Messages = new List<string>()
                 {
-                    "Message 1",
-                    "Message 2",
-                    "Message 3"
-                }
+                    "You have much to learn still, but I see a a great warrior within you.",
+                    "There is great treasures beyond the sea, but you must respect the waters, if you don't\n"+
+                    "it may swallow you hole.",
+                },
+                IsFriendly = true,
+                PrimaryShield = 7,
+                PrimaryWeapon = 1,
+                VikingRank = Character.Rank.Radnigar
 
             },
 
             new Viking
             {
                 Id = 2,
-                Name ="Name",
-                GameCharacter = Character.CharacterType.Viking,
+                Name ="Skáldi",
                 LocationId = 1,
-                Description = "Description"
+                XP = 25,
+                Description = "Skáldi is always looking for a fight. He has not seen many battles, \n" +
+                "but he is fearless and strong.",
+                IsFriendly = false,
+                PrimaryWeapon = 6,
+                PrimaryShield = 7,
+                VikingRank = Character.Rank.Viking
             }
         };
     }

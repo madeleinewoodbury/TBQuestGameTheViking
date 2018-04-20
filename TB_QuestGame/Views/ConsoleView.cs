@@ -1087,6 +1087,66 @@ namespace TB_QuestGame
             return gameObjectId;
         }
 
+        public int DisplayGetWeapon()
+        {
+            int gameObjectId = 0;
+            bool validObjectId = false;
+            int attempt = 0;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Current Inventory", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        gameObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number for the weapon you want to be your primary: ", 0, 0, out gameObjectId);
+                    }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (gameObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", "You don't have any weapons. \n Press any key to continue.", ActionMenu.InventoryMenu, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+            }
+
+            return gameObjectId;
+        }
+
         public int DisplayGetGameObjectToPutDown()
         {
             int gameObjectId = 0;
@@ -1555,6 +1615,15 @@ namespace TB_QuestGame
 
             DisplayGamePlayScreen("Speak to Character", message, ActionMenu.NpcMenu, "");
 
+        }
+
+        public void DisplayTalkToOpponent(NPC npc)
+        {
+            ITalk speakingNpc = npc as ITalk;
+
+            string message = speakingNpc.Talk();
+
+            DisplayGamePlayScreen("Speak to Character", Text.DisplayOpponentInfo(npc, message), ActionMenu.BattleMenu, "");
         }
 
         public void DisplayNewLevelMessage()
