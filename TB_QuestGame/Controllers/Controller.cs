@@ -71,6 +71,7 @@ namespace TB_QuestGame
         {
             PlayerAction playerActionChoice = PlayerAction.None;
             int objectId = 0;
+            int npcId = 0;
 
             //
             // display splash screen
@@ -233,7 +234,10 @@ namespace TB_QuestGame
                         _gameConsoleView.DisplayTrade(_currentLocaton);
                         break;
                     case PlayerAction.TalkTo:
-                        TalkToAction();
+                        npcId = TalkToAction();
+                        break;
+                    case PlayerAction.Fight:
+                        BattleAction(npcId);
                         break;
                     case PlayerAction.RunAway:
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
@@ -744,10 +748,11 @@ namespace TB_QuestGame
             }
         }
 
-        private void TalkToAction()
+        private int TalkToAction()
         {
             // get id of npc to talk to
             int npcId = _gameConsoleView.DisplayGetNpcToTalkTo();
+            int opponentId = 0;
 
             // display npc message
             if (npcId != 0)
@@ -756,14 +761,39 @@ namespace TB_QuestGame
                 if (npc.IsFriendly)
                 {
                     _gameConsoleView.DisplayTalkTo(npc);
+                    _gamePlayer.ExperiencePoints += npc.XP;
                 }
                 else
                 {
                     ActionMenu.currentMenu = ActionMenu.CurrentMenu.BattleMenu;
                     _gameConsoleView.DisplayTalkToOpponent(npc);
+                    opponentId = npcId;
                 }
 
                 
+            }
+
+            return opponentId;
+        }
+
+        private void BattleAction(int npcId)
+        {
+            NPC npc = _gameUniverse.GetNpcById(npcId);
+
+            int opponentPoints = _gameUniverse.GetOpponentPoints(npcId);
+            int playerPoints = _gameUniverse.GetPlayerPoints(_gamePlayer);
+
+            if (playerPoints > opponentPoints)
+            {
+                _gamePlayer.ExperiencePoints += npc.XP;
+                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.", ActionMenu.LookAround, "");
+            }
+            else
+            {
+                _gamePlayer.Lives -= 1;
+                ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                _gameConsoleView.DisplayGamePlayScreen("Battle", $"You lost the battle against {npc.Name}.", ActionMenu.MainMenu, "");
             }
         }
 

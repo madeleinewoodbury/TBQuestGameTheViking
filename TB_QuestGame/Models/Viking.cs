@@ -50,7 +50,7 @@ namespace TB_QuestGame
             }
             else
             {
-                return this.BattleMessage
+                return this.BattleMessage;
             }
         }
 

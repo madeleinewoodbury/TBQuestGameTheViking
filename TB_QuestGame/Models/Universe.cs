@@ -471,7 +471,7 @@ namespace TB_QuestGame
                     {
                         if (rank.Value == opponent.VikingRank)
                         {
-                            opponentPoints += rank.Key;
+                            opponentPoints += rank.Key * 10;
                         }
                     }
 
@@ -490,12 +490,52 @@ namespace TB_QuestGame
                     }
 
                     opponentPoints += opponent.XP;
-                    
                 }
             }
 
             return opponentPoints;
         }
+
+        public int GetPlayerPoints(Player player)
+        {
+            int playerPoints = 0;
+
+            foreach (var rank in _ranks)
+            {
+                if (rank.Value == player.VikingRank)
+                {
+                    playerPoints += rank.Key * 10;
+                }
+            }
+
+            if (player.IsArmed)
+            {
+                Weapon weapon = player.PrimaryWeapon;
+                Weapon shield = player.PrimaryShield;
+
+                if (weapon != null)
+                {
+                    playerPoints += weapon.DamagePoints;
+                }
+
+                if (shield != null)
+                {
+                    playerPoints += shield.DamagePoints;
+                }
+            }
+
+            playerPoints += player.ExperiencePoints;
+            return playerPoints;
+        }
+
+            
+
+                    
+                
+            
+
+            
+        
 
         #endregion
     }
