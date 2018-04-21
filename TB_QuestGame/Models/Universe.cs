@@ -475,20 +475,23 @@ namespace TB_QuestGame
                             opponentPoints += rank.Key * 10;
                         }
                     }
-
-                    GameObject weapon = GetGameObjectById(opponent.PrimaryWeapon);
-                    GameObject shield = GetGameObjectById(opponent.PrimaryShield);
-                    if (weapon != null && weapon is Weapon)
+                    if (opponent.IsArmed)
                     {
-                        Weapon opponentWeapon = weapon as Weapon;
-                        opponentPoints += opponentWeapon.DamagePoints;
+                        GameObject weapon = GetGameObjectById(opponent.PrimaryWeapon);
+                        GameObject shield = GetGameObjectById(opponent.PrimaryShield);
+                        if (weapon != null && weapon is Weapon)
+                        {
+                            Weapon opponentWeapon = weapon as Weapon;
+                            opponentPoints += opponentWeapon.DamagePoints;
+                        }
+
+                        if (shield != null && shield is Weapon)
+                        {
+                            Weapon opponentShield = shield as Weapon;
+                            opponentPoints += opponentShield.DamagePoints;
+                        }
                     }
 
-                    if (shield != null && shield is Weapon)
-                    {
-                        Weapon opponentShield = shield as Weapon;
-                        opponentPoints += opponentShield.DamagePoints;
-                    }
 
                     opponentPoints += opponent.XP;
                 }

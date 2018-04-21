@@ -36,30 +36,11 @@ namespace TB_QuestGame
         private int _energy;
         private List<int> _locationsVisited;
         private List<GameObject> _inventory;
+        private List<int> _talkedToNPCs;
         private Timer _gameTimer;
-        private string _test;
         private int _currentLevel;
         private Weapon _primaryWeapon;
         private Weapon _primaryShield;
-
-        public string Test
-        {
-            get { return _test; }
-            set { _test = value; }
-        }
-
-
-        public Timer GameTimer
-        {
-            get { return _gameTimer; }
-            set { _gameTimer = value; }
-        }
-
-        public int CurrentLevel
-        {
-            get { return _currentLevel; }
-            set { _currentLevel = value; }
-        }
 
         #endregion
 
@@ -125,10 +106,28 @@ namespace TB_QuestGame
             set { _locationsVisited = value; }
         }
 
+        public List<int> TalkedToNPCs
+        {
+            get { return _talkedToNPCs; }
+            set { _talkedToNPCs = value; }
+        }
+
         public List<GameObject> Inventory
         {
             get { return _inventory; }
             set { _inventory = value; }
+        }
+
+        public Timer GameTimer
+        {
+            get { return _gameTimer; }
+            set { _gameTimer = value; }
+        }
+
+        public int CurrentLevel
+        {
+            get { return _currentLevel; }
+            set { _currentLevel = value; }
         }
 
         public Weapon PrimaryWeapon
@@ -150,6 +149,7 @@ namespace TB_QuestGame
         public Player()
         {
             _locationsVisited = new List<int>();
+            _talkedToNPCs = new List<int>();
             _inventory = new List<GameObject>();
         }
 
@@ -166,6 +166,18 @@ namespace TB_QuestGame
         public bool HasVisited(int _locationId)
         {
             if (LocationsVisted.Contains(_locationId))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool HasTalkedTo(int _npcId)
+        {
+            if (TalkedToNPCs.Contains(_npcId))
             {
                 return true;
             }

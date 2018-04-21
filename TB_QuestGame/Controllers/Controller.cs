@@ -581,6 +581,24 @@ namespace TB_QuestGame
                 GameObject tradeObject = _gameUniverse.GetGameObjectById(tradeObjectIdToBuy) as GameObject;
 
                 //
+                // if the player is unarmed and the object is a weapon, the gameObject will become primary shield or weapon
+                //
+                if (tradeObject is Weapon)
+                {
+                    Weapon weapon = tradeObject as Weapon;
+                    if (!weapon.Shield && !_gamePlayer.IsArmed)
+                    {
+                        _gamePlayer.PrimaryWeapon = weapon;
+                        _gamePlayer.IsArmed = true;
+                    }
+                    else if (weapon.Shield && !_gamePlayer.IsShielded)
+                    {
+                        _gamePlayer.PrimaryShield = weapon;
+                        _gamePlayer.IsShielded = true;
+                    }
+                }
+
+                //
                 // update the capital and add to inventory
                 //
                 _gamePlayer.Capital -= tradeObject.Value;
@@ -620,6 +638,24 @@ namespace TB_QuestGame
                 gameObject.LocationId = 0;
 
                 //
+                // if the player is unarmed and the object is a weapon, the gameObject will become primary shield or weapon
+                //
+                if (gameObject is Weapon)
+                {
+                    Weapon weapon = gameObject as Weapon;
+                    if (!weapon.Shield && !_gamePlayer.IsArmed)
+                    {
+                        _gamePlayer.PrimaryWeapon = weapon;
+                        _gamePlayer.IsArmed = true;
+                    }
+                    else if (weapon.Shield && !_gamePlayer.IsShielded)
+                    {
+                        _gamePlayer.PrimaryShield = weapon;
+                        _gamePlayer.IsShielded = true;
+                    }
+                }
+
+                //
                 // display confirmation message
                 //
                 _gameConsoleView.DisplayConfirmGameObjectAddedToInventory(gameObject);
@@ -647,6 +683,27 @@ namespace TB_QuestGame
                 //
                 GameObject gameObject = _gameUniverse.GetGameObjectById(objectToPutDown) as GameObject;
 
+                //
+                // if player puts down a primary weapon or shield, they will be unarmed or unshielded
+                //
+                if (gameObject is Weapon)
+                {
+                    Weapon weapon = gameObject as Weapon;
+                    if (!weapon.Shield)
+                    {
+                        if (_gamePlayer.PrimaryWeapon == weapon)
+                        {
+                            _gamePlayer.IsArmed = false;
+                            _gamePlayer.PrimaryWeapon = null;
+                        }
+                    }
+                    else if (_gamePlayer.PrimaryShield == weapon)
+                    {
+                        _gamePlayer.IsShielded = false;
+                        _gamePlayer.PrimaryShield = null;
+                    }
+
+                }
                 //
                 // remove the object from the inventory and set the location to the current value
                 //
@@ -820,7 +877,13 @@ namespace TB_QuestGame
                 if (npc.IsFriendly)
                 {
                     _gameConsoleView.DisplayTalkTo(npc);
-                    _gamePlayer.ExperiencePoints += npc.XP;
+                    if (!_gamePlayer.HasTalkedTo(npcId))
+                    {
+                        // add npc to list of npcs talked to
+                        _gamePlayer.TalkedToNPCs.Add(npcId);
+                        _gamePlayer.ExperiencePoints += npc.XP;
+                    }
+                    
                 }
                 else
                 {
@@ -851,6 +914,7 @@ namespace TB_QuestGame
                     _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
                         $"Your points: {playerPoints}\n" +
                         $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
+                    npc.LocationId = 0;
                 }
                 else if (!_gamePlayer.IsArmed && !npc.IsArmed)
                 {
@@ -859,6 +923,7 @@ namespace TB_QuestGame
                     _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
                         $"Your points: {playerPoints}\n" +
                         $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
+                    npc.LocationId = 0;
                 }
                 else
                 {
