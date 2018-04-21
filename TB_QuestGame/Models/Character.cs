@@ -13,15 +13,6 @@ namespace TB_QuestGame
     {
         #region ENUMERABLES
 
-        public enum CharacterType
-        {
-            None,
-            Royalty,
-            Viking,
-            Farmer,
-            Englishman,
-            Soldier
-        }
 
         public enum Rank
         {
@@ -46,7 +37,6 @@ namespace TB_QuestGame
 
         private string _name;
         private int _age;
-        private CharacterType _gameCharacter;
         private int _locationId;
         private bool _isFriendly;
         private Rank _vikingRank;
@@ -65,12 +55,6 @@ namespace TB_QuestGame
         {
             get { return _age; }
             set { _age = value; }
-        }
-
-        public CharacterType GameCharacter
-        {
-            get { return _gameCharacter; }
-            set { _gameCharacter = value; }
         }
 
         public int LocationId
@@ -100,23 +84,15 @@ namespace TB_QuestGame
 
         }
 
-        public Character(string name, CharacterType race, int locationId)
+        public Character(string name, int locationId)
         {
             _name = name;
-            _gameCharacter = race;
             _locationId = locationId;
         }
 
         #endregion
 
         #region METHODS
-
-        public virtual string Greeting()
-        {
-            return $"Hei, my name is {_name} and I am a {_gameCharacter}";   
-        }
-
-
 
         #endregion
     }

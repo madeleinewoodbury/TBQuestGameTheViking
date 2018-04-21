@@ -1631,6 +1631,180 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("New Level Reacher", Text.NewLevelMessage(_gamePlayer), ActionMenu.MainMenu, "");
         }
 
+
+        public int DisplayGetNpcToTradeWith()
+        {
+            int npcId = 0;
+            bool validNpcId = false;
+
+            List<NPC> npcsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
+
+            if (npcsInLocation.Count > 0)
+            {
+                List<NPC> tradingNPCs = new List<NPC>();
+                foreach (NPC npc in npcsInLocation)
+                {
+                    if (npc.CanTrade)
+                    {
+                        tradingNPCs.Add(npc);
+                    }
+                }
+
+                if (tradingNPCs.Count > 0)
+                {
+                    DisplayGamePlayScreen("Choose Person to trade with", Text.NpcsChooseList(tradingNPCs), ActionMenu.NpcMenu, "");
+
+                    while (!validNpcId)
+                    {
+                        GetInteger($"Enter the id number of the character: ", 0, 0, out npcId);
+
+                        if (_gameUniverse.IsValidNpcByLocationId(npcId, _gamePlayer.LocationId))
+                        {
+                            validNpcId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid id. Please try agian.");
+                        }
+                    }
+                }         
+         
+            }
+            else
+            {
+                DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
+            }
+
+            return npcId;
+        }
+
+        public int DisplayChooseNpcItemToTrade(NPC npc)
+        {
+            int tradeObjectId = 0;
+            int attempt = 0;
+            bool validObjectId = false;
+            List<GameObject> npcTradeObjects = new List<GameObject>();
+            foreach (int item in npc.TradeObjects)
+            {
+                GameObject tradeObject = _gameUniverse.GetGameObjectById(item) as GameObject;
+                if (tradeObject != null)
+                {
+                    npcTradeObjects.Add(tradeObject);
+                }
+            }
+
+            if (npcTradeObjects.Count > 0)
+            {
+                DisplayGamePlayScreen("Trade", Text.DisplayChooseNpcItem(npc, npcTradeObjects), ActionMenu.NpcMenu, "");
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        tradeObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to trade: ", 0, 0, out tradeObjectId);
+                    }
+
+                    if (tradeObjectId != 0)
+                    {
+                        //
+                        // validate integer as valid game object id in current location
+                        if (npc.TradeObjects.Contains(tradeObjectId))
+                        {
+                            validObjectId = true;
+
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid id. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Trade", $"It appears {npc.Name} doesn't have any items to trade.", ActionMenu.NpcMenu, "");
+            }
+            
+
+          
+            return tradeObjectId;
+        }
+
+        public int DisplayGetInventoryItemToTrade()
+        {
+            int gameObjectId = 0;
+            bool validObjectId = false;
+            int attempt = 0;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Trade", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.TradeMenu, "");
+
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        gameObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to trade: ", 0, 0, out gameObjectId);
+                    }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (gameObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Trade", "You don't have any items to put down. Your inventory is empty.", ActionMenu.NpcMenu, "");
+            }
+
+
+            return gameObjectId;
+        }
+
+
+
         #endregion
 
         #endregion

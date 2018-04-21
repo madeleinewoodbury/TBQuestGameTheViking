@@ -146,7 +146,7 @@ namespace TB_QuestGame
             _inventory = new List<GameObject>();
         }
 
-        public Player(string name, CharacterType race, int locationId) : base(name, race, locationId)
+        public Player(string name, int locationId) : base(name, locationId)
         {
             _locationsVisited = new List<int>();
             _inventory = new List<GameObject>();
@@ -166,11 +166,6 @@ namespace TB_QuestGame
             {
                 return false;
             }
-        }
-
-        public override string Greeting()
-        {
-            return $"Hello! I am {base.Name} of {_homeVillage}.";
         }
 
         #endregion

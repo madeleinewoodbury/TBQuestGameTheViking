@@ -49,6 +49,7 @@ namespace TB_QuestGame
         Sell,
         TalkTo,
         Trade,
+        TradeInventoeyItem,
         Travel,
         ReturnToMainMenu,
         Exit

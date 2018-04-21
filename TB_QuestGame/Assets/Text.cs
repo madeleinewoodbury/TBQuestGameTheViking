@@ -657,6 +657,39 @@ namespace TB_QuestGame
                 
         }
 
+        public static string DisplayChooseNpcItem(NPC npc, IEnumerable<GameObject> tradeObjects)
+        {
+            string messageBoxText = $"Here are the items {npc.Name} are willing to trade you: \n" +
+                "\n " +
+
+            //
+            // display table header
+            //
+            "ID".PadRight(10) +
+            "Name".PadRight(40) +
+            "Value".PadRight(10) + "\n" +
+            "---".PadRight(10) +
+            "----------------------".PadRight(40) +
+            "---".PadRight(10) + "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string gameObjectRows = null;
+            foreach (GameObject tradeObject in tradeObjects)
+            {
+                gameObjectRows +=
+                    $"{tradeObject.Id}".PadRight(10) +
+                    $"{tradeObject.Name}".PadRight(40) +
+                    $"{tradeObject.Value}".PadRight(10) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += gameObjectRows;
+
+            return messageBoxText;
+        }
+
         #endregion
 
         #region ADMIN MENU

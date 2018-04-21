@@ -13,6 +13,8 @@ namespace TB_QuestGame
         public abstract string Description { get; set; }
         public int XP { get; set; }
         public bool IsArmed { get; set; }
+        public bool CanTrade { get; set; }
+        public List<int> TradeObjects { get; set; }
 
         #endregion
 

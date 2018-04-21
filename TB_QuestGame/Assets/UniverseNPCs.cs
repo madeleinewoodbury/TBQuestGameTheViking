@@ -10,9 +10,11 @@ namespace TB_QuestGame
     {
         public static List<NPC> NPCs = new List<NPC>()
         {
+            #region NPCs in Kaupang (1)
+
             new Viking
             {
-                Id = 1,
+                Id = 10,
                 Name ="Egill",
                 LocationId = 1,
                 XP = 50,
@@ -26,13 +28,14 @@ namespace TB_QuestGame
                 IsFriendly = true,
                 PrimaryShield = 7,
                 PrimaryWeapon = 1,
-                VikingRank = Character.Rank.Radnigar
-
+                VikingRank = Character.Rank.Radnigar,
+                CanTrade = true,
+                TradeObjects = new List<int>(){12, 21}
             },
 
             new Viking
             {
-                Id = 2,
+                Id = 12,
                 Name ="Skáldi",
                 LocationId = 1,
                 XP = 20,
@@ -42,20 +45,127 @@ namespace TB_QuestGame
                 PrimaryWeapon = 6,
                 PrimaryShield = 7,
                 VikingRank = Character.Rank.Viking,
-                IsArmed = true
+                IsArmed = true,
+                CanTrade = false
             },
 
             new Viking
             {
-                Id = 3,
+                Id = 13,
+                Name ="Svala",
+                LocationId = 1,
+                XP = 10,
+                Description = "A young shieldmaiden.",
+                IsFriendly = true,
+                VikingRank = Character.Rank.Viking,
+                IsArmed = false,
+                CanTrade = true,
+                TradeObjects = new List<int>(){20, 49}
+            },
+
+            #endregion
+
+            #region Npcs in Storhamar (2)
+
+            new Viking
+            {
+                Id = 20,
                 Name ="Ubbe",
                 LocationId = 2,
-                XP = 20,
+                XP = 15,
                 Description = "Ubbe is a big string viking. He is armed with his fists.",
                 IsFriendly = false,
                 VikingRank = Character.Rank.Viking,
-                IsArmed = false
-            }
+                IsArmed = false,
+                CanTrade = false
+            },
+
+            new Viking
+            {
+                Id = 21,
+                Name ="Vilborg",
+                LocationId = 2,
+                XP = 10,
+                Description = "An old widow, her husband Ilmr, went missing in the woods on a hunting trip.",
+                IsFriendly = true,
+                VikingRank = Character.Rank.Viking,
+                IsArmed = false,
+                CanTrade = true,
+                TradeObjects = new List<int>(){44}
+            },
+
+            new Viking
+            {
+                Id = 22,
+                Name ="Melkolfr",
+                LocationId = 2,
+                XP = 20,
+                Description = "Some call him 'Melkolfr the Map' because he knows his ways around.",
+                IsFriendly = true,
+                VikingRank = Character.Rank.Viking,
+                IsArmed = false,
+                CanTrade = false
+            },
+
+            #endregion
+
+            #region NPCs in Kungahälla (3)
+
+            new Viking
+            {
+                Id = 30,
+                Name ="Sturla",
+                LocationId = 3,
+                XP = 25,
+                Description = "Sturla is the Jarl of Kungälla.",
+                IsFriendly = true,
+                VikingRank = Character.Rank.Jarl,
+                IsArmed = false,
+                CanTrade = false
+            },
+
+            new Viking
+            {
+                Id = 31,
+                Name ="Herfjðtur",
+                LocationId = 3,
+                XP = 25,
+                Description = "The wife of Jarl Sturla.",
+                IsFriendly = true,
+                VikingRank = Character.Rank.Viking,
+                IsArmed = false,
+                CanTrade = false
+            },
+
+            #endregion
+
+            #region NPCs in Nidaros (4)
+
+            #endregion
+
+            #region NPCs in Stavanger (5)
+
+            #endregion
+
+            #region NPCs in Leirvik (5)
+
+            #endregion
+
+            #region NPCs in Lindisfarne (7)
+
+            #endregion
+
+            #region NPCs in Jorvuj (8)
+
+            #endregion
+
+            #region NPCs in Norfolk (9)
+
+            #endregion
+
+
+          
+
         };
     }
 }

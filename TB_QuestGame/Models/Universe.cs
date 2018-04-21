@@ -336,6 +336,7 @@ namespace TB_QuestGame
             }
         }
 
+
         public bool IsValidPlaceByLocation(int placeId, int currentLocationId)
         {
             List<int> placeIds = new List<int>();

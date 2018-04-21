@@ -76,6 +76,9 @@ namespace TB_QuestGame
             MenuChoices = new Dictionary<char, PlayerAction>()
             {
                 { '1', PlayerAction.TalkTo},
+                { '2', PlayerAction.Trade },
+                { '3', PlayerAction.Buy },
+                { '4', PlayerAction.TradeInventoeyItem},
                 { '0', PlayerAction.GoBack}
             }
         };

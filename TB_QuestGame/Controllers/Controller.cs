@@ -230,8 +230,15 @@ namespace TB_QuestGame
                         SellAction();
                         break;
                     case PlayerAction.Trade:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
-                        _gameConsoleView.DisplayTrade(_currentLocaton);
+                        if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.NpcMenu)
+                        {
+                            objectId = TradeWithNpc();
+                        }
+                        else
+                        {
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
+                            _gameConsoleView.DisplayTrade(_currentLocaton);
+                        }
                         break;
                     case PlayerAction.TalkTo:
                         npcId = TalkToAction();
@@ -243,7 +250,9 @@ namespace TB_QuestGame
                         ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
                         _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.LookAround(_currentLocaton), ActionMenu.MainMenu, "");
                         break;
-
+                    case PlayerAction.TradeInventoeyItem:
+                        TradeInventoryItemAction(objectId);
+                        break;
                     #endregion
 
                     #region Main Menu Options
@@ -819,6 +828,59 @@ namespace TB_QuestGame
                     $"Your points: {playerPoints}\n" +
                     $"{npc.Name}'s points: {opponentPoints}", ActionMenu.MainMenu, "");
             }
+        }
+
+        private int TradeWithNpc()
+        {
+            int npcId = _gameConsoleView.DisplayGetNpcToTradeWith();
+
+            if (npcId != 0)
+            {
+                NPC npc = _gameUniverse.GetNpcById(npcId);
+                if (npc.TradeObjects.Count > 0)
+                {
+                    int npcItemToTrade = _gameConsoleView.DisplayChooseNpcItemToTrade(npc);
+                    GameObject tradeItem = _gameUniverse.GetGameObjectById(npcItemToTrade);
+                    _gameConsoleView.DisplayGamePlayScreen("Trade", $"Would you like to buy {tradeItem.Name} for {tradeItem.Value} coins \n" +
+                        "or would you like to trade one of the items in your inventory for it?\n" +
+                        "\nChoose from the menu options", ActionMenu.NpcMenu, "");
+                }
+            }
+
+            return npcId;
+        }
+
+        private void TradeInventoryItemAction(int npcItemToTrade)
+        {
+            int inventoryItemToTade = _gameConsoleView.DisplayGetInventoryItemToTrade();
+
+            if (inventoryItemToTade != 0)
+            {
+                GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryItemToTade) as GameObject;
+
+                if (npcItemToTrade != 0)
+                {
+                    GameObject npcObject = _gameUniverse.GetGameObjectById(npcItemToTrade) as GameObject;
+                    if (inventoryObject != null && npcObject != null)
+                    {
+                        if (inventoryObject.Value >= npcObject.Value)
+                        {
+                            _gamePlayer.Inventory.Remove(inventoryObject);
+                            _gamePlayer.Inventory.Add(npcObject);
+
+                            _gameConsoleView.DisplayGamePlayScreen("Trade", $"You have traded {inventoryObject.Name} for {npcObject.Name} which has now\n" +
+                                "been added to your ineventory.", ActionMenu.NpcMenu, "");
+                        }
+                        else
+                        {
+                            _gameConsoleView.DisplayGamePlayScreen("Trade", $"The value of {inventoryObject.Name} is not enouh to trade for the value of {npcObject.Name}.", ActionMenu.NpcMenu, "");
+                        }
+                    
+                    }
+
+                }
+            }
+
         }
 
         private void GameTickTimer_Elapsed(object sender, ElapsedEventArgs e)
