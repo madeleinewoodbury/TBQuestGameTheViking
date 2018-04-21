@@ -29,6 +29,7 @@ namespace TB_QuestGame
         private string _homeVillage;
         private int _capital;
         private bool _isArmed;
+        private bool _isShielded;
         private int _health;
         private int _lives;
         private int _experiencePoints;
@@ -86,6 +87,12 @@ namespace TB_QuestGame
         {
             get { return _isArmed; }
             set { _isArmed = value; }
+        }
+
+        public bool IsShielded
+        {
+            get { return _isShielded; }
+            set { _isShielded = value; }
         }
 
         public int Health

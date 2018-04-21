@@ -185,14 +185,27 @@ namespace TB_QuestGame
 
             if (gamePlayer.IsArmed)
             {
-                weaponInfo = $"\tPrimary Weapon: {gamePlayer.PrimaryShield.Name}";
+                weaponInfo = $"\tPrimary Weapon: {gamePlayer.PrimaryWeapon.Name}\n";
             }
             else
             {
-                weaponInfo = "\tPrimary Weapon: You are currently unarmed";
+                weaponInfo = "\tPrimary Weapon: You are currently unarmed\n";
             }
 
             messageBoxText += weaponInfo;
+
+            string shieldInfo;
+
+            if (gamePlayer.IsShielded)
+            {
+                shieldInfo = $"\tPrimary Shield: {gamePlayer.PrimaryShield.Name}";
+            }
+            else
+            {
+                shieldInfo = "\tPrimary Shield: You don't have a shield.";
+            }
+
+            messageBoxText += shieldInfo;
 
             return messageBoxText;
         }
