@@ -14,5 +14,6 @@ namespace TB_QuestGame
         public abstract int LocationId { get; set; }
         public abstract bool CanInventory { get; set; }
         public abstract int Value { get; set; }
+        public abstract int Weight { get; set; }
     }
 }

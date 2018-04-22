@@ -231,8 +231,8 @@ namespace TB_QuestGame
                  //
                  // display table header
                  //
-                 "ID".PadRight(10) + "Name".PadRight(30) + "\n" +
-                 "---".PadRight(10) + "--------------------".PadRight(30) + "\n";
+                 "ID".PadRight(10) + "Name".PadRight(30) + "Level Needed".PadRight(10) + "\n" +
+                 "---".PadRight(10) + "--------------------".PadRight(30) +"-----" + "\n";
 
             //
             // display all locations besides the current
@@ -248,6 +248,7 @@ namespace TB_QuestGame
                         locationList +=
                         $"{location.LocationId}".PadRight(10) +
                         $"{location.LocationName}".PadRight(30) +
+                        $"{location.LevelNeeded}".PadRight(10) +
                         Environment.NewLine;
 
                     }
@@ -370,14 +371,6 @@ namespace TB_QuestGame
 
                 messageBoxText += $"The {item.Name} has a value of {item.Value} and ";
 
-                if (item.CanInventory)
-                {
-                    messageBoxText += "may be added to your inventory.";
-                }
-                else
-                {
-                    messageBoxText += "may not be added to your inventory.";
-                }
             }
             else if (gameObject is Treasure)
             {
@@ -385,14 +378,6 @@ namespace TB_QuestGame
 
                 messageBoxText += $"The {treasure.Name} has a value of {treasure.Value} and ";
 
-                if (treasure.CanInventory)
-                {
-                    messageBoxText += "may be added to your inventory.";
-                }
-                else
-                {
-                    messageBoxText += "may not be added to your inventory.";
-                }
             }
             else if (gameObject is Weapon)
             {
@@ -400,20 +385,7 @@ namespace TB_QuestGame
 
                 messageBoxText += $"The {weapon.Name} has a value of {weapon.Value} and ";
 
-                if (weapon.CanInventory)
-                {
-                    messageBoxText += "may be added to your inventory.";
-                }
-                else
-                {
-                    messageBoxText += "may not be added to your inventory.";
-                }
             }
-            else
-            {
-                messageBoxText += $"The {gameObject.Name} may not be added to your inventory.";
-            }
-
 
             return messageBoxText;
         }
@@ -641,7 +613,7 @@ namespace TB_QuestGame
             }
             if (placeEntered.CanTrain)
             {
-                messageBoxText += $"You have gaines {placeEntered.ExperiencePoints} experience points here. \n";
+                messageBoxText += $"You have gained {placeEntered.ExperiencePoints} experience points here. \n";
             }
 
             return messageBoxText;
@@ -673,7 +645,7 @@ namespace TB_QuestGame
         public static string DisplayChooseNpcItem(NPC npc, IEnumerable<GameObject> tradeObjects)
         {
             string messageBoxText = $"Here are the items {npc.Name} are willing to trade you: \n" +
-                "\n " +
+                "\n" +
 
             //
             // display table header

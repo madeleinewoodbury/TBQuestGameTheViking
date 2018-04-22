@@ -19,6 +19,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "Crafted by the Nordic smith named Ulfberht, this is one of the first all steel blades.",
                 Value = 25,
+                Weight = 10,
                 DamagePoints = 25,
                 CanInventory = true,
                 Shield = false
@@ -32,6 +33,7 @@ namespace TB_QuestGame
                 Description = "This is a beautiful crafted sword. The pommel and guard are decorated with copper. \n" +
                 "It is a heavy sword, but it can do a lot of damage.",
                 Value = 40,
+                Weight = 15,
                 DamagePoints = 45,
                 CanInventory = true
             },
@@ -44,6 +46,7 @@ namespace TB_QuestGame
                 Description = "This is a light, agile and resilient fighting blade. It is smaller than a regular sword, which makes \n" +
                 "it great for fighting armed with a shield or an axe in the other hand.",
                 Value = 30,
+                Weight = 8,
                 DamagePoints = 30,
                 CanInventory = true,
                 Shield = false
@@ -56,6 +59,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This quite capable of cleaving helms or armours. Made from though steel, great for battles.",
                 Value = 30,
+                Weight = 15,
                 DamagePoints = 25,
                 CanInventory = true,
                 Shield = false
@@ -68,6 +72,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This axe is meant only for the most ferocious and stout warriours.",
                 Value = 50,
+                Weight = 20,
                 DamagePoints = 50,
                 CanInventory = true,
                 Shield = false
@@ -81,6 +86,7 @@ namespace TB_QuestGame
                 Description = "Shorter than most axes, this axe is great for throwing. Don't be fooled by it's length, \n" +
                 "the shaft is sharp, and with great accuracy this could be the perfect battle weapon.",
                 Value = 20,
+                Weight = 10,
                 DamagePoints = 30,
                 CanInventory = true,
                 Shield = false
@@ -94,6 +100,7 @@ namespace TB_QuestGame
                 Description = "This is a common shield among the vikings. With it's thick plywood center and steel rim, \n" +
                 "it is built to withstand the sharpest of blades.",
                 Value = 20,
+                Weight = 15,
                 DamagePoints = 10,
                 CanInventory = true,
                 Shield = true
@@ -107,6 +114,7 @@ namespace TB_QuestGame
                 Description = "This is a sturdy Viking Shiels made out of red oak and plywood. It is lighter than most shields, \n" +
                 "which makes it easier to move around in combat.",
                 Value = 30,
+                Weight = 10,
                 DamagePoints = 10,
                 CanInventory = true,
                 Shield = true
@@ -119,6 +127,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This is one of the stringest shields, made from thick wood and steel. It is heavy, but not much can go through it.",
                 Value = 40,
+                Weight = 20,
                 DamagePoints = 15,
                 CanInventory = true,
                 Shield = true
@@ -131,6 +140,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "This is a wide flatbow with narrow ends. Made to shoot far and with great force.",
                 Value = 35,
+                Weight = 15,
                 DamagePoints = 25,
                 CanInventory = true,
                 Shield = false
@@ -143,6 +153,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "A traditional bow, small and light. Great for hunting and shorter distances.",
                 Value = 20,
+                Weight = 10,
                 DamagePoints = 20,
                 CanInventory = true,
                 Shield = false
@@ -155,6 +166,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "A small but incredibilry sharp knife. Great for upclose combats.",
                 Value = 15,
+                Weight = 5,
                 DamagePoints = 10,
                 CanInventory = true
             },
@@ -166,6 +178,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "If it were any longer you could mistake this for a sword. This is a knife best suited for a warrior.",
                 Value = 30,
+                Weight = 15,
                 DamagePoints = 20,
                 CanInventory = true,
                 Shield = false
@@ -179,6 +192,7 @@ namespace TB_QuestGame
                 Description = "A multifunctional weapon, worn to show prestige and power, but it's sharp \n" +
                 "blade was made to kill.",
                 Value = 45,
+                Weight = 10,
                 DamagePoints = 30,
                 CanInventory = true,
                 Shield = false
@@ -196,6 +210,7 @@ namespace TB_QuestGame
                 Description = "This is a highly intricate amulet of power and protection, fit for a high ranking Saxon or Viking leader. \n" +
                 "The head of a Celtic dragon has been sculpted to bite the chain that it hangs from.",
                 Value = 50,
+                Weight = 5,
                 CanInventory = true
             },
 
@@ -206,6 +221,7 @@ namespace TB_QuestGame
                 LocationId = 1,
                 Description = "This is a well decorated and unique bear claw pendant. Made from steel and will look great on a berserker.",
                 Value = 20,
+                Weight = 5,
                 CanInventory = true
             },
 
@@ -216,6 +232,7 @@ namespace TB_QuestGame
                 LocationId = 3,
                 Description = "A nice brooch cast from bronze. Only made in Kattegat.",
                 Value = 15,
+                Weight = 7,
                 CanInventory = true
             },
 
@@ -226,6 +243,7 @@ namespace TB_QuestGame
                 LocationId = 5,
                 Description = "Bronze hammer pendant with a wolf's heas on it.",
                 Value = 10,
+                Weight = 10,
                 CanInventory = true
             },
 
@@ -236,6 +254,7 @@ namespace TB_QuestGame
                 LocationId = 4,
                 Description = "The ring has two eagles on it, made out of brass. Represent strength and resilience.",
                 Value = 20,
+                Weight = 5,
                 CanInventory = true
             },
 
@@ -246,6 +265,7 @@ namespace TB_QuestGame
                 LocationId = 9,
                 Description = "A beautful necklace made from gold. Wore by the reach Anglo-Saxons.",
                 Value = 40,
+                Weight = 5,
                 CanInventory = true
             },
 
@@ -256,6 +276,7 @@ namespace TB_QuestGame
                 LocationId = 3,
                 Description = "The name comes from their resmblance to the tortoise. Made from brass and bronze.",
                 Value = 20,
+                Weight = 8,
                 CanInventory = true
             },
 
@@ -267,6 +288,7 @@ namespace TB_QuestGame
                 Description = "Odin, known as the Norse All-Father. He sist astride his horse, Sleipnerm who carries souls to the \n" +
                 "unseen realms. This gold pendant has an eye in the middle, it is the eye of Odin.",
                 Value = 100,
+                Weight = 10,
                 CanInventory = true
             },
 
@@ -277,6 +299,7 @@ namespace TB_QuestGame
                 LocationId = 2,
                 Description = "A Viking doesn't wear any earrings, but earrings made out of silver made to represent the sea.",
                 Value = 20,
+                Weight = 5,
                 CanInventory = true
             },
 
@@ -287,6 +310,7 @@ namespace TB_QuestGame
                 LocationId = 3,
                 Description = "A unique and beautiful pendant representing the Hammer of Thor.",
                 Value = 50,
+                Weight = 10,
                 CanInventory = true
             },
 
@@ -297,6 +321,7 @@ namespace TB_QuestGame
                 LocationId = 1,
                 Description = "Made out pewter and silver. With the name Fylkirfold carved into it.",
                 Value = 20,
+                Weight = 5,
                 CanInventory = true
             },
 
@@ -307,6 +332,7 @@ namespace TB_QuestGame
                 LocationId = 5,
                 Description = "A heavy necklace made from gold, the name implies that you must be worthy of wearing it.",
                 Value = 50,
+                Weight = 10,
                 CanInventory = true
             },
             /*
@@ -361,6 +387,7 @@ namespace TB_QuestGame
                 LocationId = 1,
                 Description = "Made from sturdy leather, this helmet is lighter than steel, but not the most protective in battle.",
                 Value = 10,
+                Weight = 10,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -373,6 +400,7 @@ namespace TB_QuestGame
                 LocationId = 9,
                 Description = "Also known as the York Helmet. This is an Anglo-Saxon crested helmet, richly decorated with brass ornamentation.",
                 Value = 25,
+                Weight = 15,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -385,6 +413,7 @@ namespace TB_QuestGame
                 LocationId = 0,
                 Description = "Nicely decorated helmet made from steel. Great for battles, protects the nose and chin as well.",
                 Value = 30,
+                Weight = 15,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -398,6 +427,7 @@ namespace TB_QuestGame
                 LocationId = 7,
                 Description = "Covers the upperbody, it's heavy, but it could save your life in battle.",
                 Value = 15,
+                Weight = 25,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -410,6 +440,7 @@ namespace TB_QuestGame
                 LocationId = 3,
                 Description = "",
                 Value = 5,
+                Weight = 10,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -422,6 +453,7 @@ namespace TB_QuestGame
                 LocationId = 1,
                 Description = "",
                 Value = 10,
+                Weight = 10,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0,
@@ -475,6 +507,7 @@ namespace TB_QuestGame
                 LocationId = 2,
                 Description = "Drink to the gods.",
                 Value = 0,
+                Weight = 1,
                 CanInventory = true,
                 IsConsumable = true,
                 Health = 5
@@ -487,6 +520,7 @@ namespace TB_QuestGame
                 LocationId = 5,
                 Description = "",
                 Value = 0,
+                Weight = 2,
                 CanInventory = true,
                 IsConsumable = true,
                 Health = 15
@@ -499,6 +533,7 @@ namespace TB_QuestGame
                 LocationId = 6,
                 Description = "",
                 Value = 0,
+                Weight = 3,
                 CanInventory = true,
                 IsConsumable = true,
                 Health = 10
@@ -511,6 +546,7 @@ namespace TB_QuestGame
                 LocationId = 8,
                 Description = "",
                 Value = 0,
+                Weight = 1,
                 CanInventory = true,
                 IsConsumable = true,
                 Health = 5
@@ -523,6 +559,7 @@ namespace TB_QuestGame
                 LocationId = 4,
                 Description = "A soft, yoghurt-like cheese.",
                 Value = 0,
+                Weight = 1,
                 CanInventory = true,
                 IsConsumable = true,
                 Health = 5
@@ -563,6 +600,7 @@ namespace TB_QuestGame
                 LocationId = 2,
                 Description = "This is a must have item for all Vikings. How else are you going to consume your mead?!",
                 Value = 5,
+                Weight = 5,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0
@@ -575,6 +613,7 @@ namespace TB_QuestGame
                 LocationId = 3,
                 Description = "Hold about 1 pint, this tankard has a sculpted dragon as a handle. Made fron pewter.",
                 Value = 15,
+                Weight = 5,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0
@@ -587,6 +626,7 @@ namespace TB_QuestGame
                 LocationId = 2,
                 Description = "Comb made from animal bones.",
                 Value = 5,
+                Weight = 2,
                 CanInventory = true,
                 IsConsumable = false,
                 Health = 0

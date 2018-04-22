@@ -656,7 +656,7 @@ namespace TB_QuestGame
                 //
                 if (_gameUniverse.IsValidLocationId(locationId))
                 {
-                    if (_gameUniverse.IsAccessibleLocation(locationId, _gamePlayer.LocationId))
+                    if (_gameUniverse.IsAccessibleLocation(locationId, _gamePlayer))
                     {
                         validLocationId = true;
                     }
@@ -1238,14 +1238,14 @@ namespace TB_QuestGame
             
         }
 
-        public void DisplayTrade(Location currentLocation)
+        public void DisplayShop(Location currentLocation)
         {
-            DisplayGamePlayScreen("Trade", Text.DisplayTradeScreenText(_gamePlayer.Inventory, currentLocation), ActionMenu.TradeMenu, "");
+            DisplayGamePlayScreen("Shop", Text.DisplayTradeScreenText(_gamePlayer.Inventory, currentLocation), ActionMenu.ShopMenu, "");
         }
 
         public void DisplayConfirmPurchase(GameObject objectAdded)
         {
-            DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.TradeMenu, "");
+            DisplayGamePlayScreen("Shop", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.ShopMenu, "");
         }
 
         public int DisplayGetTradeObjectToSell()
@@ -1256,7 +1256,7 @@ namespace TB_QuestGame
 
             if (_gamePlayer.Inventory.Count > 0)
             {
-                DisplayGamePlayScreen("Sell", Text.DisplayObjectsForSale(_gamePlayer.Inventory), ActionMenu.TradeMenu, "");
+                DisplayGamePlayScreen("Sell", Text.DisplayObjectsForSale(_gamePlayer.Inventory), ActionMenu.ShopMenu, "");
 
 
                 while (!validObjectId)
@@ -1302,7 +1302,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Sell", "You don't have any items to sell. Your inventory is empty. \nPress any key to continue,", ActionMenu.TradeMenu, "");
+                DisplayGamePlayScreen("Sell", "You don't have any items to sell. Your inventory is empty. \nPress any key to continue,", ActionMenu.ShopMenu, "");
                 Console.CursorVisible = false;
                 Console.ReadKey();
             }
@@ -1314,7 +1314,7 @@ namespace TB_QuestGame
 
         public void DisplayConfirmSale(GameObject objectAdded)
         {
-            DisplayGamePlayScreen("Trade", $"The {objectAdded.Name} has been removed from your inventory.", ActionMenu.TradeMenu, "");
+            DisplayGamePlayScreen("Shop", $"The {objectAdded.Name} has been removed from your inventory.", ActionMenu.ShopMenu, "");
         }
 
         public void DisplayClosingScreen(Player player)
@@ -1339,7 +1339,7 @@ namespace TB_QuestGame
                 }
             }
 
-            DisplayGamePlayScreen("Buy", Text.ListTradeObjects(tradeObjects), ActionMenu.TradeMenu, "");
+            DisplayGamePlayScreen("Buy", Text.ListTradeObjects(tradeObjects), ActionMenu.ShopMenu, "");
 
             while (!validObjectId)
             {
@@ -1613,7 +1613,8 @@ namespace TB_QuestGame
                 message = "It appears this character has nothing to say. Please try agian.";
             }
 
-            DisplayGamePlayScreen("Speak to Character", message, ActionMenu.NpcMenu, "");
+            DisplayGamePlayScreen("Speak to Character", $"{npc.Description}\n"+
+                $"{npc.Name}: " + message, ActionMenu.NpcMenu, "");
 
         }
 
@@ -1628,7 +1629,8 @@ namespace TB_QuestGame
 
         public void DisplayNewLevelMessage()
         {
-            DisplayGamePlayScreen("New Level Reacher", Text.NewLevelMessage(_gamePlayer), ActionMenu.MainMenu, "");
+            ClearInputBox();
+            DisplayGamePlayScreen("New Level Reached", Text.NewLevelMessage(_gamePlayer), ActionMenu.MainMenu, "");
         }
 
 
@@ -1646,13 +1648,17 @@ namespace TB_QuestGame
                 {
                     if (npc.CanTrade)
                     {
-                        tradingNPCs.Add(npc);
+                        if (npc.TradeObjects.Count > 0)
+                        {
+                            tradingNPCs.Add(npc);
+                        }
+                        
                     }
                 }
 
                 if (tradingNPCs.Count > 0)
                 {
-                    DisplayGamePlayScreen("Choose Person to trade with", Text.NpcsChooseList(tradingNPCs), ActionMenu.NpcMenu, "");
+                    DisplayGamePlayScreen("Choose Person to trade with", Text.NpcsChooseList(tradingNPCs), ActionMenu.TradeMenu, "");
 
                     while (!validNpcId)
                     {
@@ -1668,6 +1674,10 @@ namespace TB_QuestGame
                             DisplayInputErrorMessage("It appears you entered an invalid id. Please try agian.");
                         }
                     }
+                }
+                else
+                {
+                    DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs to trade with here.", ActionMenu.NpcMenu, "");
                 }         
          
             }
@@ -1696,7 +1706,7 @@ namespace TB_QuestGame
 
             if (npcTradeObjects.Count > 0)
             {
-                DisplayGamePlayScreen("Trade", Text.DisplayChooseNpcItem(npc, npcTradeObjects), ActionMenu.NpcMenu, "");
+                DisplayGamePlayScreen("Trade", Text.DisplayChooseNpcItem(npc, npcTradeObjects), ActionMenu.TradeMenu, "");
 
                 while (!validObjectId)
                 {
@@ -1735,7 +1745,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Trade", $"It appears {npc.Name} doesn't have any items to trade.", ActionMenu.NpcMenu, "");
+                DisplayGamePlayScreen("Trade", $"It appears {npc.Name} doesn't have any items to trade.", ActionMenu.TradeMenu, "");
             }
             
 
@@ -1796,7 +1806,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Trade", "You don't have any items to put down. Your inventory is empty.", ActionMenu.NpcMenu, "");
+                DisplayGamePlayScreen("Trade", "You don't have any items to trade. Your inventory is empty.", ActionMenu.TradeMenu, "");
             }
 
 

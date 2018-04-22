@@ -14,6 +14,7 @@ namespace TB_QuestGame
         public override int LocationId { get; set; }
         public override bool CanInventory { get; set; }
         public override int Value { get; set; }
+        public override int Weight { get; set; }
 
         public string EntryMessage { get; set; }
         public int Health { get; set; }

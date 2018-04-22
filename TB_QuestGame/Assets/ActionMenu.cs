@@ -22,9 +22,10 @@ namespace TB_QuestGame
             ListGameObjectsMenu,
             InventoryMenu,
             AdminMenu,
-            TradeMenu,
+            ShopMenu,
             EditPlayerMenu,
-            BattleMenu
+            BattleMenu, 
+            TradeMenu
         }
 
         public static CurrentMenu currentMenu = CurrentMenu.MainMenu;
@@ -62,7 +63,7 @@ namespace TB_QuestGame
                 {
                     { '1', PlayerAction.ItemMenu},
                     { '2', PlayerAction.NpcMenu},
-                    { '3', PlayerAction.Trade },
+                    { '3', PlayerAction.Shop },
                     { '4', PlayerAction.EnterPlace },
                     { '0', PlayerAction.ReturnToMainMenu }
 
@@ -77,8 +78,18 @@ namespace TB_QuestGame
             {
                 { '1', PlayerAction.TalkTo},
                 { '2', PlayerAction.Trade },
-                { '3', PlayerAction.Buy },
-                { '4', PlayerAction.TradeInventoeyItem},
+                { '0', PlayerAction.GoBack}
+            }
+        };
+
+        public static Menu TradeMenu = new Menu()
+        {
+            MenuName = "TradeMenu",
+            MenuTitle = "Trade Menu",
+            MenuChoices = new Dictionary<char, PlayerAction>()
+            {
+                { '1', PlayerAction.TradeInventoryItem},
+                { '2', PlayerAction.Buy },
                 { '0', PlayerAction.GoBack}
             }
         };
@@ -151,7 +162,7 @@ namespace TB_QuestGame
             }
         };
 
-        public static Menu TradeMenu = new Menu()
+        public static Menu ShopMenu = new Menu()
         {
             MenuName = "TradeMenu",
             MenuTitle = "Trade Menu",

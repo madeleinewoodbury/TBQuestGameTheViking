@@ -17,7 +17,7 @@ namespace TB_QuestGame
                 Id = 10,
                 Name ="Egill",
                 LocationId = 1,
-                XP = 50,
+                XP = 110,
                 Description = "A wise and experienced warrior, he has seen a great deal on his quests.",
                 Messages = new List<string>()
                 {
@@ -41,6 +41,7 @@ namespace TB_QuestGame
                 XP = 20,
                 Description = "Skáldi is always looking for a fight. He has not seen many battles, \n" +
                 "but he is fearless and strong.",
+                BattleMessage = "Better pray to your gods, because you will soon meet them.",
                 IsFriendly = false,
                 PrimaryWeapon = 6,
                 PrimaryShield = 7,
@@ -58,6 +59,10 @@ namespace TB_QuestGame
                 Description = "A young shieldmaiden.",
                 IsFriendly = true,
                 VikingRank = Character.Rank.Viking,
+                Messages = new List<string>()
+                {
+                    "I may have some things to trade with you"
+                },
                 IsArmed = false,
                 CanTrade = true,
                 TradeObjects = new List<int>(){20, 49}
@@ -74,6 +79,7 @@ namespace TB_QuestGame
                 LocationId = 2,
                 XP = 15,
                 Description = "Ubbe is a big string viking. He is armed with his fists.",
+                BattleMessage = "I will fight you until the very last breath!",
                 IsFriendly = false,
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,
@@ -87,6 +93,11 @@ namespace TB_QuestGame
                 LocationId = 2,
                 XP = 10,
                 Description = "An old widow, her husband Ilmr, went missing in the woods on a hunting trip.",
+                Messages = new List<string>()
+                {
+                    "Have you seen my husband?",
+                    "They say he will never return, but I know he is out there."
+                },
                 IsFriendly = true,
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,
@@ -99,8 +110,12 @@ namespace TB_QuestGame
                 Id = 22,
                 Name ="Melkolfr",
                 LocationId = 2,
-                XP = 20,
+                XP = 30,
                 Description = "Some call him 'Melkolfr the Map' because he knows his ways around.",
+                Messages = new List<string>()
+                {
+                    "Follow the path that leads west and you will find the treasures you are looking for.",
+                },
                 IsFriendly = true,
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,

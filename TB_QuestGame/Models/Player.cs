@@ -41,6 +41,7 @@ namespace TB_QuestGame
         private int _currentLevel;
         private Weapon _primaryWeapon;
         private Weapon _primaryShield;
+        private int _inventoryWeight;
 
         #endregion
 
@@ -142,6 +143,12 @@ namespace TB_QuestGame
             set { _primaryShield = value; }
         }
 
+        public int InventoryWeight
+        {
+            get { return _inventoryWeight; }
+            set { _inventoryWeight = value; }
+        }
+
         #endregion
 
         #region CONSTRUCTORS
@@ -187,6 +194,17 @@ namespace TB_QuestGame
             }
         }
 
+        public bool MaxWeight(int objectWeight)
+        {
+            if (this.InventoryWeight + objectWeight > 50)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
     }
 }

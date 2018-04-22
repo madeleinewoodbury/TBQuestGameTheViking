@@ -88,15 +88,15 @@ namespace TB_QuestGame
             };
             _levels = new Dictionary<int, int>()
             {
-                { 0, 1 },
-                { 100, 2 },
-                { 200, 3 },
-                { 300, 4 },
-                { 400, 5 },
-                { 500, 6 },
-                { 600, 7 },
-                { 700, 8 },
-                { 800, 9 },
+                { 100, 1 },
+                { 200, 2 },
+                { 300, 3 },
+                { 400, 4 },
+                { 500, 5 },
+                { 600, 6 },
+                { 700, 7 },
+                { 800, 8 },
+                { 900, 9 },
                 { 1000, 10 }
             };
         }
@@ -155,13 +155,17 @@ namespace TB_QuestGame
         /// </summary>
         /// <param name="locationId"></param>
         /// <returns></returns>
-        public bool IsAccessibleLocation(int locationId, int currentLocationId)
+        public bool IsAccessibleLocation(int locationId, Player gamePlayer)
         {
             Location location = GetLocationById(locationId);
-            Location currentLocation = GetLocationById(currentLocationId);
+            Location currentLocation = GetLocationById(gamePlayer.LocationId);
 
             if (currentLocation.AccessableLocations.Contains(locationId))
             {
+                if (location.LevelNeeded > gamePlayer.CurrentLevel)
+                {
+                    return false;
+                }
                 return true;
             }
             else
@@ -443,14 +447,17 @@ namespace TB_QuestGame
             return rank;
         }
 
-        public int GetLevel(int points, int level)
+        public int GetLevel(Player player)
         {
-
+            int level = player.CurrentLevel;
             foreach (var item in _levels)
             {
-                if (points == item.Key)
+                if (item.Value == level)
                 {
-                    level = item.Value;
+                    if (player.ExperiencePoints >= item.Key)
+                    {
+                        level += 1;
+                    }
                 }
             }
 

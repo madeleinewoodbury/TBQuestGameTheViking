@@ -17,5 +17,6 @@ namespace TB_QuestGame
         public override int Value { get; set; }
         public int DamagePoints { get; set; }
         public bool Shield { get; set; }
+        public override int Weight { get; set; }
     }
 }
