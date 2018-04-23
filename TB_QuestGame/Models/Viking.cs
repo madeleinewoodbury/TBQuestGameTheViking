@@ -14,6 +14,7 @@ namespace TB_QuestGame
         public int PrimaryWeapon { get; set; }
         public int PrimaryShield { get; set; }
         public string BattleMessage { get; set; }
+       
 
         /// <summary>
         /// Generate a message or use the default message

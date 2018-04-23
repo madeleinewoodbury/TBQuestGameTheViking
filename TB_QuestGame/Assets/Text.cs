@@ -26,7 +26,7 @@ namespace TB_QuestGame
             "But be warned, the road to the top is hard, and you will have to encouter battles,\n" +
             "both at home and overseas.\n" +
             " \n" +
-            "If you don't think you have what it takes, you can press the Esc key to exit the game at any point. \n" +
+            "If you don't think you have what it takes, then this is not the place for you. \n" +
             " \n" +
             "Your quest begins now. \n" +
             " \n" +
@@ -110,7 +110,9 @@ namespace TB_QuestGame
                 $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
                 $"\tStarting capital: {gamePlayer.Capital} coins\n" +
-                "\tWeapon: You are currently unarmed" +
+                "\tWeapon: You are currently unarmed\n" +
+                "\t Shield: You are currently unshielded. \n" +
+                "\nNOTE: You are staring the game without any weapons, you need to either visit a shop to purchase weapons or trade with another game character. \n" +
                 "\n \n Press any key to begin your mission.";
 
             return messageBoxText;
@@ -123,11 +125,12 @@ namespace TB_QuestGame
         public static string EditPlayerInfo(Player gamePlayer)
         {
             string messageBoxText =
+                "Here is the your viking info that you may changer: \n" +
+                "\n" +
                 $"\tViking Name: {gamePlayer.Name}\n" +
                 $"\tGender: {gamePlayer.Viking}\n" +
                 $"\tViking Years: {gamePlayer.Age}\n" +
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                $"\tCapital: {gamePlayer.Capital} coins\n" +
                 $"\n\n\t{gamePlayer.Name}, choose which information you want to edit from the menu on the left.";
 
             return messageBoxText;
@@ -145,19 +148,6 @@ namespace TB_QuestGame
 
             return messageBoxText;
         }
-
-        public static string DisplayNotEnoughCapital(Player player)
-        {
-            string messageBoxText =
-                $"This is unfortunate, {player.Name}. It seems like you don't have enough capital \n" +
-                "to purchase a new weapon. \n" +
-                $"You need 25 coins to purchase a new weapon, you currently only have {player.Capital} coins. \n" +
-                " \n" +
-                "Press any key to continue:";
-
-            return messageBoxText;
-        }
-
 
         #endregion
 
@@ -215,7 +205,6 @@ namespace TB_QuestGame
             string messageTextBox =
                 $"Current location: {location.LocationName}\n" +
                 " \n" + location.Description;
-            // TODO display contents
 
             return messageTextBox;
         }
@@ -450,7 +439,7 @@ namespace TB_QuestGame
             // display table header
             //
             messageBoxText =
-                $"Here in {currentLocation.LocationName}, you can trade in your valuables for money or you can purchase items. \n" +
+                $"Here in {currentLocation.LocationName}, you can trade in your valuables for coins or you can purchase items from the shop. \n" +
                 "The question is...do you wish to buy or sell? \n" +
                 " \n" +
                 "Here is your current Inventory: \n" +
@@ -619,9 +608,9 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string DisplayOpponentInfo(NPC npc, string message)
+        public static string DisplayOpponentInfo(IEnumerable<Weapon> weapons, NPC npc, string message)
         {
-            string messageBoxText = $"{npc.Name} is not a friend of yours and is prepared to fight you. \n";
+            string messageBoxText = $"{npc.Name} is not a friend of yours and is prepared to fight you. \n" + Environment.NewLine;
 
             if (npc is Viking)
             {
@@ -630,10 +619,27 @@ namespace TB_QuestGame
 
                 if (message != null)
                 {
-                    messageBoxText += $"{npc.Name}: " + message + "\n ";
+                    messageBoxText += $"\n{npc.Name}: " + '"' + message + '"' + "\n";
                 }
 
-                string opponentInfo = $"Viking Rank: {opponent.VikingRank.ToString()}";
+                string weapon = "None";
+                string shield = "None";
+                foreach (var item in weapons)
+                {
+                    if (item.Id == opponent.PrimaryWeapon)
+                    {
+                        weapon = item.Name;
+                    }
+                    else if(item.Id == opponent.PrimaryShield)
+                    {
+                        shield = item.Name;
+                    }
+                }
+
+                string opponentInfo = $"Viking Rank: {opponent.VikingRank.ToString()}\n" +
+                    $"Weapon: {weapon}\n" +
+                    $"Shield: {shield}\n";
+
 
                 messageBoxText += opponentInfo;
             }

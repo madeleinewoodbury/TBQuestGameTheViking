@@ -15,6 +15,8 @@ namespace TB_QuestGame
         public bool IsArmed { get; set; }
         public bool CanTrade { get; set; }
         public List<int> TradeObjects { get; set; }
+        public int Health { get; set; }
+        public bool CanTrain { get; set; }
 
         #endregion
 

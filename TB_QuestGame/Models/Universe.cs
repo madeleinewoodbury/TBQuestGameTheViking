@@ -258,16 +258,6 @@ namespace TB_QuestGame
                 }
             }
 
-            //
-            // the specified ID was not found in the universe
-            // throw and exception
-            //
-            if (gameObjectToReturn == null)
-            {
-                string feedbackMessage = $"The Game Object ID {Id} does not exist in the current Universe.";
-                throw new ArgumentException(feedbackMessage, Id.ToString());
-            }
-
             return gameObjectToReturn;
         }
 
@@ -479,7 +469,7 @@ namespace TB_QuestGame
                     {
                         if (rank.Value == opponent.VikingRank)
                         {
-                            opponentPoints += rank.Key * 10;
+                            opponentPoints += rank.Key * 100;
                         }
                     }
                     if (opponent.IsArmed)

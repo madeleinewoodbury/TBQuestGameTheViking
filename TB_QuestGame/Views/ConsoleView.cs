@@ -236,7 +236,8 @@ namespace TB_QuestGame
 
             while (!validInput)
             {
-                if (!Enum.TryParse<Player.VikingType>(Console.ReadLine(), out vikingType))
+                string userResponse = UppercaseFirst(Console.ReadLine());
+                if (!Enum.TryParse<Player.VikingType>(userResponse, out vikingType))
                 {
                     ClearInputBox();
                     DisplayInputErrorMessage("You have entered an invalid response. Please try again.");
@@ -250,6 +251,23 @@ namespace TB_QuestGame
             
 
             return vikingType;
+        }
+
+        /// <summary>
+        /// changes string to lowercase with first letter uppercase
+        /// adapted from: https://www.dotnetperls.com/uppercase-first-letter
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        static string UppercaseFirst(string s)
+        {
+            // Check for empty string.
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            // Return char and concatenation substring.
+            return char.ToUpper(s[0]) + s.Substring(1).ToLower();
         }
 
         /// <summary>
@@ -1549,7 +1567,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.MainMenu, "");
+                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.InventoryMenu, "");
             }
             
         }
@@ -1620,11 +1638,19 @@ namespace TB_QuestGame
 
         public void DisplayTalkToOpponent(NPC npc)
         {
-            ITalk speakingNpc = npc as ITalk;
+            IBattle battlingNpc = npc as IBattle;
 
-            string message = speakingNpc.Talk();
-
-            DisplayGamePlayScreen("Speak to Character", Text.DisplayOpponentInfo(npc, message), ActionMenu.BattleMenu, "");
+            string message = battlingNpc.Battle();
+            List<Weapon> weapons = new List<Weapon>();
+            foreach (var item in _gameUniverse.GameObjects)
+            {
+                if (item is Weapon)
+                {
+                    Weapon weapon = item as Weapon;
+                    weapons.Add(weapon);
+                }
+            }
+            DisplayGamePlayScreen("Speak to Character", Text.DisplayOpponentInfo(weapons, npc, message), ActionMenu.BattleMenu, "");
         }
 
         public void DisplayNewLevelMessage()

@@ -69,6 +69,9 @@ namespace TB_QuestGame
         /// </summary>
         private void ManageGameLoop()
         {
+            //
+            // game loop variables
+            //
             PlayerAction playerActionChoice = PlayerAction.None;
             int objectId = 0;
             int npcId = 0;
@@ -940,8 +943,13 @@ namespace TB_QuestGame
                         // add npc to list of npcs talked to
                         _gamePlayer.TalkedToNPCs.Add(npcId);
                         _gamePlayer.ExperiencePoints += npc.XP;
+                        _gamePlayer.Health += npc.Health;
                     }
-                    
+
+                }
+                else if (npc.CanTrain)
+                {
+                    _gamePlayer.ExperiencePoints += 10;
                 }
                 else
                 {
@@ -968,6 +976,7 @@ namespace TB_QuestGame
                 if (_gamePlayer.IsArmed)
                 {
                     _gamePlayer.ExperiencePoints += npc.XP;
+                    _gamePlayer.Health -= 20;
                     ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                     _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
                         $"Your points: {playerPoints}\n" +
@@ -977,6 +986,7 @@ namespace TB_QuestGame
                 else if (!_gamePlayer.IsArmed && !npc.IsArmed)
                 {
                     _gamePlayer.ExperiencePoints += npc.XP;
+                    _gamePlayer.Health -= 20;
                     ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
                     _gameConsoleView.DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
                         $"Your points: {playerPoints}\n" +
