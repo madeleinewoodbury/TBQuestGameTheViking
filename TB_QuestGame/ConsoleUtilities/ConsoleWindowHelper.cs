@@ -197,6 +197,8 @@ namespace TB_QuestGame
             Console.SetCursorPosition(0, 0);
         }
 
+
+
         public static string Center(string text, int stringLength)
         {
             int leftPadding = (stringLength - text.Length) / 2 + text.Length;

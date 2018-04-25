@@ -69,5 +69,14 @@ namespace TB_QuestGame
         public static ConsoleColor StatusBoxBorderColor = ConsoleColor.DarkBlue;
         public static ConsoleColor StatusBoxHeaderBackgroundColor = ConsoleColor.Black;
         public static ConsoleColor StatusBoxHeaderForegroundColor = ConsoleColor.White;
+
+        //
+        // battle theme colors
+        public static ConsoleColor BattleMessageBoxBackgroundColor = ConsoleColor.Black;
+        public static ConsoleColor BattleMessageBoxForegroundColor = ConsoleColor.Red;
+        public static ConsoleColor BattleMessageBoxBorderColor = ConsoleColor.DarkBlue;
+        public static ConsoleColor BattleMessageBoxHeaderBackgroundColor = ConsoleColor.DarkRed;
+        public static ConsoleColor BattleMessageBoxHeaderForegroundColor = ConsoleColor.Black;
+
     }
 }

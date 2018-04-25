@@ -81,6 +81,31 @@ namespace TB_QuestGame
         }
 
         /// <summary>
+        /// Battle Game Play Screen has different colors
+        /// </summary>
+        /// <param name="messageBoxHeaderText"></param>
+        /// <param name="messageBoxText"></param>
+        /// <param name="menu"></param>
+        /// <param name="inputBoxPrompt"></param>
+        public void DisplayBattleGamePlayScreen(string messageBoxHeaderText, string messageBoxText, Menu menu, string inputBoxPrompt)
+        {
+            //
+            // reset screen to default window colors
+            //
+            Console.BackgroundColor = ConsoleTheme.WindowBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.WindowForegroundColor;
+            Console.Clear();
+
+            ConsoleWindowHelper.DisplayHeader(Text.HeaderText);
+            ConsoleWindowHelper.DisplayFooter(Text.FooterText);
+
+            DisplayBattleMessageBox(messageBoxHeaderText, messageBoxText);
+            DisplayMenuBox(menu);
+            DisplayInputBox();
+            DisplayStatusBox();
+        }
+
+        /// <summary>
         /// wait for any keystroke to continue
         /// </summary>
         public void GetContinueKey()
@@ -421,6 +446,47 @@ namespace TB_QuestGame
 
         }
 
+        private void DisplayBattleMessageBox(string headerText, string messageText)
+        {
+            //
+            // display the outline for the message box
+            //
+            Console.BackgroundColor = ConsoleTheme.BattleMessageBoxBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.BattleMessageBoxBorderColor;
+            ConsoleWindowHelper.DisplayBoxOutline(
+                ConsoleLayout.MessageBoxPositionTop,
+                ConsoleLayout.MessageBoxPositionLeft,
+                ConsoleLayout.MessageBoxWidth,
+                ConsoleLayout.MessageBoxHeight);
+
+            //
+            // display message box header
+            //
+            Console.BackgroundColor = ConsoleTheme.BattleMessageBoxBorderColor;
+            Console.ForegroundColor = ConsoleTheme.BattleMessageBoxForegroundColor;
+            Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, ConsoleLayout.MessageBoxPositionTop + 1);
+            Console.Write(ConsoleWindowHelper.Center(headerText, ConsoleLayout.MessageBoxWidth - 4));
+
+            //
+            // display the text for the message box
+            //
+            Console.BackgroundColor = ConsoleTheme.BattleMessageBoxBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.BattleMessageBoxForegroundColor;
+            List<string> messageTextLines = new List<string>();
+            messageTextLines = ConsoleWindowHelper.MessageBoxWordWrap(messageText, ConsoleLayout.MessageBoxWidth - 4);
+
+            int startingRow = ConsoleLayout.MessageBoxPositionTop + 3;
+            int endingRow = startingRow + messageTextLines.Count();
+            int row = startingRow;
+            foreach (string messageTextLine in messageTextLines)
+            {
+                Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, row);
+                Console.Write(messageTextLine);
+                row++;
+            }
+
+        }
+
         /// <summary>
         /// draw the status box on the game screen
         /// </summary>
@@ -536,6 +602,8 @@ namespace TB_QuestGame
             Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
         }
 
+        #region PLAYER SETUP
+
         /// <summary>
         /// get the player's initial information at the beginning of the game
         /// </summary>
@@ -593,7 +661,7 @@ namespace TB_QuestGame
             // get palyer's home village
             //
             DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.QuestIntro, "");
-            prompt ="Enter the name of the Village: ";
+            prompt = "Enter the name of the Village: ";
             player.HomeVillage = GetString(prompt);
 
             //
@@ -611,34 +679,9 @@ namespace TB_QuestGame
             return player;
         }
 
-        #region ----- display responses to menu action choices -----
+        #endregion
 
-        /// <summary>
-        /// Display List of all locations
-        /// </summary>
-        public void DisplayListOfLocations()
-        {
-            DisplayGamePlayScreen("List: Locations", Text.ListLocations(_gameUniverse.Locations), ActionMenu.AdminMenu, "");
-        }
-
-        /// <summary>
-        /// Display look around method from the text class
-        /// </summary>
-        public void DisplayLookAround()
-        {
-            // get current location
-            Location currentLocation = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
-
-            // get list of game objects and list of npcs in location
-            List<GameObject> gameObjectsInLocation = _gameUniverse.GetGameObjectsByLocationId(_gamePlayer.LocationId);
-            List<NPC> npcObjectsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
-
-            string messageBoxText = Text.CurrrentLocationInfo(currentLocation) + Environment.NewLine + Environment.NewLine;
-            messageBoxText += Text.GameObjectsChooseList(gameObjectsInLocation) + Environment.NewLine;
-            messageBoxText += Text.NpcsChooseList(npcObjectsInLocation);
-
-            DisplayGamePlayScreen("Look Around", messageBoxText, ActionMenu.LookAround, "");
-        }
+        #region TRAVEL ACTIONS
 
         /// <summary>
         /// Get the next location ID from the player
@@ -693,22 +736,9 @@ namespace TB_QuestGame
             return locationId;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void DisplayLocationsVisited()
-        {
-            //
-            // generate a list of locations that the player has visited
-            //
-            List<Location> locationsVisited = new List<Location>();
-            foreach (int  locationId in _gamePlayer.LocationsVisted)
-            {
-                locationsVisited.Add(_gameUniverse.GetLocationById(locationId));
-            }
+        #endregion
 
-            DisplayGamePlayScreen("Locations you have visited", Text.VisitedLocations(locationsVisited), ActionMenu.AdminMenu, "");
-        }
+        #region MAIN MENU ACTION
 
         /// <summary>
         /// Display player info
@@ -717,6 +747,11 @@ namespace TB_QuestGame
         {
             DisplayGamePlayScreen("Viking Information", Text.PlayerInfo(_gamePlayer), ActionMenu.MainMenu, "");
         }
+
+
+        #endregion
+
+        #region EDIT ACTIONS
 
         /// <summary>
         /// Display Edit Player Infor screen
@@ -786,6 +821,35 @@ namespace TB_QuestGame
             return homeVillage;
         }
 
+        #endregion
+
+        #region LIST ACTIONS
+
+        /// <summary>
+        /// Display List of all locations
+        /// </summary>
+        public void DisplayListOfLocations()
+        {
+            DisplayGamePlayScreen("List: Locations", Text.ListLocations(_gameUniverse.Locations), ActionMenu.AdminMenu, "");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DisplayLocationsVisited()
+        {
+            //
+            // generate a list of locations that the player has visited
+            //
+            List<Location> locationsVisited = new List<Location>();
+            foreach (int locationId in _gamePlayer.LocationsVisted)
+            {
+                locationsVisited.Add(_gameUniverse.GetLocationById(locationId));
+            }
+
+            DisplayGamePlayScreen("Locations you have visited", Text.VisitedLocations(locationsVisited), ActionMenu.AdminMenu, "");
+        }
+
         /// <summary>
         /// display list of game objects in the universe
         /// </summary>
@@ -812,6 +876,20 @@ namespace TB_QuestGame
         public void DisplayListPlaces()
         {
             DisplayGamePlayScreen("List: Places", Text.ListPlaces(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        #endregion
+
+        #region ITEM ACTIONS
+
+        public void DisplayConfirmWeaponPickedUp(Weapon weapon, string weaponType)
+        {
+            DisplayGamePlayScreen("Pick Up Item", $"The {weapon.Name} has been added to your inventory and is now your primary {weaponType}.", ActionMenu.ItemMenu, "");
+        }
+
+        public void DisplayPickUpObjectTooHeavy(GameObject item)
+        {
+            DisplayGamePlayScreen("Pick Up Item", $"Your inventory is full, it can't hold the weight of {item.Name}.", ActionMenu.ItemMenu, "");
         }
 
         /// <summary>
@@ -951,6 +1029,12 @@ namespace TB_QuestGame
 
         }
 
+        public void DisplayGameObjectInfo(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Look at", Text.LookAt(gameObject), ActionMenu.ItemMenu, "");
+
+        }
+
         public void DisplayConfirmGameObjectAddedToInventory(GameObject objectAdded)
         {
             DisplayGamePlayScreen("Pick Up Item", $"The {objectAdded.Name} has been added to your inventory", ActionMenu.ItemMenu, "");
@@ -1034,7 +1118,7 @@ namespace TB_QuestGame
                 {
                     DisplayGamePlayScreen("Consume Item", "It appears there are no items here that you can consume.", ActionMenu.ItemMenu, "");
                 }
-                
+
             }
             else
             {
@@ -1043,6 +1127,50 @@ namespace TB_QuestGame
 
 
             return gameObjectId;
+        }
+
+        #endregion
+
+        #region INVENTORY ACTIONS
+
+        public void DisplayItemIsNotWeapon(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} is not a weapon.", ActionMenu.InventoryMenu, "");
+        }
+
+        public void DisplaySetPrimaryWeapon(Weapon weapon, bool isWeapon)
+        {
+            if (isWeapon)
+                DisplayGamePlayScreen("Current Inventory", $"{weapon.Name} is now your primary weapon", ActionMenu.InventoryMenu, "");
+            else
+                DisplayGamePlayScreen("Current Inventory", $"{weapon.Name} is a shield and can't be your primary weapon.", ActionMenu.InventoryMenu, "");
+            
+        }
+
+        public void DisplayItemIsNotShield(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} is not a shield.", ActionMenu.InventoryMenu, "");
+        }
+
+        public void DisplaySetPrimaryShield(Weapon shield, bool isShield)
+        {
+            if (isShield)
+                DisplayGamePlayScreen("Current Inventory", $"{shield.Name} is now your primary shield", ActionMenu.InventoryMenu, "");
+            else
+                DisplayGamePlayScreen("Current Inventory", $"{shield.Name} is not a shield and can't be your primary shield.", ActionMenu.InventoryMenu, "");
+
+        }
+        
+
+        public void DisplayInventoryItemCannotBeConsumed(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} cannot be consumed.", ActionMenu.InventoryMenu, "");
+        }
+
+        public void DisplayeWeaponPutDown(Weapon weapon, string weaponType)
+        {
+            DisplayGamePlayScreen("Put Down Item", $"The {weapon.Name} has been removed from your inventory.\n" +
+                                $"This was your primary {weaponType}, you are currently don't have a primary {weaponType}.", ActionMenu.InventoryMenu, "");
         }
 
         public int DisplayGetInventoryItemToConsume()
@@ -1226,23 +1354,6 @@ namespace TB_QuestGame
 
         }
 
-        public void DisplayConfirmItemRemovedFromInventory(GameObject gameObject)
-        {
-            DisplayGamePlayScreen("Put Down Item", $"The {gameObject.Name} has been removed from your invnetory.", ActionMenu.InventoryMenu, "");
-        }
-
-        public void DisplayGameObjectInfo(GameObject gameObject)
-        {
-            DisplayGamePlayScreen("Look at", Text.LookAt(gameObject), ActionMenu.ItemMenu, "");
-
-        }
-
-        public void DisplayInventoryObjectInfo(GameObject gameObject)
-        {
-            DisplayGamePlayScreen("Inventory", Text.LookAt(gameObject), ActionMenu.InventoryMenu, "");
-
-        }
-
         public void DisplayInventory()
         {
             if (_gamePlayer.Inventory.Count <= 0)
@@ -1253,7 +1364,107 @@ namespace TB_QuestGame
             {
                 DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
             }
-            
+
+        }
+
+        public void DisplayInventoryObjectInfo(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Inventory", Text.LookAt(gameObject), ActionMenu.InventoryMenu, "");
+
+        }
+
+        public int DisplayGetInventoryObjectToLookAt()
+        {
+            int inventoryObjectId = 0;
+            bool validInventoryObjectId = false;
+            int attempt = 0;
+
+            //
+            // get a list of all objects in inventory
+            //
+            List<GameObject> gameObjectsInInventory = _gamePlayer.Inventory;
+
+            if (gameObjectsInInventory.Count > 0)
+            {
+                while (!validInventoryObjectId)
+                {
+                    attempt++;
+
+                    if (attempt > 3)
+                    {
+                        inventoryObjectId = 0;
+                        validInventoryObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to look at: ", 0, 0, out inventoryObjectId);
+                    }
+
+                    if (inventoryObjectId != 0)
+                    {
+                        GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryObjectId) as GameObject;
+                        //
+                        // validate integer as a valid game object id and in current location
+                        //
+                        if (_gamePlayer.Inventory.Contains(inventoryObject))
+                        {
+                            validInventoryObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", "There are no items in your inventory.", ActionMenu.InventoryMenu, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+            }
+
+            return inventoryObjectId;
+        }
+
+        public void DisplayConsumeItem(Item consumedItem)
+        {
+            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
+            {
+                DisplayGamePlayScreen("Consume Item", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.ItemMenu, "");
+            }
+            else
+            {
+                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.InventoryMenu, "");
+            }
+
+        }
+
+        public void DisplayConfirmItemRemovedFromInventory(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Put Down Item", $"The {gameObject.Name} has been removed from your invnetory.", ActionMenu.InventoryMenu, "");
+        }
+
+        #endregion
+
+        #region LOOK AROUND ACTIONS
+
+        #region SHOP MENU ACTIONS
+
+        public void DisplayWeaponAddedToInventory(Weapon weapon, string weaponType)
+        {
+            DisplayGamePlayScreen("Shop", $"The {weapon.Name} has been added to your inventory and is now your primary {weaponType}.", ActionMenu.ShopMenu, "");
+        }
+
+        public void DisplayObjectTooHeavyForInventory(GameObject tradeObject)
+        {
+            DisplayGamePlayScreen("Shop", $"Your inventory is full, it can't hold the weight of {tradeObject.Name}.", ActionMenu.ShopMenu, "");
         }
 
         public void DisplayShop(Location currentLocation)
@@ -1324,21 +1535,15 @@ namespace TB_QuestGame
                 Console.CursorVisible = false;
                 Console.ReadKey();
             }
-            
+
 
             return tradeObjectId;
-            
+
         }
 
         public void DisplayConfirmSale(GameObject objectAdded)
         {
             DisplayGamePlayScreen("Shop", $"The {objectAdded.Name} has been removed from your inventory.", ActionMenu.ShopMenu, "");
-        }
-
-        public void DisplayClosingScreen(Player player)
-        {
-            DisplayGamePlayScreen("Exiting Game", Text.DisplayClosingScreenText(player), ActionMenu.QuestIntro, "");
-            GetContinueKey();
         }
 
         public int DisplayGetTradeItemToPurchase(Location currentLocation)
@@ -1406,6 +1611,10 @@ namespace TB_QuestGame
             return tradeObjectId;
 
         }
+
+        #endregion
+
+        #region ENTER PLACE
 
         public void DisplayConfirmPlaceEntered(Place placeEntered)
         {
@@ -1492,6 +1701,37 @@ namespace TB_QuestGame
             return placeId;
         }
 
+        #endregion
+
+        /// <summary>
+        /// Display look around method from the text class
+        /// </summary>
+        public void DisplayLookAround()
+        {
+            // get current location
+            Location currentLocation = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
+
+            // get list of game objects and list of npcs in location
+            List<GameObject> gameObjectsInLocation = _gameUniverse.GetGameObjectsByLocationId(_gamePlayer.LocationId);
+            List<NPC> npcObjectsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
+
+            string messageBoxText = Text.CurrrentLocationInfo(currentLocation) + Environment.NewLine + Environment.NewLine;
+            messageBoxText += Text.GameObjectsChooseList(gameObjectsInLocation) + Environment.NewLine;
+            messageBoxText += Text.NpcsChooseList(npcObjectsInLocation);
+
+            DisplayGamePlayScreen("Look Around", messageBoxText, ActionMenu.LookAround, "");
+        }
+
+        #endregion
+
+        #region OTHER ACTIONS
+
+        public void DisplayClosingScreen(Player player)
+        {
+            DisplayGamePlayScreen("Exiting Game", Text.DisplayClosingScreenText(player), ActionMenu.QuestIntro, "");
+            GetContinueKey();
+        }
+
         public void DisplayMaxAttemptsExceeded()
         {
             DisplayInputErrorMessage("You have exceeded your maximum attempts. Press any key to continue.                                      ");
@@ -1499,77 +1739,72 @@ namespace TB_QuestGame
             Console.ReadLine();
         }
 
-        public int DisplayGetInventoryObjectToLookAt()
+        public void DisplayNewLevelMessage()
         {
-            int inventoryObjectId = 0;
-            bool validInventoryObjectId = false;
-            int attempt = 0;
-
-            //
-            // get a list of all objects in inventory
-            //
-            List<GameObject> gameObjectsInInventory = _gamePlayer.Inventory;
-
-            if (gameObjectsInInventory.Count > 0)
-            {   
-                while (!validInventoryObjectId)
-                {
-                    attempt++;
-
-                    if (attempt > 3)
-                    {
-                        inventoryObjectId = 0;
-                        validInventoryObjectId = true;
-                        DisplayMaxAttemptsExceeded();
-                    }
-                    else
-                    {
-                        //
-                        // get an integer from the player
-                        //
-                        GetInteger($"Enter the Id number of the object you wish to look at: ", 0, 0, out inventoryObjectId);
-                    }
-
-                    if (inventoryObjectId != 0)
-                    {
-                        GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryObjectId) as GameObject;
-                        //
-                        // validate integer as a valid game object id and in current location
-                        //
-                        if (_gamePlayer.Inventory.Contains(inventoryObject))
-                        {
-                            validInventoryObjectId = true;
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                DisplayGamePlayScreen("Current Inventory", "There are no items in your inventory.", ActionMenu.InventoryMenu, "");
-                Console.CursorVisible = false;
-                Console.ReadKey();
-            }
-
-            return inventoryObjectId;
+            DisplayInputBoxPrompt("New level reached! Press any key to continue.");
+            Console.CursorVisible = false;
+            Console.ReadKey();
+            ClearInputBox();
+            DisplayGamePlayScreen("New Level Reached", Text.NewLevelMessage(_gamePlayer), ActionMenu.MainMenu, "");
         }
 
-        public void DisplayConsumeItem(Item consumedItem)
+
+        #endregion
+
+        #region NPC ACTIONS
+
+        public void DisplayTradeWillExceedInventoryMaxWeight(GameObject npcObject)
         {
-            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
-            {
-                DisplayGamePlayScreen("Consume Item", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.ItemMenu, "");
-            }
-            else
-            {
-                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.InventoryMenu, "");
-            }
-            
+            DisplayGamePlayScreen("Trade", $"Adding the weight of {npcObject.Weight} will be more than your inventory can handle.", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayInventroyObjectValueNotEnough(GameObject inventoryObject, GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"The value of {inventoryObject.Name} is not enoug to trade for the value of {npcObject.Name}.", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayConfirmTradeWithNPC(GameObject inventoryObject, GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"You have traded {inventoryObject.Name} for {npcObject.Name} which has now\n" +
+                                        "been added to your ineventory.", ActionMenu.NpcMenu, "");
+        }
+
+        public void DisplayGetNPCObjectToTrade(GameObject tradeItem)
+        {
+            DisplayGamePlayScreen("Trade", $"Would you like to buy {tradeItem.Name} for {tradeItem.Value} coins \n" +
+                        "or would you like to trade one of the items in your inventory for it?\n" +
+                        "\nChoose from the menu options", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayBattleDefeat(NPC npc, int playerPoints, int opponentPoints)
+        {
+            DisplayGamePlayScreen("Battle", $"You lost the battle against {npc.Name}.\n" +
+                        $"Your points: {playerPoints}\n" +
+                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.MainMenu, "");
+        }
+
+        public void DisplayBattleVictory(NPC npc, int playerPoints, int opponentPoints)
+        {
+            DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
+                        $"Your points: {playerPoints}\n" +
+                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
+        }
+
+        public void DisplayNotEnoughCapitalToBuyNPCObject(GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"You don't have enough capital to buy {npcObject.Name}, it will cost you {npcObject.Value} coins, but you\n" +
+                            $"only have {_gamePlayer.Capital} coins.", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayNPCObjectTooHeavyForInevntory(GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"The weight of {npcObject.Name} is too much for your inventory to handle.", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayBuyObjectFromNPC(GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"You have bought {npcObject.Name} for {npcObject.Value} coins and it has\n" +
+                                "been added to your ineventory.", ActionMenu.NpcMenu, "");
         }
 
         public void DisplayListAllNpcObjects()
@@ -1631,7 +1866,7 @@ namespace TB_QuestGame
                 message = "It appears this character has nothing to say. Please try agian.";
             }
 
-            DisplayGamePlayScreen("Speak to Character", $"{npc.Description}\n"+
+            DisplayGamePlayScreen("Speak to Character", $"{npc.Description}\n" +
                 $"{npc.Name}: " + message, ActionMenu.NpcMenu, "");
 
         }
@@ -1650,15 +1885,8 @@ namespace TB_QuestGame
                     weapons.Add(weapon);
                 }
             }
-            DisplayGamePlayScreen("Speak to Character", Text.DisplayOpponentInfo(weapons, npc, message), ActionMenu.BattleMenu, "");
+            DisplayBattleGamePlayScreen("Speak to Character", Text.DisplayOpponentInfo(weapons, npc, message), ActionMenu.BattleMenu, "");
         }
-
-        public void DisplayNewLevelMessage()
-        {
-            ClearInputBox();
-            DisplayGamePlayScreen("New Level Reached", Text.NewLevelMessage(_gamePlayer), ActionMenu.MainMenu, "");
-        }
-
 
         public int DisplayGetNpcToTradeWith()
         {
@@ -1678,7 +1906,7 @@ namespace TB_QuestGame
                         {
                             tradingNPCs.Add(npc);
                         }
-                        
+
                     }
                 }
 
@@ -1704,8 +1932,8 @@ namespace TB_QuestGame
                 else
                 {
                     DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs to trade with here.", ActionMenu.NpcMenu, "");
-                }         
-         
+                }
+
             }
             else
             {
@@ -1773,9 +2001,9 @@ namespace TB_QuestGame
             {
                 DisplayGamePlayScreen("Trade", $"It appears {npc.Name} doesn't have any items to trade.", ActionMenu.TradeMenu, "");
             }
-            
 
-          
+
+
             return tradeObjectId;
         }
 
@@ -1839,10 +2067,9 @@ namespace TB_QuestGame
             return gameObjectId;
         }
 
-
-
         #endregion
 
         #endregion
+
     }
 }
