@@ -308,6 +308,10 @@ namespace TB_QuestGame
                     case PlayerAction.Travel:
                         TravelAction();
                         break;
+
+                    case PlayerAction.GameInfo:
+                        _gameConsoleView.DisplayGamePlayScreen("Game Info", Text.GameInfo(), ActionMenu.MainMenu, "");
+                        break;
                     #endregion
 
                     #region Exit/Go Back / ReturnToMainMenu

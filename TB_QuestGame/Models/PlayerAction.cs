@@ -22,6 +22,7 @@ namespace TB_QuestGame
         ChooseWeapon,
         ChooseShield,
         Consume,
+        GameInfo,
         GoBack,
         EnterPlace,
         Fight,

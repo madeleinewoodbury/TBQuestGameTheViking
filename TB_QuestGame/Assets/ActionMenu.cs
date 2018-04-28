@@ -51,6 +51,7 @@ namespace TB_QuestGame
                     { '3', PlayerAction.Inventory },
                     { '4', PlayerAction.Travel },    
                     { '5', PlayerAction.AdminMenu },
+                    { '6', PlayerAction.GameInfo },
                     { '0', PlayerAction.Exit }
                 }
         };

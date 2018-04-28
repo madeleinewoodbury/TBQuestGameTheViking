@@ -86,6 +86,7 @@ namespace TB_QuestGame
                 { 10, Character.Rank.King }
 
             };
+
             _levels = new Dictionary<int, int>()
             {
                 { 100, 1 },
@@ -444,7 +445,7 @@ namespace TB_QuestGame
             {
                 if (item.Value == level)
                 {
-                    if (player.ExperiencePoints >= item.Key)
+                    if (player.ExperiencePoints > item.Key)
                     {
                         level += 1;
                     }

@@ -1120,6 +1120,18 @@ namespace TB_QuestGame
             if(gamePlayer.Health < 20)
                 healthWarning = "LOW HEALTH!";
 
+            if (gamePlayer.Viking == Player.VikingType.Shieldmaiden)
+            {
+                if (gamePlayer.VikingRank == Character.Rank.Freyr)
+                {
+                    gamePlayer.VikingRank = Character.Rank.Freya;
+                }
+                else if (gamePlayer.VikingRank == Character.Rank.King)
+                {
+                    gamePlayer.VikingRank = Character.Rank.Queen;
+                }
+            }
+
             List<string> statusBoxText = new List<string>();
 
             statusBoxText.Add($"Lives: {gamePlayer.Lives}\n");
@@ -1136,11 +1148,49 @@ namespace TB_QuestGame
 
         public static string NewLevelMessage(Player gamePlayer)
         {
+            if (gamePlayer.Viking == Player.VikingType.Shieldmaiden)
+            {
+                if (gamePlayer.VikingRank == Character.Rank.Freyr)
+                {
+                    gamePlayer.VikingRank = Character.Rank.Freya;
+                }
+                else if (gamePlayer.VikingRank == Character.Rank.King)
+                {
+                    gamePlayer.VikingRank = Character.Rank.Queen;
+                }
+            }
+
             string messageBoxText = "Congratulations\n" +
                 $"You have reached a level {gamePlayer.CurrentLevel}! \n" +
                 $"Your new rank is {gamePlayer.VikingRank}. Way to go {gamePlayer.Name}!";
 
             return messageBoxText;
+        }
+
+        public static string GameInfo()
+        {
+            string infoText = "The object of the game is to climb the ranks and become the King or Queen of the Vikings\n" +
+                "Explore, travel, and battle in order to increase your experience points and reach new levels.\n" +
+                Environment.NewLine; 
+
+            string rankInfo =
+                "The Viking Ranks         Description\n" +
+                "----------------------   ----------------------------------------------------------------------------------" +
+                "\n" +
+                "1. VIKING:               Fierce Fighter who has proved him or herself to be a viking.\n" +
+                "2. MAURAUDER:            Strong Raiders, given to those who are actively taking part in raids.\n" +
+                "3. BERSERKER/VALKYRIE:   Veteran, given to those who have shown an outstanding attitude or skill.\n" +
+                "4. HUSKARL:              Veteran Warrior, has proven his/her loyalty and can be chosen to lead raids/wars. \n" +
+                "5. RADNINGAR:            Strong Warrior, has proven his/her loyalty and strength during raids.\n" +
+                "6. HERSIR:               Only Chosen by The High King/Queen or Jarl, Leading General. \n" +
+                "7. SKALD:                In charge of the clan site.\n" +
+                "8. FREYR/FREYA:          The lord or lady of the clan. \n" +
+                "9. JARL:                 Full Independent Lordship/Head of Council. \n" +
+                "10. KING/QUEEN:          The Founders/Stronghold of this clan. Highest Rank! \n";
+
+            infoText += rankInfo;
+
+            return infoText;
         }
 
         #endregion
