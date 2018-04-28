@@ -144,7 +144,6 @@ namespace TB_QuestGame
                 {'2', PlayerAction.ChangeGender },
                 {'3', PlayerAction.ChangeAge},
                 {'4', PlayerAction.ChangeHomeVillage },
-                {'5', PlayerAction.PurchaseWeapon},
                 {'0', PlayerAction.GoBack }
             }
         };

@@ -22,6 +22,7 @@ namespace TB_QuestGame
         public bool CanEeat { get; set;}
         public bool CanTrain { get; set; }
         public int ExperiencePoints { get; set; }
-        public int EnytryPoints { get; set; }
+        public int EntryPoints { get; set; }
+        public int EnergyPoints { get; set; }
     }
 }

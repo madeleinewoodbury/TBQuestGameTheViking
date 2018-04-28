@@ -26,15 +26,13 @@ namespace TB_QuestGame
                     "it may swallow you hole.",
                 },
                 IsFriendly = true,
-                PrimaryShield = 7,
-                PrimaryWeapon = 1,
                 VikingRank = Character.Rank.Radnigar,
                 CanTrade = true,
                 CanTrain = true,
                 TradeObjects = new List<int>(){12, 21}
             },
 
-            new Viking
+            new Enemy
             {
                 Id = 12,
                 Name ="Skáldi",
@@ -75,7 +73,7 @@ namespace TB_QuestGame
 
             #region Npcs in Storhamar (2)
 
-            new Viking
+            new Enemy
             {
                 Id = 20,
                 Name ="Ubbe",
@@ -170,7 +168,7 @@ namespace TB_QuestGame
                 CanTrain = false
             },
 
-            new Viking
+            new Enemy
             {
                 Id = 32,
                 Name ="Alfkautr",
@@ -191,7 +189,7 @@ namespace TB_QuestGame
 
             #region NPCs in Nidaros (4)
 
-            new Viking
+            new Enemy
             {
                 Id = 40,
                 Name ="Baldr",
@@ -208,7 +206,7 @@ namespace TB_QuestGame
                 CanTrain = false
             },
 
-            new Viking
+            new Enemy
             {
                 Id = 41,
                 Name ="Eyja",
@@ -249,18 +247,17 @@ namespace TB_QuestGame
 
             #region NPCs in Stavanger (5)
 
-            new Viking
+            new Enemy
             {
                 Id = 50,
-                Name ="",
+                Name ="Rolleifr",
                 LocationId = 5,
-                XP = 15,
-                Description = "",
-                BattleMessage = "",
+                XP = 25,
+                Description = "An expereienced warrior, with a lot of built up anger.",
                 IsFriendly = false,
-                PrimaryWeapon = 3,
-                PrimaryShield = 8,
-                VikingRank = Character.Rank.Hersir,
+                PrimaryWeapon = 2,
+                PrimaryShield = 9,
+                VikingRank = Character.Rank.Berserker,
                 IsArmed = true,
                 CanTrade = false,
                 CanTrain = false
@@ -290,7 +287,41 @@ namespace TB_QuestGame
 
             #region NPCs in Leirvik (5)
 
+            
+            new Enemy
+            {
+                Id = 60,
+                Name ="Knut",
+                LocationId = 6,
+                XP = 50,
+                Description = "Knut wants to be the Jarl of Leirvik, he sees any capable viking as anotehr threat",
+                IsFriendly = false,
+                PrimaryWeapon = 5,
+                PrimaryShield = 8,
+                VikingRank = Character.Rank.Freyr,
+                IsArmed = true,
+                CanTrade = false,
+                CanTrain = false
+            },
 
+            new Viking
+            {
+                Id = 61,
+                Name ="Vigdis",
+                LocationId = 6,
+                XP = 30,
+                Description = "Wife of the Jarl Kjartan, she will gladly give you food.",
+                Messages = new List<string>()
+                {
+                    "You must be hungry to have come all this way, let me tempt you with some food.",
+                    "I will trade you food for the smalles of coin, you look like you need it more"
+                },
+                IsFriendly = true,
+                VikingRank = Character.Rank.Jarl,
+                IsArmed = false,
+                CanTrade = true,
+                CanTrain = false
+            },
 
             #endregion
 
@@ -298,7 +329,7 @@ namespace TB_QuestGame
 
             #endregion
 
-            #region NPCs in Jorvuj (8)
+            #region NPCs in Jorvik (8)
 
             #endregion
 

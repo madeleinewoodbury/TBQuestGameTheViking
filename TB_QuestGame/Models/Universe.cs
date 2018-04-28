@@ -462,9 +462,9 @@ namespace TB_QuestGame
 
             if (npc != null)
             {
-                if (!npc.IsFriendly && npc is Viking)
+                if (!npc.IsFriendly && npc is Enemy)
                 {
-                    Viking opponent = npc as Viking;
+                    Enemy opponent = npc as Enemy;
                     foreach (var rank in _ranks)
                     {
                         if (rank.Value == opponent.VikingRank)

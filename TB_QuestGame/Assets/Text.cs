@@ -17,6 +17,10 @@ namespace TB_QuestGame
 
         #region INTITIAL GAME SETUP
 
+        /// <summary>
+        /// Welcome screen and game intro
+        /// </summary>
+        /// <returns></returns>
         public static string QuestIntro()
         {
             string messageBoxText =
@@ -37,6 +41,10 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Setup intro screen
+        /// </summary>
+        /// <returns></returns>
         public static string SetupIntro()
         {
             string messageBoxText =
@@ -49,6 +57,10 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Set-up the player's name
+        /// </summary>
+        /// <returns></returns>
         public static string SetuoGetPlayerName()
         {
             string messageBoxText =
@@ -59,6 +71,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Set-up the player's gender: Karl or Shieldmaiden
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
         public static string SetupGetPlayerGender(Player gamePlayer)
         {
             string messageBoxText =
@@ -75,6 +92,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Set-up the player's age
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
         public static string SetupGetPlayerAge(Player gamePlayer)
         {
             string messageBoxText =
@@ -87,6 +109,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Set-up the player's home village
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
         public static string SetupGetPlayerHomeVillage(Player gamePlayer)
         {
             string messageBoxText =
@@ -97,6 +124,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Set-up complete: Displays player infor
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
         public static string SetupEchoPlayerInfo(Player gamePlayer)
         {
             string messageBoxText =
@@ -111,40 +143,10 @@ namespace TB_QuestGame
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
                 $"\tStarting capital: {gamePlayer.Capital} coins\n" +
                 "\tWeapon: You are currently unarmed\n" +
-                "\t Shield: You are currently unshielded. \n" +
-                "\nNOTE: You are staring the game without any weapons, you need to either visit a shop to purchase weapons or trade with another game character. \n" +
-                "\n \n Press any key to begin your mission.";
-
-            return messageBoxText;
-        }
-
-        #endregion
-
-        #region EDIT PLAYER 
-
-        public static string EditPlayerInfo(Player gamePlayer)
-        {
-            string messageBoxText =
-                "Here is the your viking info that you may changer: \n" +
+                "\t Shield: You are currently unshielded.\n" +
                 "\n" +
-                $"\tViking Name: {gamePlayer.Name}\n" +
-                $"\tGender: {gamePlayer.Viking}\n" +
-                $"\tViking Years: {gamePlayer.Age}\n" +
-                $"\tHome Village: {gamePlayer.HomeVillage}\n" +
-                $"\n\n\t{gamePlayer.Name}, choose which information you want to edit from the menu on the left.";
-
-            return messageBoxText;
-        }
-
-        public static string EditGetPlayerGender(Player gamePlayer)
-        {
-            string messageBoxText =
-                $"Alright {gamePlayer.Name}, your current gender info is {gamePlayer.Viking}. \n" +
-                " \n" +
-                "Enter which one you identfy with: \n" +
-                " \n" +
-                "\t1. Karl\n" +
-                "\t2. Shieldmaiden"; ;
+                "NOTE: You are staring the game without any weapons, you need to either visit a shop to purchase weapons or trade with another game character. \n" +
+                "\n \n Press any key to begin your mission.";
 
             return messageBoxText;
         }
@@ -153,6 +155,11 @@ namespace TB_QuestGame
 
         #region MAIN MENU
 
+        /// <summary>
+        /// Display current location. Screen shows when player enters Looking Around
+        /// </summary>
+        /// <param name="currentLocation"></param>
+        /// <returns></returns>
         public static string CurrrentLocationInfo(Location currentLocation)
         {
             string messageBoxText =
@@ -162,6 +169,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Displays player info
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
         public static string PlayerInfo(Player gamePlayer)
         {
             string messageBoxText =
@@ -200,6 +212,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Displays current location with description
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
         public static string LookAround(Location location)
         {
             string messageTextBox =
@@ -209,6 +226,12 @@ namespace TB_QuestGame
             return messageTextBox;
         }
 
+        /// <summary>
+        /// Display travel options
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <param name="locations"></param>
+        /// <returns></returns>
         public static string Travel(Player gamePlayer, List<Location> locations)
         {
             string messageTextBox =
@@ -220,8 +243,8 @@ namespace TB_QuestGame
                  //
                  // display table header
                  //
-                 "ID".PadRight(10) + "Name".PadRight(30) + "Level Needed".PadRight(10) + "\n" +
-                 "---".PadRight(10) + "--------------------".PadRight(30) +"-----" + "\n";
+                 "ID".PadRight(10) + "Name".PadRight(20) + "Region".PadRight(15) + "Level Needed".PadRight(10) + "\n" +
+                 "---".PadRight(10) + "-----------------".PadRight(20) +"---------".PadRight(15) + "------------".PadRight(10) + "\n";
 
             //
             // display all locations besides the current
@@ -236,8 +259,9 @@ namespace TB_QuestGame
                     {
                         locationList +=
                         $"{location.LocationId}".PadRight(10) +
-                        $"{location.LocationName}".PadRight(30) +
-                        $"{location.LevelNeeded}".PadRight(10) +
+                        $"{location.LocationName}".PadRight(20) +
+                        $"{location.Region}".PadRight(15) +
+                        $"level {location.LevelNeeded}".PadRight(10) +
                         Environment.NewLine;
 
                     }
@@ -251,36 +275,11 @@ namespace TB_QuestGame
 
         }
 
-        public static string VisitedLocations(IEnumerable<Location> locations)
-        {
-            string messageBoxText =
-                "Locations Visited\n" +
-                " \n" +
-
-                //
-                // display table header
-                //
-                "ID".PadRight(10) + "Name".PadRight(30) + "\n" +
-                "---".PadRight(10) + "----------------------".PadRight(30) + "\n";
-
-            //
-            // display locations visited
-            //
-            string locationsList = null;
-            foreach (Location location in locations)
-            {
-                locationsList +=
-                    $"{location.LocationId}".PadRight(10) +
-                    $"{location.LocationName}".PadRight(30) +
-                    Environment.NewLine;
-            }
-
-            messageBoxText += locationsList;
-
-            return messageBoxText;
-
-        }
-
+        /// <summary>
+        /// Display list of game objects to choose from
+        /// </summary>
+        /// <param name="gameObjects"></param>
+        /// <returns></returns>
         public static string GameObjectsChooseList(IEnumerable<GameObject> gameObjects)
         {
             //
@@ -318,6 +317,81 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display current inventory information
+        /// </summary>
+        /// <param name="inventory"></param>
+        /// <returns></returns>
+        public static string CurrentInventory(Player player)
+        {
+            string messageBoxText = "\n" +
+                "Inventory max weight capacity: 50 kg \n" +
+                $"Current weight: {player.InventoryWeight} kg\n" +
+                "\n ";
+
+
+            //
+            // display table header
+            //
+            messageBoxText += "\n" +
+                "ID".PadRight(10) +
+                "Name".PadRight(35) +
+                "Value".PadRight(10) +
+                "Weight".PadRight(10) +
+                "\n" +
+                "---".PadRight(10) +
+                "-----------------------------".PadRight(35) +
+                "------".PadRight(10) +
+                "------".PadRight(10) +
+                "\n";
+
+            //
+            // display all traveler objects in rows
+            //
+            string inventoryObjectRows = null;
+            foreach (GameObject inventoryObject in player.Inventory)
+            {
+                inventoryObjectRows +=
+                $"{inventoryObject.Id}".PadRight(10) +
+                $"{inventoryObject.Name}".PadRight(35) +
+                $"{inventoryObject.Value}".PadRight(10) +
+                $"{inventoryObject.Weight} kg".PadRight(10) +
+                Environment.NewLine;
+
+            }
+
+            messageBoxText += inventoryObjectRows;
+
+            return messageBoxText;
+        }
+
+        /// <summary>
+        /// Display closing screen
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
+        public static string DisplayClosingScreenText(Player gamePlayer)
+        {
+            string messageBox = 
+                $"Thank you for playing The Viking {gamePlayer.Name}. \n" +
+                "We at Woodbury Productions hope that you have enjoyed the game. \n" +
+                "We wish you all the best in your future quests. \n" +
+                " \n" +
+                "\tPress any key to exit the game.";
+
+            return messageBox;
+        }
+
+
+        #endregion
+
+        #region LOOK AROUND MENU
+
+        /// <summary>
+        /// Display list of NPCs to choose from
+        /// </summary>
+        /// <param name="npcs"></param>
+        /// <returns></returns>
         public static string NpcsChooseList(IEnumerable<NPC> npcs)
         {
             string messageBoxText =
@@ -344,6 +418,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display look at object information
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <returns></returns>
         public static string LookAt(GameObject gameObject)
         {
             string messageBoxText = "";
@@ -379,58 +458,12 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
-        public static string CurrentInventory(IEnumerable<GameObject> inventory)
-        {
-            string messageBoxText = "";
-
-            //
-            // display table header
-            //
-            messageBoxText =
-                "ID".PadRight(10) +
-                "Name".PadRight(40) +
-                "\n" +
-                "---".PadRight(10) +
-                "-----------------------------".PadRight(40) +
-                "\n";
-
-            //
-            // display all traveler objects in rows
-            //
-            string inventoryObjectRows = null;
-            foreach (GameObject inventoryObject in inventory)
-            {
-                inventoryObjectRows +=
-                $"{inventoryObject.Id}".PadRight(10) +
-                $"{inventoryObject.Name}".PadRight(40) +
-                Environment.NewLine;
-
-            }
-
-            messageBoxText += inventoryObjectRows;
-
-            return messageBoxText;
-        }
-
-
-        public static string DisplayClosingScreenText(Player gamePlayer)
-        {
-            string messageBox = 
-                $"Thank you for playing The Viking {gamePlayer.Name}. \n" +
-                "We at Woodbury Productions hope that you have enjoyed the game. \n" +
-                "We wish you all the best in your future quests. \n" +
-                " \n" +
-                "\tPress any key to exit the game.";
-
-            return messageBox;
-        }
-
-
-
-        #endregion
-
-        #region LOOK AROUND MENU
-
+        /// <summary>
+        /// Display trade screen when the player enters the shop
+        /// </summary>
+        /// <param name="inventory"></param>
+        /// <param name="currentLocation"></param>
+        /// <returns></returns>
         public static string DisplayTradeScreenText(IEnumerable<GameObject> inventory, Location currentLocation)
         {
             string messageBoxText = "";
@@ -471,6 +504,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
        
+        /// <summary>
+        /// List objects that the player can purchase
+        /// </summary>
+        /// <param name="tradeObjects"></param>
+        /// <returns></returns>
         public static string ListTradeObjects(IEnumerable<GameObject> tradeObjects)
         {
             //
@@ -508,6 +546,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display items in inventory that the player can sell
+        /// </summary>
+        /// <param name="inventory"></param>
+        /// <returns></returns>
         public static string DisplayObjectsForSale(IEnumerable<GameObject> inventory)
         {
             string messageBoxText = "";
@@ -545,6 +588,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display list of places that can be entered to choose from
+        /// </summary>
+        /// <param name="gameObjects"></param>
+        /// <returns></returns>
         public static string GamePlaceChooseList(IEnumerable<GameObject> gameObjects)
         {
             //
@@ -565,7 +613,7 @@ namespace TB_QuestGame
                 "-------------".PadRight(10) + "\n";
 
             //
-            // display all traveler objects in rows
+            // display all game objects in rows
             //
             string gameObjectRows = null;
             List<Place> placeObjects = new List<Place>();
@@ -583,7 +631,7 @@ namespace TB_QuestGame
                 gameObjectRows +=
                 $"{place.Id}".PadRight(10) +
                 $"{place.Name}".PadRight(40) +
-                $"{place.EnytryPoints}".PadRight(10) +
+                $"{place.EntryPoints}".PadRight(10) +
                 Environment.NewLine;
             }
 
@@ -592,6 +640,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display place enetered screen
+        /// </summary>
+        /// <param name="placeEntered"></param>
+        /// <returns></returns>
         public static string DisplayEnterPlaceText(Place placeEntered)
         {
             string messageBoxText = placeEntered.EntryMessage;
@@ -604,17 +657,28 @@ namespace TB_QuestGame
             {
                 messageBoxText += $"You have gained {placeEntered.ExperiencePoints} experience points here. \n";
             }
+            if (placeEntered.CanRest)
+            {
+                messageBoxText += $"Your energy level is back up. You are fully rested. \n";
+            }
 
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display info about an opponent NPC
+        /// </summary>
+        /// <param name="weapons"></param>
+        /// <param name="npc"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public static string DisplayOpponentInfo(IEnumerable<Weapon> weapons, NPC npc, string message)
         {
             string messageBoxText = $"{npc.Name} is not a friend of yours and is prepared to fight you. \n" + Environment.NewLine;
 
-            if (npc is Viking)
+            if (npc is Enemy)
             {
-                Viking opponent = npc as Viking;
+                Enemy opponent = npc as Enemy;
 
 
                 if (message != null)
@@ -648,6 +712,12 @@ namespace TB_QuestGame
                 
         }
 
+        /// <summary>
+        /// Display list of NPCs to choose from
+        /// </summary>
+        /// <param name="npc"></param>
+        /// <param name="tradeObjects"></param>
+        /// <returns></returns>
         public static string DisplayChooseNpcItem(NPC npc, IEnumerable<GameObject> tradeObjects)
         {
             string messageBoxText = $"Here are the items {npc.Name} are willing to trade you: \n" +
@@ -685,6 +755,87 @@ namespace TB_QuestGame
 
         #region ADMIN MENU
 
+        #region EDIT PLAYER 
+
+        /// <summary>
+        /// Edit Player Info Screen
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
+        public static string EditPlayerInfo(Player gamePlayer)
+        {
+            string messageBoxText =
+                "Here is the your viking info that you may changer: \n" +
+                "\n" +
+                $"\tViking Name: {gamePlayer.Name}\n" +
+                $"\tGender: {gamePlayer.Viking}\n" +
+                $"\tViking Years: {gamePlayer.Age}\n" +
+                $"\tHome Village: {gamePlayer.HomeVillage}\n" +
+                $"\n\n\t{gamePlayer.Name}, choose which information you want to edit from the menu on the left.";
+
+            return messageBoxText;
+        }
+
+        /// <summary>
+        /// Edit player's gender screen
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
+        public static string EditGetPlayerGender(Player gamePlayer)
+        {
+            string messageBoxText =
+                $"Alright {gamePlayer.Name}, your current gender info is {gamePlayer.Viking}. \n" +
+                " \n" +
+                "Enter which one you identfy with: \n" +
+                " \n" +
+                "\t1. Karl\n" +
+                "\t2. Shieldmaiden"; ;
+
+            return messageBoxText;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Display list of locations the player has visted
+        /// </summary>
+        /// <param name="locations"></param>
+        /// <returns></returns>
+        public static string VisitedLocations(IEnumerable<Location> locations)
+        {
+            string messageBoxText =
+                "Locations Visited\n" +
+                " \n" +
+
+                //
+                // display table header
+                //
+                "ID".PadRight(10) + "Name".PadRight(30) + "\n" +
+                "---".PadRight(10) + "----------------------".PadRight(30) + "\n";
+
+            //
+            // display locations visited
+            //
+            string locationsList = null;
+            foreach (Location location in locations)
+            {
+                locationsList +=
+                    $"{location.LocationId}".PadRight(10) +
+                    $"{location.LocationName}".PadRight(30) +
+                    Environment.NewLine;
+            }
+
+            messageBoxText += locationsList;
+
+            return messageBoxText;
+
+        }
+
+        /// <summary>
+        /// Display list of all locations in game
+        /// </summary>
+        /// <param name="locations"></param>
+        /// <returns></returns>
         public static string ListLocations(IEnumerable<Location> locations)
         {
             string messageBoxText =
@@ -714,6 +865,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display list of all weapons in the game
+        /// </summary>
+        /// <param name="gameObjects"></param>
+        /// <returns></returns>
         public static string ListWeapons(IEnumerable<GameObject> gameObjects)
         {
             //
@@ -761,6 +917,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display list of all treasures in the game
+        /// </summary>
+        /// <param name="gameObjects"></param>
+        /// <returns></returns>
         public static string ListTreasures(IEnumerable<GameObject> gameObjects)
         {
             //
@@ -808,6 +969,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display list of all items in the game
+        /// </summary>
+        /// <param name="gameObjects"></param>
+        /// <returns></returns>
         public static string ListItems(IEnumerable<GameObject> gameObjects)
         {
             //
@@ -855,6 +1021,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display list og all the place objects in the game
+        /// </summary>
+        /// <param name="gameObjects"></param>
+        /// <returns></returns>
         public static string ListPlaces(IEnumerable<GameObject> gameObjects)
         {
             //
@@ -902,6 +1073,11 @@ namespace TB_QuestGame
             return messageBoxText;
         }
 
+        /// <summary>
+        /// Display list of all NPCs in the game
+        /// </summary>
+        /// <param name="npcObjects"></param>
+        /// <returns></returns>
         public static string ListAllNpcObjects(IEnumerable<NPC> npcObjects)
         {
             string messageBoxText = "" +
@@ -935,11 +1111,20 @@ namespace TB_QuestGame
 
         public static List<string> StatusBox(Player gamePlayer)
         {
+            string energyWarning = "";
+            string healthWarning = "";
+
+            // WARNING to display if low
+            if (gamePlayer.Energy < 20)
+                energyWarning = "NEED REST!";
+            if(gamePlayer.Health < 20)
+                healthWarning = "LOW HEALTH!";
+
             List<string> statusBoxText = new List<string>();
 
             statusBoxText.Add($"Lives: {gamePlayer.Lives}\n");
-            statusBoxText.Add($"Health: {gamePlayer.Health}\n");
-            statusBoxText.Add($"Energy: {gamePlayer.Energy}\n");
+            statusBoxText.Add($"Health: {gamePlayer.Health} {healthWarning}\n");
+            statusBoxText.Add($"Energy: {gamePlayer.Energy} {energyWarning}\n");
             statusBoxText.Add($"Capital: {gamePlayer.Capital}\n");
             statusBoxText.Add($"Experience Points: {gamePlayer.ExperiencePoints}\n");
             statusBoxText.Add($"Level: {gamePlayer.CurrentLevel}");

@@ -11,19 +11,29 @@ namespace TB_QuestGame
     /// </summary>
     public class Location
     {
+        #region Enumerables
+
+        public enum RegionName
+        {
+            Norwegia,
+            Shetland,
+            England
+        }
+
+        #endregion
         #region Fields
 
         private string _locationName;
         private int _locationId;
         private string _description;
         private bool _accessable;
-        private string _region;
+        private RegionName _region;
         private List<int> _acessableLocations;
         private int _experiencePoints;
         private List<int> _tradeObjects;
         private int _capitalNeeded;
         private int _levelNeeded;
-
+        private Dictionary<RegionName, int> _regionDistance;
 
         #endregion
 
@@ -53,7 +63,7 @@ namespace TB_QuestGame
             set { _accessable = value; }
         }
 
-        public string Region
+        public RegionName Region
         {
             get { return _region; }
             set { _region = value; }
@@ -87,6 +97,12 @@ namespace TB_QuestGame
         {
             get { return _levelNeeded; }
             set { _levelNeeded = value; }
+        }
+
+        public Dictionary<RegionName, int> RegionDistance
+        {
+            get { return _regionDistance; }
+            set { _regionDistance = value; }
         }
 
         #endregion

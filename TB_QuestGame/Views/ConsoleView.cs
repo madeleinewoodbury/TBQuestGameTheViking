@@ -15,7 +15,7 @@ namespace TB_QuestGame
 
         private enum ViewStatus
         {
-            TravelerInitialization,
+            PlayerInitialization,
             PlayingGame
         }
 
@@ -47,7 +47,7 @@ namespace TB_QuestGame
             _gamePlayer = gamePlayer;
             _gameUniverse = gameUniverse;
 
-            _viewStatus = ViewStatus.TravelerInitialization;
+            _viewStatus = ViewStatus.PlayerInitialization;
 
             InitializeDisplay();
         }
@@ -55,6 +55,81 @@ namespace TB_QuestGame
         #endregion
 
         #region METHODS
+
+        #region LAYOUT AND SCREEN SETTINGS
+
+        public bool DisplayGameOverScreen()
+        {
+            bool playing = false;
+            ConsoleKeyInfo keyPressed;
+
+            Console.BackgroundColor = ConsoleTheme.SplashScreenBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.SplashScreenForegroundColor;
+            Console.Clear();
+            Console.CursorVisible = false;
+
+
+            Console.SetCursorPosition(0, 10);
+            string tabSpace = new String(' ', 35);
+            Console.WriteLine(tabSpace + @"                        __          __ _   _   _   _   _      _   _______       ");
+            Console.WriteLine(tabSpace + @"    _____ _             \ \        / /| | | | / / | | | \    | | |  _____|      ");
+            Console.WriteLine(tabSpace + @"   |_   _| |             \ \      / / | | | |/ /  | | |  \   | | | |            ");
+            Console.WriteLine(tabSpace + @"     | | | |__   ___      \ \    / /  | | |   /   | | |   \  | | | |  __        ");
+            Console.WriteLine(tabSpace + @"     | | | '_ \ / _ \      \ \  / /   | | |   \   | | | |\ \ | | | | |_  \      ");
+            Console.WriteLine(tabSpace + @"     | | | | | |  __/       \ \/ /    | | | |\ \  | | | | \ \| | | |___| |      ");
+            Console.WriteLine(tabSpace + @"     |_| |_| |_|\___|        \__/     |_| |_| \_\ |_| |_|  \___| |_______|      ");
+            Console.WriteLine(tabSpace + @"  ____________________________________________________________________________  ");
+            Console.WriteLine(tabSpace + @" |                                                                            | ");
+            Console.WriteLine(tabSpace + @" |                THE QUEST TO BECOME THE KING OF THE VIKINGS                 | ");
+            Console.WriteLine(tabSpace + @" |____________________________________________________________________________| ");
+
+            Console.SetCursorPosition(80, 25);
+            Console.Write("Press any key to exit.");
+            keyPressed = Console.ReadKey();
+
+            return playing;
+        }
+
+        /// <summary>
+        /// display splash screen
+        /// </summary>
+        /// <returns>player chooses to play</returns>
+        public bool DisplaySpashScreen()
+        {
+            bool playing = true;
+            ConsoleKeyInfo keyPressed;
+
+            Console.BackgroundColor = ConsoleTheme.SplashScreenBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.SplashScreenForegroundColor;
+            Console.Clear();
+            Console.CursorVisible = false;
+
+
+            Console.SetCursorPosition(0, 10);
+            string tabSpace = new String(' ', 35);
+            Console.WriteLine(tabSpace + @"                        __          __ _   _   _   _   _      _   _______       ");
+            Console.WriteLine(tabSpace + @"    _____ _             \ \        / /| | | | / / | | | \    | | |  _____|      ");
+            Console.WriteLine(tabSpace + @"   |_   _| |             \ \      / / | | | |/ /  | | |  \   | | | |            ");
+            Console.WriteLine(tabSpace + @"     | | | |__   ___      \ \    / /  | | |   /   | | |   \  | | | |  __        ");
+            Console.WriteLine(tabSpace + @"     | | | '_ \ / _ \      \ \  / /   | | |   \   | | | |\ \ | | | | |_  \      ");
+            Console.WriteLine(tabSpace + @"     | | | | | |  __/       \ \/ /    | | | |\ \  | | | | \ \| | | |___| |      ");
+            Console.WriteLine(tabSpace + @"     |_| |_| |_|\___|        \__/     |_| |_| \_\ |_| |_|  \___| |_______|      ");
+            Console.WriteLine(tabSpace + @"  ____________________________________________________________________________  ");
+            Console.WriteLine(tabSpace + @" |                                                                            | ");
+            Console.WriteLine(tabSpace + @" |                THE QUEST TO BECOME THE KING OF THE VIKINGS                 | ");
+            Console.WriteLine(tabSpace + @" |____________________________________________________________________________| ");
+
+            Console.SetCursorPosition(80, 25);
+            Console.Write("Press any key to continue or Esc to exit.");
+            keyPressed = Console.ReadKey();
+            if (keyPressed.Key == ConsoleKey.Escape)
+            {
+                playing = false;
+            }
+
+            return playing;
+        }
+
         /// <summary>
         /// display all of the elements on the game play screen on the console
         /// </summary>
@@ -81,29 +156,246 @@ namespace TB_QuestGame
         }
 
         /// <summary>
-        /// Battle Game Play Screen has different colors
+        /// initialize the console window settings
         /// </summary>
-        /// <param name="messageBoxHeaderText"></param>
-        /// <param name="messageBoxText"></param>
-        /// <param name="menu"></param>
-        /// <param name="inputBoxPrompt"></param>
-        public void DisplayBattleGamePlayScreen(string messageBoxHeaderText, string messageBoxText, Menu menu, string inputBoxPrompt)
+        private static void InitializeDisplay()
         {
             //
-            // reset screen to default window colors
+            // control the console window properties
             //
-            Console.BackgroundColor = ConsoleTheme.WindowBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.WindowForegroundColor;
-            Console.Clear();
+            ConsoleWindowControl.DisableResize();
+            ConsoleWindowControl.DisableMaximize();
+            ConsoleWindowControl.DisableMinimize();
+            Console.Title = "The Viking";
 
-            ConsoleWindowHelper.DisplayHeader(Text.HeaderText);
-            ConsoleWindowHelper.DisplayFooter(Text.FooterText);
+            //
+            // set the default console window values
+            //
+            ConsoleWindowHelper.InitializeConsoleWindow();
 
-            DisplayBattleMessageBox(messageBoxHeaderText, messageBoxText);
-            DisplayMenuBox(menu);
-            DisplayInputBox();
-            DisplayStatusBox();
+            Console.CursorVisible = false;
         }
+
+        /// <summary>
+        /// display the correct menu in the menu box of the game screen
+        /// </summary>
+        /// <param name="menu">menu for current game state</param>
+        private void DisplayMenuBox(Menu menu)
+        {
+            Console.BackgroundColor = ConsoleTheme.MenuBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.MenuBorderColor;
+
+            //
+            // display menu box border
+            //
+            ConsoleWindowHelper.DisplayBoxOutline(
+                ConsoleLayout.MenuBoxPositionTop,
+                ConsoleLayout.MenuBoxPositionLeft,
+                ConsoleLayout.MenuBoxWidth,
+                ConsoleLayout.MenuBoxHeight);
+
+            //
+            // display menu box header
+            //
+            Console.BackgroundColor = ConsoleTheme.MenuBorderColor;
+            Console.ForegroundColor = ConsoleTheme.MenuForegroundColor;
+            Console.SetCursorPosition(ConsoleLayout.MenuBoxPositionLeft + 2, ConsoleLayout.MenuBoxPositionTop + 1);
+            Console.Write(ConsoleWindowHelper.Center(menu.MenuTitle, ConsoleLayout.MenuBoxWidth - 4));
+
+            //
+            // display menu choices
+            //
+            Console.BackgroundColor = ConsoleTheme.MenuBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.MenuForegroundColor;
+            int topRow = ConsoleLayout.MenuBoxPositionTop + 3;
+
+            foreach (KeyValuePair<char, PlayerAction> menuChoice in menu.MenuChoices)
+            {
+                if (menuChoice.Value != PlayerAction.None)
+                {
+                    string formatedMenuChoice = ConsoleWindowHelper.ToLabelFormat(menuChoice.Value.ToString());
+                    Console.SetCursorPosition(ConsoleLayout.MenuBoxPositionLeft + 3, topRow++);
+                    Console.Write($"{menuChoice.Key}. {formatedMenuChoice}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// display the text in the message box of the game screen
+        /// </summary>
+        /// <param name="headerText"></param>
+        /// <param name="messageText"></param>
+        private void DisplayMessageBox(string headerText, string messageText)
+        {
+            //
+            // display the outline for the message box
+            //
+            Console.BackgroundColor = ConsoleTheme.MessageBoxBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.MessageBoxBorderColor;
+            ConsoleWindowHelper.DisplayBoxOutline(
+                ConsoleLayout.MessageBoxPositionTop,
+                ConsoleLayout.MessageBoxPositionLeft,
+                ConsoleLayout.MessageBoxWidth,
+                ConsoleLayout.MessageBoxHeight);
+
+            //
+            // display message box header
+            //
+            Console.BackgroundColor = ConsoleTheme.MessageBoxBorderColor;
+            Console.ForegroundColor = ConsoleTheme.MessageBoxForegroundColor;
+            Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, ConsoleLayout.MessageBoxPositionTop + 1);
+            Console.Write(ConsoleWindowHelper.Center(headerText, ConsoleLayout.MessageBoxWidth - 4));
+
+            //
+            // display the text for the message box
+            //
+            Console.BackgroundColor = ConsoleTheme.MessageBoxBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.MessageBoxForegroundColor;
+            List<string> messageTextLines = new List<string>();
+            messageTextLines = ConsoleWindowHelper.MessageBoxWordWrap(messageText, ConsoleLayout.MessageBoxWidth - 4);
+
+            int startingRow = ConsoleLayout.MessageBoxPositionTop + 3;
+            int endingRow = startingRow + messageTextLines.Count();
+            int row = startingRow;
+            foreach (string messageTextLine in messageTextLines)
+            {
+                Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, row);
+                Console.Write(messageTextLine);
+                row++;
+            }
+
+        }
+
+        /// <summary>
+        /// draw the status box on the game screen
+        /// </summary>
+        public void DisplayStatusBox()
+        {
+            Console.BackgroundColor = ConsoleTheme.InputBoxBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.InputBoxBorderColor;
+
+            //
+            // display the outline for the status box
+            //
+            ConsoleWindowHelper.DisplayBoxOutline(
+                ConsoleLayout.StatusBoxPositionTop,
+                ConsoleLayout.StatusBoxPositionLeft,
+                ConsoleLayout.StatusBoxWidth,
+                ConsoleLayout.StatusBoxHeight);
+
+            //
+            // display the text for the status box if playing game
+            //
+            if (_viewStatus == ViewStatus.PlayingGame)
+            {
+                //
+                // display status box header with title
+                //
+                Console.BackgroundColor = ConsoleTheme.StatusBoxBorderColor;
+                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
+                Console.SetCursorPosition(ConsoleLayout.StatusBoxPositionLeft + 2, ConsoleLayout.StatusBoxPositionTop + 1);
+                Console.Write(ConsoleWindowHelper.Center("Game Stats", ConsoleLayout.StatusBoxWidth - 4));
+                Console.BackgroundColor = ConsoleTheme.StatusBoxBackgroundColor;
+                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
+
+                //
+                // display stats
+                //
+                int startingRow = ConsoleLayout.StatusBoxPositionTop + 3;
+                int row = startingRow;
+                foreach (string statusTextLine in Text.StatusBox(_gamePlayer))
+                {
+                    Console.SetCursorPosition(ConsoleLayout.StatusBoxPositionLeft + 3, row);
+                    Console.Write(statusTextLine);
+                    row++;
+                }
+            }
+            else
+            {
+                //
+                // display status box header without header
+                //
+                Console.BackgroundColor = ConsoleTheme.StatusBoxBorderColor;
+                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
+                Console.SetCursorPosition(ConsoleLayout.StatusBoxPositionLeft + 2, ConsoleLayout.StatusBoxPositionTop + 1);
+                Console.Write(ConsoleWindowHelper.Center("", ConsoleLayout.StatusBoxWidth - 4));
+                Console.BackgroundColor = ConsoleTheme.StatusBoxBackgroundColor;
+                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
+            }
+        }
+
+        /// <summary>
+        /// draw the input box on the game screen
+        /// </summary>
+        public void DisplayInputBox()
+        {
+            Console.BackgroundColor = ConsoleTheme.InputBoxBackgroundColor;
+            Console.ForegroundColor = ConsoleTheme.InputBoxBorderColor;
+
+            ConsoleWindowHelper.DisplayBoxOutline(
+                ConsoleLayout.InputBoxPositionTop,
+                ConsoleLayout.InputBoxPositionLeft,
+                ConsoleLayout.InputBoxWidth,
+                ConsoleLayout.InputBoxHeight);
+        }
+
+        /// <summary>
+        /// display the prompt in the input box of the game screen
+        /// </summary>
+        /// <param name="prompt"></param>
+        public void DisplayInputBoxPrompt(string prompt)
+        {
+            Console.SetCursorPosition(ConsoleLayout.InputBoxPositionLeft + 4, ConsoleLayout.InputBoxPositionTop + 1);
+            Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
+            Console.Write(prompt);
+            Console.CursorVisible = true;
+        }
+
+        /// <summary>
+        /// display continue message
+        /// </summary>
+        /// <param name="prompt"></param>
+        public void DisplayContinueMessage(string prompt)
+        {
+            Console.SetCursorPosition(ConsoleLayout.InputBoxPositionLeft + 4, ConsoleLayout.InputBoxPositionTop + 1);
+            Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
+            Console.Write(prompt);
+            Console.CursorVisible = false;
+        }
+
+        /// <summary>
+        /// display the error message in the input box of the game screen
+        /// </summary>
+        /// <param name="errorMessage">error message text</param>
+        public void DisplayInputErrorMessage(string errorMessage)
+        {
+            Console.SetCursorPosition(ConsoleLayout.InputBoxPositionLeft + 4, ConsoleLayout.InputBoxPositionTop + 2);
+            Console.ForegroundColor = ConsoleTheme.InputBoxErrorMessageForegroundColor;
+            Console.Write(errorMessage);
+            Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
+            Console.CursorVisible = true;
+        }
+
+
+        /// <summary>
+        /// clear the input box
+        /// </summary>
+        private void ClearInputBox()
+        {
+            string backgroundColorString = new String(' ', ConsoleLayout.InputBoxWidth - 4);
+
+            Console.ForegroundColor = ConsoleTheme.InputBoxBackgroundColor;
+            for (int row = 1; row < ConsoleLayout.InputBoxHeight - 2; row++)
+            {
+                Console.SetCursorPosition(ConsoleLayout.InputBoxPositionLeft + 4, ConsoleLayout.InputBoxPositionTop + row);
+                DisplayInputBoxPrompt(backgroundColorString);
+            }
+            Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
+        }
+
+        #endregion
+
+        #region GET ACTIONS
 
         /// <summary>
         /// wait for any keystroke to continue
@@ -152,7 +444,7 @@ namespace TB_QuestGame
             DisplayInputBoxPrompt(prompt);
             string userResponse = Console.ReadLine();
 
-            while(userResponse == "")
+            while (userResponse == "")
             {
                 ClearInputBox();
                 DisplayInputErrorMessage("You must enter at least one character. Please try again.");
@@ -273,7 +565,7 @@ namespace TB_QuestGame
                     validInput = true;
                 }
             }
-            
+
 
             return vikingType;
         }
@@ -295,312 +587,7 @@ namespace TB_QuestGame
             return char.ToUpper(s[0]) + s.Substring(1).ToLower();
         }
 
-        /// <summary>
-        /// display splash screen
-        /// </summary>
-        /// <returns>player chooses to play</returns>
-        public bool DisplaySpashScreen()
-        {
-            bool playing = true;
-            ConsoleKeyInfo keyPressed;
-
-            Console.BackgroundColor = ConsoleTheme.SplashScreenBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.SplashScreenForegroundColor;
-            Console.Clear();
-            Console.CursorVisible = false;
-
-
-            Console.SetCursorPosition(0, 10);
-            string tabSpace = new String(' ', 35);
-            Console.WriteLine(tabSpace + @"                        __          __ _   _   _   _   _      _   _______       ");
-            Console.WriteLine(tabSpace + @"    _____ _             \ \        / /| | | | / / | | | \    | | |  _____|      ");
-            Console.WriteLine(tabSpace + @"   |_   _| |             \ \      / / | | | |/ /  | | |  \   | | | |            ");
-            Console.WriteLine(tabSpace + @"     | | | |__   ___      \ \    / /  | | |   /   | | |   \  | | | |  __        ");
-            Console.WriteLine(tabSpace + @"     | | | '_ \ / _ \      \ \  / /   | | |   \   | | | |\ \ | | | | |_  \      ");
-            Console.WriteLine(tabSpace + @"     | | | | | |  __/       \ \/ /    | | | |\ \  | | | | \ \| | | |___| |      ");
-            Console.WriteLine(tabSpace + @"     |_| |_| |_|\___|        \__/     |_| |_| \_\ |_| |_|  \___| |_______|      ");
-            Console.WriteLine(tabSpace + @"  ____________________________________________________________________________  ");
-            Console.WriteLine(tabSpace + @" |                                                                            | ");
-            Console.WriteLine(tabSpace + @" |                THE QUEST TO BECOME THE KING OF THE VIKINGS                 | ");
-            Console.WriteLine(tabSpace + @" |____________________________________________________________________________| ");
-
-            Console.SetCursorPosition(80, 25);
-            Console.Write("Press any key to continue or Esc to exit.");
-            keyPressed = Console.ReadKey();
-            if (keyPressed.Key == ConsoleKey.Escape)
-            {
-                playing = false;
-            }
-
-            return playing;
-        }
-
-        /// <summary>
-        /// initialize the console window settings
-        /// </summary>
-        private static void InitializeDisplay()
-        {
-            //
-            // control the console window properties
-            //
-            ConsoleWindowControl.DisableResize();
-            ConsoleWindowControl.DisableMaximize();
-            ConsoleWindowControl.DisableMinimize();
-            Console.Title = "The Viking";
-
-            //
-            // set the default console window values
-            //
-            ConsoleWindowHelper.InitializeConsoleWindow();
-
-            Console.CursorVisible = false;
-        }
-
-        /// <summary>
-        /// display the correct menu in the menu box of the game screen
-        /// </summary>
-        /// <param name="menu">menu for current game state</param>
-        private void DisplayMenuBox(Menu menu)
-        {
-            Console.BackgroundColor = ConsoleTheme.MenuBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.MenuBorderColor;
-
-            //
-            // display menu box border
-            //
-            ConsoleWindowHelper.DisplayBoxOutline(
-                ConsoleLayout.MenuBoxPositionTop,
-                ConsoleLayout.MenuBoxPositionLeft,
-                ConsoleLayout.MenuBoxWidth,
-                ConsoleLayout.MenuBoxHeight);
-
-            //
-            // display menu box header
-            //
-            Console.BackgroundColor = ConsoleTheme.MenuBorderColor;
-            Console.ForegroundColor = ConsoleTheme.MenuForegroundColor;
-            Console.SetCursorPosition(ConsoleLayout.MenuBoxPositionLeft + 2, ConsoleLayout.MenuBoxPositionTop + 1);
-            Console.Write(ConsoleWindowHelper.Center(menu.MenuTitle, ConsoleLayout.MenuBoxWidth - 4));
-
-            //
-            // display menu choices
-            //
-            Console.BackgroundColor = ConsoleTheme.MenuBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.MenuForegroundColor;
-            int topRow = ConsoleLayout.MenuBoxPositionTop + 3;
-
-            foreach (KeyValuePair<char, PlayerAction> menuChoice in menu.MenuChoices)
-            {
-                if (menuChoice.Value != PlayerAction.None)
-                {
-                    string formatedMenuChoice = ConsoleWindowHelper.ToLabelFormat(menuChoice.Value.ToString());
-                    Console.SetCursorPosition(ConsoleLayout.MenuBoxPositionLeft + 3, topRow++);
-                    Console.Write($"{menuChoice.Key}. {formatedMenuChoice}");
-                }
-            }
-        }
-
-        /// <summary>
-        /// display the text in the message box of the game screen
-        /// </summary>
-        /// <param name="headerText"></param>
-        /// <param name="messageText"></param>
-        private void DisplayMessageBox(string headerText, string messageText)
-        {
-            //
-            // display the outline for the message box
-            //
-            Console.BackgroundColor = ConsoleTheme.MessageBoxBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.MessageBoxBorderColor;
-            ConsoleWindowHelper.DisplayBoxOutline(
-                ConsoleLayout.MessageBoxPositionTop,
-                ConsoleLayout.MessageBoxPositionLeft,
-                ConsoleLayout.MessageBoxWidth,
-                ConsoleLayout.MessageBoxHeight);
-
-            //
-            // display message box header
-            //
-            Console.BackgroundColor = ConsoleTheme.MessageBoxBorderColor;
-            Console.ForegroundColor = ConsoleTheme.MessageBoxForegroundColor;
-            Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, ConsoleLayout.MessageBoxPositionTop + 1);
-            Console.Write(ConsoleWindowHelper.Center(headerText, ConsoleLayout.MessageBoxWidth - 4));
-
-            //
-            // display the text for the message box
-            //
-            Console.BackgroundColor = ConsoleTheme.MessageBoxBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.MessageBoxForegroundColor;
-            List<string> messageTextLines = new List<string>();
-            messageTextLines = ConsoleWindowHelper.MessageBoxWordWrap(messageText, ConsoleLayout.MessageBoxWidth - 4);
-
-            int startingRow = ConsoleLayout.MessageBoxPositionTop + 3;
-            int endingRow = startingRow + messageTextLines.Count();
-            int row = startingRow;
-            foreach (string messageTextLine in messageTextLines)
-            {
-                Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, row);
-                Console.Write(messageTextLine);
-                row++;
-            }
-
-        }
-
-        private void DisplayBattleMessageBox(string headerText, string messageText)
-        {
-            //
-            // display the outline for the message box
-            //
-            Console.BackgroundColor = ConsoleTheme.BattleMessageBoxBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.BattleMessageBoxBorderColor;
-            ConsoleWindowHelper.DisplayBoxOutline(
-                ConsoleLayout.MessageBoxPositionTop,
-                ConsoleLayout.MessageBoxPositionLeft,
-                ConsoleLayout.MessageBoxWidth,
-                ConsoleLayout.MessageBoxHeight);
-
-            //
-            // display message box header
-            //
-            Console.BackgroundColor = ConsoleTheme.BattleMessageBoxBorderColor;
-            Console.ForegroundColor = ConsoleTheme.BattleMessageBoxForegroundColor;
-            Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, ConsoleLayout.MessageBoxPositionTop + 1);
-            Console.Write(ConsoleWindowHelper.Center(headerText, ConsoleLayout.MessageBoxWidth - 4));
-
-            //
-            // display the text for the message box
-            //
-            Console.BackgroundColor = ConsoleTheme.BattleMessageBoxBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.BattleMessageBoxForegroundColor;
-            List<string> messageTextLines = new List<string>();
-            messageTextLines = ConsoleWindowHelper.MessageBoxWordWrap(messageText, ConsoleLayout.MessageBoxWidth - 4);
-
-            int startingRow = ConsoleLayout.MessageBoxPositionTop + 3;
-            int endingRow = startingRow + messageTextLines.Count();
-            int row = startingRow;
-            foreach (string messageTextLine in messageTextLines)
-            {
-                Console.SetCursorPosition(ConsoleLayout.MessageBoxPositionLeft + 2, row);
-                Console.Write(messageTextLine);
-                row++;
-            }
-
-        }
-
-        /// <summary>
-        /// draw the status box on the game screen
-        /// </summary>
-        public void DisplayStatusBox()
-        {
-            Console.BackgroundColor = ConsoleTheme.InputBoxBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.InputBoxBorderColor;
-
-            //
-            // display the outline for the status box
-            //
-            ConsoleWindowHelper.DisplayBoxOutline(
-                ConsoleLayout.StatusBoxPositionTop,
-                ConsoleLayout.StatusBoxPositionLeft,
-                ConsoleLayout.StatusBoxWidth,
-                ConsoleLayout.StatusBoxHeight);
-
-            //
-            // display the text for the status box if playing game
-            //
-            if (_viewStatus == ViewStatus.PlayingGame)
-            {
-                //
-                // display status box header with title
-                //
-                Console.BackgroundColor = ConsoleTheme.StatusBoxBorderColor;
-                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
-                Console.SetCursorPosition(ConsoleLayout.StatusBoxPositionLeft + 2, ConsoleLayout.StatusBoxPositionTop + 1);
-                Console.Write(ConsoleWindowHelper.Center("Game Stats", ConsoleLayout.StatusBoxWidth - 4));
-                Console.BackgroundColor = ConsoleTheme.StatusBoxBackgroundColor;
-                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
-
-                //
-                // display stats
-                //
-                int startingRow = ConsoleLayout.StatusBoxPositionTop + 3;
-                int row = startingRow;
-                foreach (string statusTextLine in Text.StatusBox(_gamePlayer))
-                {
-                    Console.SetCursorPosition(ConsoleLayout.StatusBoxPositionLeft + 3, row);
-                    Console.Write(statusTextLine);
-                    row++;
-                }
-            }
-            else
-            {
-                //
-                // display status box header without header
-                //
-                Console.BackgroundColor = ConsoleTheme.StatusBoxBorderColor;
-                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
-                Console.SetCursorPosition(ConsoleLayout.StatusBoxPositionLeft + 2, ConsoleLayout.StatusBoxPositionTop + 1);
-                Console.Write(ConsoleWindowHelper.Center("", ConsoleLayout.StatusBoxWidth - 4));
-                Console.BackgroundColor = ConsoleTheme.StatusBoxBackgroundColor;
-                Console.ForegroundColor = ConsoleTheme.StatusBoxForegroundColor;
-            }
-        }
-
-        /// <summary>
-        /// draw the input box on the game screen
-        /// </summary>
-        public void DisplayInputBox()
-        {
-            Console.BackgroundColor = ConsoleTheme.InputBoxBackgroundColor;
-            Console.ForegroundColor = ConsoleTheme.InputBoxBorderColor;
-
-            ConsoleWindowHelper.DisplayBoxOutline(
-                ConsoleLayout.InputBoxPositionTop,
-                ConsoleLayout.InputBoxPositionLeft,
-                ConsoleLayout.InputBoxWidth,
-                ConsoleLayout.InputBoxHeight);
-        }
-
-        /// <summary>
-        /// display the prompt in the input box of the game screen
-        /// </summary>
-        /// <param name="prompt"></param>
-        public void DisplayInputBoxPrompt(string prompt)
-        {
-            Console.SetCursorPosition(ConsoleLayout.InputBoxPositionLeft + 4, ConsoleLayout.InputBoxPositionTop + 1);
-            Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
-            Console.Write(prompt);
-            Console.CursorVisible = true;
-        }
-
-        /// <summary>
-        /// display the error message in the input box of the game screen
-        /// </summary>
-        /// <param name="errorMessage">error message text</param>
-        public void DisplayInputErrorMessage(string errorMessage)
-        {
-            Console.SetCursorPosition(ConsoleLayout.InputBoxPositionLeft + 4, ConsoleLayout.InputBoxPositionTop + 2);
-            Console.ForegroundColor = ConsoleTheme.InputBoxErrorMessageForegroundColor;
-            Console.Write(errorMessage);
-            Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
-            Console.CursorVisible = true;
-        }
-
-
-        /// <summary>
-        /// clear the input box
-        /// </summary>
-        private void ClearInputBox()
-        {
-            string backgroundColorString = new String(' ', ConsoleLayout.InputBoxWidth - 4);
-
-            Console.ForegroundColor = ConsoleTheme.InputBoxBackgroundColor;
-            for (int row = 1; row < ConsoleLayout.InputBoxHeight - 2; row++)
-            {
-                Console.SetCursorPosition(ConsoleLayout.InputBoxPositionLeft + 4, ConsoleLayout.InputBoxPositionTop + row);
-                DisplayInputBoxPrompt(backgroundColorString);
-            }
-            Console.ForegroundColor = ConsoleTheme.InputBoxForegroundColor;
-        }
+        #endregion
 
         #region PLAYER SETUP
 
@@ -681,64 +668,9 @@ namespace TB_QuestGame
 
         #endregion
 
-        #region TRAVEL ACTIONS
+        #region MAIN MENU ACTIONS
 
-        /// <summary>
-        /// Get the next location ID from the player
-        /// </summary>
-        /// <returns></returns>
-        public int DisplayGetLocation()
-        {
-            int locationId = 0;
-            bool validLocationId = false;
-            int attempt = 0;
-
-            DisplayGamePlayScreen("Travel to a new location", Text.Travel(_gamePlayer, _gameUniverse.Locations), ActionMenu.MainMenu, "");
-
-            while (!validLocationId)
-            {
-                attempt++;
-                if (attempt > 3)
-                {
-                    validLocationId = true;
-                    locationId = _gamePlayer.LocationId;
-                    DisplayMaxAttemptsExceeded();
-                }
-                else
-                {
-                    //
-                    // get integer from user
-                    //
-                    GetInteger("Enter the new location: ", 1, _gameUniverse.GetMaxLocationID(), out locationId);
-                }
-
-                //
-                // validate the locationID and determine accesability
-                //
-                if (_gameUniverse.IsValidLocationId(locationId))
-                {
-                    if (_gameUniverse.IsAccessibleLocation(locationId, _gamePlayer))
-                    {
-                        validLocationId = true;
-                    }
-                    else
-                    {
-                        ClearInputBox();
-                        DisplayInputErrorMessage("You are attempting to travel to a location that is not accessible. Please try again.");
-                    }
-                }
-                else
-                {
-                    DisplayInputErrorMessage("You entered an invalid locationId. Please try again.");
-                }
-            }
-
-            return locationId;
-        }
-
-        #endregion
-
-        #region MAIN MENU ACTION
+        #region PLAYER INFO
 
         /// <summary>
         /// Display player info
@@ -748,137 +680,28 @@ namespace TB_QuestGame
             DisplayGamePlayScreen("Viking Information", Text.PlayerInfo(_gamePlayer), ActionMenu.MainMenu, "");
         }
 
-
         #endregion
 
-        #region EDIT ACTIONS
+        #region LOOK AROUND ACTIONS
 
         /// <summary>
-        /// Display Edit Player Infor screen
+        /// Display look around method from the text class
         /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
-        public PlayerAction DisplayEditPlayerInfo(Player player)
+        public void DisplayLookAround()
         {
+            // get current location
+            Location currentLocation = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
 
-            DisplayGamePlayScreen("Edit Viking Info", Text.EditPlayerInfo(player), ActionMenu.EditPlayer, "");
-            PlayerAction playerMenuEditChoice = GetActionMenuChoice(ActionMenu.EditPlayer);
+            // get list of game objects and list of npcs in location
+            List<GameObject> gameObjectsInLocation = _gameUniverse.GetGameObjectsByLocationId(_gamePlayer.LocationId);
+            List<NPC> npcObjectsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
 
-            return playerMenuEditChoice;
+            string messageBoxText = Text.CurrrentLocationInfo(currentLocation) + Environment.NewLine + Environment.NewLine;
+            messageBoxText += Text.GameObjectsChooseList(gameObjectsInLocation) + Environment.NewLine;
+            messageBoxText += Text.NpcsChooseList(npcObjectsInLocation);
+
+            DisplayGamePlayScreen("Look Around", messageBoxText, ActionMenu.LookAround, "");
         }
-
-        /// <summary>
-        /// Edit Player Name
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
-        public string DisplayEditName(Player player)
-        {
-            DisplayGamePlayScreen("Edit Viking Info - Name", Text.SetuoGetPlayerName(), ActionMenu.EditPlayer, "");
-            string prompt = "Enter your name: ";
-            string name = GetString(prompt);
-            return name;
-        }
-
-        /// <summary>
-        /// Edit Player Gender
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
-        public Player.VikingType DisplayEditGender(Player player)
-        {
-            Player.VikingType viking = Player.VikingType.None;
-            DisplayGamePlayScreen("Edit Viking Info - Gender", Text.EditGetPlayerGender(player), ActionMenu.EditPlayer, "");
-            DisplayInputBoxPrompt("Enter your viking: ");
-            viking = GetVikingType();
-            return viking;
-        }
-
-        /// <summary>
-        /// Edit Player Age
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
-        public int DisplayEditAge(Player player)
-        {
-            DisplayGamePlayScreen("The Viking Setup - Age", Text.SetupGetPlayerAge(player), ActionMenu.EditPlayer, "");
-            int gamePlayerAge;
-
-            GetInteger($"Enter your age {player.Name}: ", 0, 1000000, out gamePlayerAge);
-            return gamePlayerAge;
-        }
-
-        /// <summary>
-        /// Edit Player Home Village
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns></returns>
-        public string DisplayEditHomeVillage(Player player)
-        {
-            DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.EditPlayer, "");
-            string prompt = "Enter the name of the Village: ";
-            string homeVillage = GetString(prompt);
-            return homeVillage;
-        }
-
-        #endregion
-
-        #region LIST ACTIONS
-
-        /// <summary>
-        /// Display List of all locations
-        /// </summary>
-        public void DisplayListOfLocations()
-        {
-            DisplayGamePlayScreen("List: Locations", Text.ListLocations(_gameUniverse.Locations), ActionMenu.AdminMenu, "");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public void DisplayLocationsVisited()
-        {
-            //
-            // generate a list of locations that the player has visited
-            //
-            List<Location> locationsVisited = new List<Location>();
-            foreach (int locationId in _gamePlayer.LocationsVisted)
-            {
-                locationsVisited.Add(_gameUniverse.GetLocationById(locationId));
-            }
-
-            DisplayGamePlayScreen("Locations you have visited", Text.VisitedLocations(locationsVisited), ActionMenu.AdminMenu, "");
-        }
-
-        /// <summary>
-        /// display list of game objects in the universe
-        /// </summary>
-        public void DisplayListGameObjects()
-        {
-            DisplayGamePlayScreen("List Game Objects", "Choose from the menu options", ActionMenu.ListGameObjectsMenu, "");
-        }
-
-        public void DisplayListWeapons()
-        {
-            DisplayGamePlayScreen("List: Weapons", Text.ListWeapons(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
-        }
-
-        public void DisplayListTreasures()
-        {
-            DisplayGamePlayScreen("List: Treasures", Text.ListTreasures(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
-        }
-
-        public void DisplayListItems()
-        {
-            DisplayGamePlayScreen("List: Items", Text.ListItems(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
-        }
-
-        public void DisplayListPlaces()
-        {
-            DisplayGamePlayScreen("List: Places", Text.ListPlaces(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
-        }
-
-        #endregion
 
         #region ITEM ACTIONS
 
@@ -1131,49 +954,289 @@ namespace TB_QuestGame
 
         #endregion
 
-        #region INVENTORY ACTIONS
+        #region NPC ACTIONS
 
-        public void DisplayItemIsNotWeapon(GameObject gameObject)
+        public void DisplayTradeWillExceedInventoryMaxWeight(GameObject npcObject)
         {
-            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} is not a weapon.", ActionMenu.InventoryMenu, "");
+            DisplayGamePlayScreen("Trade", $"Adding the weight of {npcObject.Weight} will be more than your inventory can handle.", ActionMenu.TradeMenu, "");
         }
 
-        public void DisplaySetPrimaryWeapon(Weapon weapon, bool isWeapon)
+        public void DisplayInventroyObjectValueNotEnough(GameObject inventoryObject, GameObject npcObject)
         {
-            if (isWeapon)
-                DisplayGamePlayScreen("Current Inventory", $"{weapon.Name} is now your primary weapon", ActionMenu.InventoryMenu, "");
+            DisplayGamePlayScreen("Trade", $"The value of {inventoryObject.Name} is not enoug to trade for the value of {npcObject.Name}.", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayConfirmTradeWithNPC(GameObject inventoryObject, GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"You have traded {inventoryObject.Name} for {npcObject.Name} which has now\n" +
+                                        "been added to your ineventory.", ActionMenu.NpcMenu, "");
+        }
+
+        public void DisplayGetNPCObjectToTrade(GameObject tradeItem)
+        {
+            DisplayGamePlayScreen("Trade", $"Would you like to buy {tradeItem.Name} for {tradeItem.Value} coins \n" +
+                        "or would you like to trade one of the items in your inventory for it?\n" +
+                        "\nChoose from the menu options", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayBattleDefeat(NPC npc, int playerPoints, int opponentPoints)
+        {
+            DisplayGamePlayScreen("Battle", $"You lost the battle against {npc.Name}.\n" +
+                        $"Your points: {playerPoints}\n" +
+                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.MainMenu, "");
+        }
+
+        public void DisplayBattleVictory(NPC npc, int playerPoints, int opponentPoints)
+        {
+            DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
+                        $"Your points: {playerPoints}\n" +
+                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
+        }
+
+        public void DisplayNotEnoughCapitalToBuyNPCObject(GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"You don't have enough capital to buy {npcObject.Name}, it will cost you {npcObject.Value} coins, but you\n" +
+                            $"only have {_gamePlayer.Capital} coins.", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayNPCObjectTooHeavyForInevntory(GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"The weight of {npcObject.Name} is too much for your inventory to handle.", ActionMenu.TradeMenu, "");
+        }
+
+        public void DisplayBuyObjectFromNPC(GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"You have bought {npcObject.Name} for {npcObject.Value} coins and it has\n" +
+                                "been added to your ineventory.", ActionMenu.NpcMenu, "");
+        }
+
+        public void DisplayListAllNpcObjects()
+        {
+            DisplayGamePlayScreen("List: NPC Objects", Text.ListAllNpcObjects(_gameUniverse.NPCs), ActionMenu.AdminMenu, "");
+        }
+
+        public int DisplayGetNpcToTalkTo()
+        {
+            int npcId = 0;
+            bool validNpcId = false;
+            int attempt = 0;
+
+            List<NPC> npcsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
+
+            if (npcsInLocation.Count > 0)
+            {
+                DisplayGamePlayScreen("Choose Character to Speak With", Text.NpcsChooseList(npcsInLocation), ActionMenu.NpcMenu, "");
+
+                while (!validNpcId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        npcId = 0;
+                        validNpcId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        GetInteger($"Enter the id number of the character: ", 0, 0, out npcId);
+
+                        if (_gameUniverse.IsValidNpcByLocationId(npcId, _gamePlayer.LocationId))
+                        {
+                            NPC npc = _gameUniverse.GetNpcById(npcId);
+                            if (npc is ITalk || npc is Enemy)
+                            {
+                                validNpcId = true;
+                            }
+                            else
+                            {
+                                ClearInputBox();
+                                DisplayInputErrorMessage("It appears this character has nothing to say. Please try agian.");
+                            }
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid id. Please try agian.");
+                        }
+                    }
+
+
+                }
+            }
             else
-                DisplayGamePlayScreen("Current Inventory", $"{weapon.Name} is a shield and can't be your primary weapon.", ActionMenu.InventoryMenu, "");
-            
+            {
+                DisplayGamePlayScreen("Choose Character to Speak With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
+            }
+
+            return npcId;
         }
 
-        public void DisplayItemIsNotShield(GameObject gameObject)
+        public void DisplayTalkTo(NPC npc)
         {
-            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} is not a shield.", ActionMenu.InventoryMenu, "");
+            ITalk speakingNpc = npc as ITalk;
+
+            string message = speakingNpc.Talk();
+
+            if (message == "")
+            {
+                message = "It appears this character has nothing to say. Please try agian.";
+            }
+
+            DisplayGamePlayScreen("Speak to Character", $"{npc.Description}\n" +
+                $"{npc.Name}: " + message, ActionMenu.NpcMenu, "");
+
         }
 
-        public void DisplaySetPrimaryShield(Weapon shield, bool isShield)
+        public void DisplayTalkToOpponent(NPC npc)
         {
-            if (isShield)
-                DisplayGamePlayScreen("Current Inventory", $"{shield.Name} is now your primary shield", ActionMenu.InventoryMenu, "");
+            IBattle battlingNpc = npc as IBattle;
+
+            string message = battlingNpc.Battle();
+            List<Weapon> weapons = new List<Weapon>();
+            foreach (var item in _gameUniverse.GameObjects)
+            {
+                if (item is Weapon)
+                {
+                    Weapon weapon = item as Weapon;
+                    weapons.Add(weapon);
+                }
+            }
+            DisplayGamePlayScreen("Speak to Character", Text.DisplayOpponentInfo(weapons, npc, message), ActionMenu.BattleMenu, "");
+        }
+
+        public int DisplayGetNpcToTradeWith()
+        {
+            int npcId = 0;
+            bool validNpcId = false;
+            int attempt = 0;
+
+            List<NPC> npcsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
+
+            if (npcsInLocation.Count > 0)
+            {
+                List<NPC> tradingNPCs = new List<NPC>();
+                foreach (NPC npc in npcsInLocation)
+                {
+                    if (npc.CanTrade)
+                    {
+                        if (npc.TradeObjects.Count > 0)
+                        {
+                            tradingNPCs.Add(npc);
+                        }
+
+                    }
+                }
+
+                if (tradingNPCs.Count > 0)
+                {
+                    DisplayGamePlayScreen("Choose Person to trade with", Text.NpcsChooseList(tradingNPCs), ActionMenu.TradeMenu, "");
+
+                    while (!validNpcId)
+                    {
+                        attempt++;
+                        if (attempt > 3)
+                        {
+                            npcId = 0;
+                            validNpcId = true;
+                            DisplayMaxAttemptsExceeded();
+                        }
+                        else
+                        {
+                            GetInteger($"Enter the id number of the character: ", 0, 0, out npcId);
+
+                            if (_gameUniverse.IsValidNpcByLocationId(npcId, _gamePlayer.LocationId))
+                            {
+                                validNpcId = true;
+                            }
+                            else
+                            {
+                                ClearInputBox();
+                                DisplayInputErrorMessage("It appears you entered an invalid id. Please try agian.");
+                            }
+                        }
+
+
+                    }
+                }
+                else
+                {
+                    DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs to trade with here.", ActionMenu.NpcMenu, "");
+                }
+
+            }
             else
-                DisplayGamePlayScreen("Current Inventory", $"{shield.Name} is not a shield and can't be your primary shield.", ActionMenu.InventoryMenu, "");
+            {
+                DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
+            }
 
+            return npcId;
         }
-        
 
-        public void DisplayInventoryItemCannotBeConsumed(GameObject gameObject)
+        public int DisplayChooseNpcItemToTrade(NPC npc)
         {
-            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} cannot be consumed.", ActionMenu.InventoryMenu, "");
+            int tradeObjectId = 0;
+            int attempt = 0;
+            bool validObjectId = false;
+            List<GameObject> npcTradeObjects = new List<GameObject>();
+            foreach (int item in npc.TradeObjects)
+            {
+                GameObject tradeObject = _gameUniverse.GetGameObjectById(item) as GameObject;
+                if (tradeObject != null)
+                {
+                    npcTradeObjects.Add(tradeObject);
+                }
+            }
+
+            if (npcTradeObjects.Count > 0)
+            {
+                DisplayGamePlayScreen("Trade", Text.DisplayChooseNpcItem(npc, npcTradeObjects), ActionMenu.TradeMenu, "");
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        tradeObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to trade: ", 0, 0, out tradeObjectId);
+                    }
+
+                    if (tradeObjectId != 0)
+                    {
+                        //
+                        // validate integer as valid game object id in current location
+                        if (npc.TradeObjects.Contains(tradeObjectId))
+                        {
+                            validObjectId = true;
+
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid id. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Trade", $"It appears {npc.Name} doesn't have any items to trade.", ActionMenu.TradeMenu, "");
+            }
+
+
+
+            return tradeObjectId;
         }
 
-        public void DisplayeWeaponPutDown(Weapon weapon, string weaponType)
-        {
-            DisplayGamePlayScreen("Put Down Item", $"The {weapon.Name} has been removed from your inventory.\n" +
-                                $"This was your primary {weaponType}, you are currently don't have a primary {weaponType}.", ActionMenu.InventoryMenu, "");
-        }
-
-        public int DisplayGetInventoryItemToConsume()
+        public int DisplayGetInventoryItemToTrade()
         {
             int gameObjectId = 0;
             bool validObjectId = false;
@@ -1181,7 +1244,8 @@ namespace TB_QuestGame
 
             if (_gamePlayer.Inventory.Count > 0)
             {
-                DisplayGamePlayScreen("Current Inventory", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
+                DisplayGamePlayScreen("Trade", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.TradeMenu, "");
+
 
                 while (!validObjectId)
                 {
@@ -1197,7 +1261,7 @@ namespace TB_QuestGame
                         //
                         // get an integer from the player
                         //
-                        GetInteger($"Enter the Id number of the item you wish to consume: ", 0, 0, out gameObjectId);
+                        GetInteger($"Enter the Id number of the object you wish to trade: ", 0, 0, out gameObjectId);
                     }
 
                     if (gameObjectId != 0)
@@ -1225,237 +1289,22 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Current Inventory", "You don't have any items to consume. Your inventory is empty. \n Press any key to continue.", ActionMenu.InventoryMenu, "");
-                Console.CursorVisible = false;
-                Console.ReadKey();
-            }
-
-            return gameObjectId;
-        }
-
-        public int DisplayGetWeapon()
-        {
-            int gameObjectId = 0;
-            bool validObjectId = false;
-            int attempt = 0;
-
-            if (_gamePlayer.Inventory.Count > 0)
-            {
-                DisplayGamePlayScreen("Current Inventory", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
-
-                while (!validObjectId)
-                {
-                    attempt++;
-                    if (attempt > 3)
-                    {
-                        gameObjectId = 0;
-                        validObjectId = true;
-                        DisplayMaxAttemptsExceeded();
-                    }
-                    else
-                    {
-                        //
-                        // get an integer from the player
-                        //
-                        GetInteger($"Enter the Id number for the weapon you want to be your primary: ", 0, 0, out gameObjectId);
-                    }
-
-                    if (gameObjectId != 0)
-                    {
-                        //
-                        // find object in inventory
-                        //
-                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
-
-                        //
-                        // validate object in inventory
-                        //
-                        if (gameObject != null)
-                        {
-                            validObjectId = true;
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                DisplayGamePlayScreen("Current Inventory", "You don't have any weapons. \n Press any key to continue.", ActionMenu.InventoryMenu, "");
-                Console.CursorVisible = false;
-                Console.ReadKey();
-            }
-
-            return gameObjectId;
-        }
-
-        public int DisplayGetGameObjectToPutDown()
-        {
-            int gameObjectId = 0;
-            bool validObjectId = false;
-            int attempt = 0;
-
-            if (_gamePlayer.Inventory.Count > 0)
-            {
-                DisplayGamePlayScreen("Put Down Item", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
-
-
-                while (!validObjectId)
-                {
-                    attempt++;
-                    if (attempt > 3)
-                    {
-                        gameObjectId = 0;
-                        validObjectId = true;
-                        DisplayMaxAttemptsExceeded();
-                    }
-                    else
-                    {
-                        //
-                        // get an integer from the player
-                        //
-                        GetInteger($"Enter the Id number of the object you wish to put down: ", 0, 0, out gameObjectId);
-                    }
-
-                    if (gameObjectId != 0)
-                    {
-                        //
-                        // find object in inventory
-                        //
-                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
-
-                        //
-                        // validate object in inventory
-                        //
-                        if (gameObject != null)
-                        {
-                            validObjectId = true;
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                DisplayGamePlayScreen("Put Down Item", "You don't have any items to put down. Your inventory is empty.", ActionMenu.InventoryMenu, "");
+                DisplayGamePlayScreen("Trade", "You don't have any items to trade. Your inventory is empty.", ActionMenu.TradeMenu, "");
             }
 
 
             return gameObjectId;
-
-        }
-
-        public void DisplayInventory()
-        {
-            if (_gamePlayer.Inventory.Count <= 0)
-            {
-                DisplayGamePlayScreen("Current Inventory", "You currently have no items in your inventory", ActionMenu.InventoryMenu, "");
-            }
-            else
-            {
-                DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
-            }
-
-        }
-
-        public void DisplayInventoryObjectInfo(GameObject gameObject)
-        {
-            DisplayGamePlayScreen("Inventory", Text.LookAt(gameObject), ActionMenu.InventoryMenu, "");
-
-        }
-
-        public int DisplayGetInventoryObjectToLookAt()
-        {
-            int inventoryObjectId = 0;
-            bool validInventoryObjectId = false;
-            int attempt = 0;
-
-            //
-            // get a list of all objects in inventory
-            //
-            List<GameObject> gameObjectsInInventory = _gamePlayer.Inventory;
-
-            if (gameObjectsInInventory.Count > 0)
-            {
-                while (!validInventoryObjectId)
-                {
-                    attempt++;
-
-                    if (attempt > 3)
-                    {
-                        inventoryObjectId = 0;
-                        validInventoryObjectId = true;
-                        DisplayMaxAttemptsExceeded();
-                    }
-                    else
-                    {
-                        //
-                        // get an integer from the player
-                        //
-                        GetInteger($"Enter the Id number of the object you wish to look at: ", 0, 0, out inventoryObjectId);
-                    }
-
-                    if (inventoryObjectId != 0)
-                    {
-                        GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryObjectId) as GameObject;
-                        //
-                        // validate integer as a valid game object id and in current location
-                        //
-                        if (_gamePlayer.Inventory.Contains(inventoryObject))
-                        {
-                            validInventoryObjectId = true;
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                DisplayGamePlayScreen("Current Inventory", "There are no items in your inventory.", ActionMenu.InventoryMenu, "");
-                Console.CursorVisible = false;
-                Console.ReadKey();
-            }
-
-            return inventoryObjectId;
-        }
-
-        public void DisplayConsumeItem(Item consumedItem)
-        {
-            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
-            {
-                DisplayGamePlayScreen("Consume Item", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.ItemMenu, "");
-            }
-            else
-            {
-                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.InventoryMenu, "");
-            }
-
-        }
-
-        public void DisplayConfirmItemRemovedFromInventory(GameObject gameObject)
-        {
-            DisplayGamePlayScreen("Put Down Item", $"The {gameObject.Name} has been removed from your invnetory.", ActionMenu.InventoryMenu, "");
         }
 
         #endregion
 
-        #region LOOK AROUND ACTIONS
-
         #region SHOP MENU ACTIONS
+
+        public void DisplayWeaponSold(Weapon weapon, string weaponType)
+        {
+            DisplayGamePlayScreen("Shop", $"The {weapon.Name} has been removed from your inventory.\n" +
+                                $"This was your primary {weaponType}, you are currently don't have a primary {weaponType}.", ActionMenu.ShopMenu, "");
+        }
 
         public void DisplayWeaponAddedToInventory(Weapon weapon, string weaponType)
         {
@@ -1671,7 +1520,7 @@ namespace TB_QuestGame
                         {
                             Place placeChosen = _gameUniverse.GetGameObjectById(placeId) as Place;
 
-                            if (_gamePlayer.ExperiencePoints >= placeChosen.EnytryPoints)
+                            if (_gamePlayer.ExperiencePoints >= placeChosen.EntryPoints)
                             {
                                 validPlaceId = true;
                             }
@@ -1703,24 +1552,519 @@ namespace TB_QuestGame
 
         #endregion
 
-        /// <summary>
-        /// Display look around method from the text class
-        /// </summary>
-        public void DisplayLookAround()
+        #endregion
+
+        #region INVENTORY ACTIONS
+
+        public void DisplayItemIsNotWeapon(GameObject gameObject)
         {
-            // get current location
-            Location currentLocation = _gameUniverse.GetLocationById(_gamePlayer.LocationId);
-
-            // get list of game objects and list of npcs in location
-            List<GameObject> gameObjectsInLocation = _gameUniverse.GetGameObjectsByLocationId(_gamePlayer.LocationId);
-            List<NPC> npcObjectsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
-
-            string messageBoxText = Text.CurrrentLocationInfo(currentLocation) + Environment.NewLine + Environment.NewLine;
-            messageBoxText += Text.GameObjectsChooseList(gameObjectsInLocation) + Environment.NewLine;
-            messageBoxText += Text.NpcsChooseList(npcObjectsInLocation);
-
-            DisplayGamePlayScreen("Look Around", messageBoxText, ActionMenu.LookAround, "");
+            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} is not a weapon.", ActionMenu.InventoryMenu, "");
         }
+
+        public void DisplaySetPrimaryWeapon(Weapon weapon, bool isWeapon)
+        {
+            if (isWeapon)
+                DisplayGamePlayScreen("Current Inventory", $"{weapon.Name} is now your primary weapon", ActionMenu.InventoryMenu, "");
+            else
+                DisplayGamePlayScreen("Current Inventory", $"{weapon.Name} is a shield and can't be your primary weapon.", ActionMenu.InventoryMenu, "");
+
+        }
+
+        public void DisplayItemIsNotShield(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} is not a shield.", ActionMenu.InventoryMenu, "");
+        }
+
+        public void DisplaySetPrimaryShield(Weapon shield, bool isShield)
+        {
+            if (isShield)
+                DisplayGamePlayScreen("Current Inventory", $"{shield.Name} is now your primary shield", ActionMenu.InventoryMenu, "");
+            else
+                DisplayGamePlayScreen("Current Inventory", $"{shield.Name} is not a shield and can't be your primary shield.", ActionMenu.InventoryMenu, "");
+
+        }
+
+
+        public void DisplayInventoryItemCannotBeConsumed(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Current Inventory", $"{gameObject.Name} cannot be consumed.", ActionMenu.InventoryMenu, "");
+        }
+
+        public void DisplayWeaponPutDown(Weapon weapon, string weaponType)
+        {
+            DisplayGamePlayScreen("Put Down Item", $"The {weapon.Name} has been removed from your inventory.\n" +
+                                $"This was your primary {weaponType}, you are currently don't have a primary {weaponType}.", ActionMenu.InventoryMenu, "");
+        }
+
+        public int DisplayGetInventoryItemToConsume()
+        {
+            int gameObjectId = 0;
+            bool validObjectId = false;
+            int attempt = 0;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Current Inventory", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        gameObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the item you wish to consume: ", 0, 0, out gameObjectId);
+                    }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (gameObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", "You don't have any items to consume. Your inventory is empty. \n Press any key to continue.", ActionMenu.InventoryMenu, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+            }
+
+            return gameObjectId;
+        }
+
+        public int DisplayGetWeapon()
+        {
+            int gameObjectId = 0;
+            bool validObjectId = false;
+            int attempt = 0;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Current Inventory", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        gameObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number for the weapon you want to be your primary: ", 0, 0, out gameObjectId);
+                    }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (gameObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", "You don't have any weapons. \n Press any key to continue.", ActionMenu.InventoryMenu, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+            }
+
+            return gameObjectId;
+        }
+
+        public int DisplayGetGameObjectToPutDown()
+        {
+            int gameObjectId = 0;
+            bool validObjectId = false;
+            int attempt = 0;
+
+            if (_gamePlayer.Inventory.Count > 0)
+            {
+                DisplayGamePlayScreen("Put Down Item", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.InventoryMenu, "");
+
+
+                while (!validObjectId)
+                {
+                    attempt++;
+                    if (attempt > 3)
+                    {
+                        gameObjectId = 0;
+                        validObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to put down: ", 0, 0, out gameObjectId);
+                    }
+
+                    if (gameObjectId != 0)
+                    {
+                        //
+                        // find object in inventory
+                        //
+                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
+
+                        //
+                        // validate object in inventory
+                        //
+                        if (gameObject != null)
+                        {
+                            validObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Put Down Item", "You don't have any items to put down. Your inventory is empty.", ActionMenu.InventoryMenu, "");
+            }
+
+
+            return gameObjectId;
+
+        }
+
+        public void DisplayInventory()
+        {
+            if (_gamePlayer.Inventory.Count <= 0)
+            {
+                DisplayGamePlayScreen("Current Inventory", "You currently have no items in your inventory", ActionMenu.InventoryMenu, "");
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", Text.CurrentInventory(_gamePlayer), ActionMenu.InventoryMenu, "");
+            }
+
+        }
+
+        public void DisplayInventoryObjectInfo(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Inventory", Text.LookAt(gameObject), ActionMenu.InventoryMenu, "");
+
+        }
+
+        public int DisplayGetInventoryObjectToLookAt()
+        {
+            int inventoryObjectId = 0;
+            bool validInventoryObjectId = false;
+            int attempt = 0;
+
+            //
+            // get a list of all objects in inventory
+            //
+            List<GameObject> gameObjectsInInventory = _gamePlayer.Inventory;
+
+            if (gameObjectsInInventory.Count > 0)
+            {
+                while (!validInventoryObjectId)
+                {
+                    attempt++;
+
+                    if (attempt > 3)
+                    {
+                        inventoryObjectId = 0;
+                        validInventoryObjectId = true;
+                        DisplayMaxAttemptsExceeded();
+                    }
+                    else
+                    {
+                        //
+                        // get an integer from the player
+                        //
+                        GetInteger($"Enter the Id number of the object you wish to look at: ", 0, 0, out inventoryObjectId);
+                    }
+
+                    if (inventoryObjectId != 0)
+                    {
+                        GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryObjectId) as GameObject;
+                        //
+                        // validate integer as a valid game object id and in current location
+                        //
+                        if (_gamePlayer.Inventory.Contains(inventoryObject))
+                        {
+                            validInventoryObjectId = true;
+                        }
+                        else
+                        {
+                            ClearInputBox();
+                            DisplayInputErrorMessage("It appears you entered an invalid game object id. Please try again.");
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                DisplayGamePlayScreen("Current Inventory", "There are no items in your inventory.", ActionMenu.InventoryMenu, "");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+            }
+
+            return inventoryObjectId;
+        }
+
+        public void DisplayConsumeItem(Item consumedItem)
+        {
+            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
+            {
+                DisplayGamePlayScreen("Consume Item", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.ItemMenu, "");
+            }
+            else
+            {
+                DisplayGamePlayScreen("Look at Object", $"You have consumed {consumedItem.Name}, and have gained {consumedItem.Health} health points.", ActionMenu.InventoryMenu, "");
+            }
+
+        }
+
+        public void DisplayConfirmItemRemovedFromInventory(GameObject gameObject)
+        {
+            DisplayGamePlayScreen("Put Down Item", $"The {gameObject.Name} has been removed from your invnetory.", ActionMenu.InventoryMenu, "");
+        }
+
+        #endregion
+
+        #region TRAVEL ACTIONS
+
+        /// <summary>
+        /// Get the next location ID from the player
+        /// </summary>
+        /// <returns></returns>
+        public int DisplayGetLocation()
+        {
+            int locationId = 0;
+            bool validLocationId = false;
+            int attempt = 0;
+
+            DisplayGamePlayScreen("Travel to a new location", Text.Travel(_gamePlayer, _gameUniverse.Locations), ActionMenu.MainMenu, "");
+
+            while (!validLocationId)
+            {
+                attempt++;
+                if (attempt > 3)
+                {
+                    validLocationId = true;
+                    locationId = _gamePlayer.LocationId;
+                    DisplayMaxAttemptsExceeded();
+                }
+                else
+                {
+                    //
+                    // get integer from user
+                    //
+                    GetInteger("Enter the new location: ", 1, _gameUniverse.GetMaxLocationID(), out locationId);
+                }
+
+                //
+                // validate the locationID and determine accesability
+                //
+                if (_gameUniverse.IsValidLocationId(locationId))
+                {
+                    if (_gameUniverse.IsAccessibleLocation(locationId, _gamePlayer))
+                    {
+                        validLocationId = true;
+                    }
+                    else
+                    {
+                        ClearInputBox();
+                        DisplayInputErrorMessage("You are attempting to travel to a location that is not accessible. Please try again.");
+                    }
+                }
+                else
+                {
+                    DisplayInputErrorMessage("You entered an invalid locationId. Please try again.");
+                }
+            }
+
+            return locationId;
+        }
+
+        #endregion
+
+        #region ADMIN ACTIONS
+
+        #region EDIT ACTIONS
+
+        /// <summary>
+        /// Display Edit Player Infor screen
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public PlayerAction DisplayEditPlayerInfo(Player player)
+        {
+
+            DisplayGamePlayScreen("Edit Viking Info", Text.EditPlayerInfo(player), ActionMenu.EditPlayer, "");
+            PlayerAction playerMenuEditChoice = GetActionMenuChoice(ActionMenu.EditPlayer);
+
+            return playerMenuEditChoice;
+        }
+
+        /// <summary>
+        /// Edit Player Name
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public string DisplayEditName(Player player)
+        {
+            DisplayGamePlayScreen("Edit Viking Info - Name", Text.SetuoGetPlayerName(), ActionMenu.EditPlayer, "");
+            string prompt = "Enter your name: ";
+            string name = GetString(prompt);
+            return name;
+        }
+
+        /// <summary>
+        /// Edit Player Gender
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public Player.VikingType DisplayEditGender(Player player)
+        {
+            Player.VikingType viking = Player.VikingType.None;
+            DisplayGamePlayScreen("Edit Viking Info - Gender", Text.EditGetPlayerGender(player), ActionMenu.EditPlayer, "");
+            DisplayInputBoxPrompt("Enter your viking: ");
+            viking = GetVikingType();
+            return viking;
+        }
+
+        /// <summary>
+        /// Edit Player Age
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public int DisplayEditAge(Player player)
+        {
+            DisplayGamePlayScreen("The Viking Setup - Age", Text.SetupGetPlayerAge(player), ActionMenu.EditPlayer, "");
+            int gamePlayerAge;
+
+            GetInteger($"Enter your age {player.Name}: ", 0, 1000000, out gamePlayerAge);
+            return gamePlayerAge;
+        }
+
+        /// <summary>
+        /// Edit Player Home Village
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public string DisplayEditHomeVillage(Player player)
+        {
+            DisplayGamePlayScreen("The Viking Setup - Home Village", Text.SetupGetPlayerHomeVillage(player), ActionMenu.EditPlayer, "");
+            string prompt = "Enter the name of the Village: ";
+            string homeVillage = GetString(prompt);
+            return homeVillage;
+        }
+
+        #endregion
+
+        #region LIST ACTIONS
+
+        /// <summary>
+        /// Display List of all locations
+        /// </summary>
+        public void DisplayListOfLocations()
+        {
+            DisplayGamePlayScreen("List: Locations", Text.ListLocations(_gameUniverse.Locations), ActionMenu.AdminMenu, "");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DisplayLocationsVisited()
+        {
+            //
+            // generate a list of locations that the player has visited
+            //
+            List<Location> locationsVisited = new List<Location>();
+            foreach (int locationId in _gamePlayer.LocationsVisted)
+            {
+                locationsVisited.Add(_gameUniverse.GetLocationById(locationId));
+            }
+
+            DisplayGamePlayScreen("Locations you have visited", Text.VisitedLocations(locationsVisited), ActionMenu.AdminMenu, "");
+        }
+
+        /// <summary>
+        /// display list of game objects in the universe
+        /// </summary>
+        public void DisplayListGameObjects()
+        {
+            DisplayGamePlayScreen("List Game Objects", "Choose from the menu options", ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListWeapons()
+        {
+            DisplayGamePlayScreen("List: Weapons", Text.ListWeapons(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListTreasures()
+        {
+            DisplayGamePlayScreen("List: Treasures", Text.ListTreasures(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListItems()
+        {
+            DisplayGamePlayScreen("List: Items", Text.ListItems(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        public void DisplayListPlaces()
+        {
+            DisplayGamePlayScreen("List: Places", Text.ListPlaces(_gameUniverse.GameObjects), ActionMenu.ListGameObjectsMenu, "");
+        }
+
+        #endregion
+
+        #endregion
 
         #endregion
 
@@ -1751,324 +2095,7 @@ namespace TB_QuestGame
 
         #endregion
 
-        #region NPC ACTIONS
-
-        public void DisplayTradeWillExceedInventoryMaxWeight(GameObject npcObject)
-        {
-            DisplayGamePlayScreen("Trade", $"Adding the weight of {npcObject.Weight} will be more than your inventory can handle.", ActionMenu.TradeMenu, "");
-        }
-
-        public void DisplayInventroyObjectValueNotEnough(GameObject inventoryObject, GameObject npcObject)
-        {
-            DisplayGamePlayScreen("Trade", $"The value of {inventoryObject.Name} is not enoug to trade for the value of {npcObject.Name}.", ActionMenu.TradeMenu, "");
-        }
-
-        public void DisplayConfirmTradeWithNPC(GameObject inventoryObject, GameObject npcObject)
-        {
-            DisplayGamePlayScreen("Trade", $"You have traded {inventoryObject.Name} for {npcObject.Name} which has now\n" +
-                                        "been added to your ineventory.", ActionMenu.NpcMenu, "");
-        }
-
-        public void DisplayGetNPCObjectToTrade(GameObject tradeItem)
-        {
-            DisplayGamePlayScreen("Trade", $"Would you like to buy {tradeItem.Name} for {tradeItem.Value} coins \n" +
-                        "or would you like to trade one of the items in your inventory for it?\n" +
-                        "\nChoose from the menu options", ActionMenu.TradeMenu, "");
-        }
-
-        public void DisplayBattleDefeat(NPC npc, int playerPoints, int opponentPoints)
-        {
-            DisplayGamePlayScreen("Battle", $"You lost the battle against {npc.Name}.\n" +
-                        $"Your points: {playerPoints}\n" +
-                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.MainMenu, "");
-        }
-
-        public void DisplayBattleVictory(NPC npc, int playerPoints, int opponentPoints)
-        {
-            DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
-                        $"Your points: {playerPoints}\n" +
-                        $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
-        }
-
-        public void DisplayNotEnoughCapitalToBuyNPCObject(GameObject npcObject)
-        {
-            DisplayGamePlayScreen("Trade", $"You don't have enough capital to buy {npcObject.Name}, it will cost you {npcObject.Value} coins, but you\n" +
-                            $"only have {_gamePlayer.Capital} coins.", ActionMenu.TradeMenu, "");
-        }
-
-        public void DisplayNPCObjectTooHeavyForInevntory(GameObject npcObject)
-        {
-            DisplayGamePlayScreen("Trade", $"The weight of {npcObject.Name} is too much for your inventory to handle.", ActionMenu.TradeMenu, "");
-        }
-
-        public void DisplayBuyObjectFromNPC(GameObject npcObject)
-        {
-            DisplayGamePlayScreen("Trade", $"You have bought {npcObject.Name} for {npcObject.Value} coins and it has\n" +
-                                "been added to your ineventory.", ActionMenu.NpcMenu, "");
-        }
-
-        public void DisplayListAllNpcObjects()
-        {
-            DisplayGamePlayScreen("List: NPC Objects", Text.ListAllNpcObjects(_gameUniverse.NPCs), ActionMenu.AdminMenu, "");
-        }
-
-        public int DisplayGetNpcToTalkTo()
-        {
-            int npcId = 0;
-            bool validNpcId = false;
-
-            List<NPC> npcsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
-
-            if (npcsInLocation.Count > 0)
-            {
-                DisplayGamePlayScreen("Choose Character to Speak With", Text.NpcsChooseList(npcsInLocation), ActionMenu.NpcMenu, "");
-
-                while (!validNpcId)
-                {
-                    GetInteger($"Enter the id number of the character: ", 0, 0, out npcId);
-
-                    if (_gameUniverse.IsValidNpcByLocationId(npcId, _gamePlayer.LocationId))
-                    {
-                        NPC npc = _gameUniverse.GetNpcById(npcId);
-                        if (npc is ITalk)
-                        {
-                            validNpcId = true;
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears this character has nothing to say. Please try agian.");
-                        }
-                    }
-                    else
-                    {
-                        ClearInputBox();
-                        DisplayInputErrorMessage("It appears you entered an invalid id. Please try agian.");
-                    }
-                }
-            }
-            else
-            {
-                DisplayGamePlayScreen("Choose Character to Speak With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
-            }
-
-            return npcId;
-        }
-
-        public void DisplayTalkTo(NPC npc)
-        {
-            ITalk speakingNpc = npc as ITalk;
-
-            string message = speakingNpc.Talk();
-
-            if (message == "")
-            {
-                message = "It appears this character has nothing to say. Please try agian.";
-            }
-
-            DisplayGamePlayScreen("Speak to Character", $"{npc.Description}\n" +
-                $"{npc.Name}: " + message, ActionMenu.NpcMenu, "");
-
-        }
-
-        public void DisplayTalkToOpponent(NPC npc)
-        {
-            IBattle battlingNpc = npc as IBattle;
-
-            string message = battlingNpc.Battle();
-            List<Weapon> weapons = new List<Weapon>();
-            foreach (var item in _gameUniverse.GameObjects)
-            {
-                if (item is Weapon)
-                {
-                    Weapon weapon = item as Weapon;
-                    weapons.Add(weapon);
-                }
-            }
-            DisplayBattleGamePlayScreen("Speak to Character", Text.DisplayOpponentInfo(weapons, npc, message), ActionMenu.BattleMenu, "");
-        }
-
-        public int DisplayGetNpcToTradeWith()
-        {
-            int npcId = 0;
-            bool validNpcId = false;
-
-            List<NPC> npcsInLocation = _gameUniverse.GetNpcByLocationId(_gamePlayer.LocationId);
-
-            if (npcsInLocation.Count > 0)
-            {
-                List<NPC> tradingNPCs = new List<NPC>();
-                foreach (NPC npc in npcsInLocation)
-                {
-                    if (npc.CanTrade)
-                    {
-                        if (npc.TradeObjects.Count > 0)
-                        {
-                            tradingNPCs.Add(npc);
-                        }
-
-                    }
-                }
-
-                if (tradingNPCs.Count > 0)
-                {
-                    DisplayGamePlayScreen("Choose Person to trade with", Text.NpcsChooseList(tradingNPCs), ActionMenu.TradeMenu, "");
-
-                    while (!validNpcId)
-                    {
-                        GetInteger($"Enter the id number of the character: ", 0, 0, out npcId);
-
-                        if (_gameUniverse.IsValidNpcByLocationId(npcId, _gamePlayer.LocationId))
-                        {
-                            validNpcId = true;
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears you entered an invalid id. Please try agian.");
-                        }
-                    }
-                }
-                else
-                {
-                    DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs to trade with here.", ActionMenu.NpcMenu, "");
-                }
-
-            }
-            else
-            {
-                DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
-            }
-
-            return npcId;
-        }
-
-        public int DisplayChooseNpcItemToTrade(NPC npc)
-        {
-            int tradeObjectId = 0;
-            int attempt = 0;
-            bool validObjectId = false;
-            List<GameObject> npcTradeObjects = new List<GameObject>();
-            foreach (int item in npc.TradeObjects)
-            {
-                GameObject tradeObject = _gameUniverse.GetGameObjectById(item) as GameObject;
-                if (tradeObject != null)
-                {
-                    npcTradeObjects.Add(tradeObject);
-                }
-            }
-
-            if (npcTradeObjects.Count > 0)
-            {
-                DisplayGamePlayScreen("Trade", Text.DisplayChooseNpcItem(npc, npcTradeObjects), ActionMenu.TradeMenu, "");
-
-                while (!validObjectId)
-                {
-                    attempt++;
-                    if (attempt > 3)
-                    {
-                        tradeObjectId = 0;
-                        validObjectId = true;
-                        DisplayMaxAttemptsExceeded();
-                    }
-                    else
-                    {
-                        //
-                        // get an integer from the player
-                        //
-                        GetInteger($"Enter the Id number of the object you wish to trade: ", 0, 0, out tradeObjectId);
-                    }
-
-                    if (tradeObjectId != 0)
-                    {
-                        //
-                        // validate integer as valid game object id in current location
-                        if (npc.TradeObjects.Contains(tradeObjectId))
-                        {
-                            validObjectId = true;
-
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears you entered an invalid id. Please try again.");
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                DisplayGamePlayScreen("Trade", $"It appears {npc.Name} doesn't have any items to trade.", ActionMenu.TradeMenu, "");
-            }
-
-
-
-            return tradeObjectId;
-        }
-
-        public int DisplayGetInventoryItemToTrade()
-        {
-            int gameObjectId = 0;
-            bool validObjectId = false;
-            int attempt = 0;
-
-            if (_gamePlayer.Inventory.Count > 0)
-            {
-                DisplayGamePlayScreen("Trade", Text.GameObjectsChooseList(_gamePlayer.Inventory), ActionMenu.TradeMenu, "");
-
-
-                while (!validObjectId)
-                {
-                    attempt++;
-                    if (attempt > 3)
-                    {
-                        gameObjectId = 0;
-                        validObjectId = true;
-                        DisplayMaxAttemptsExceeded();
-                    }
-                    else
-                    {
-                        //
-                        // get an integer from the player
-                        //
-                        GetInteger($"Enter the Id number of the object you wish to trade: ", 0, 0, out gameObjectId);
-                    }
-
-                    if (gameObjectId != 0)
-                    {
-                        //
-                        // find object in inventory
-                        //
-                        GameObject gameObject = _gamePlayer.Inventory.FirstOrDefault(o => o.Id == gameObjectId);
-
-                        //
-                        // validate object in inventory
-                        //
-                        if (gameObject != null)
-                        {
-                            validObjectId = true;
-                        }
-                        else
-                        {
-                            ClearInputBox();
-                            DisplayInputErrorMessage("It appears you entered the id of an object that is not in your inventory. Please try again.");
-                        }
-                    }
-
-                }
-            }
-            else
-            {
-                DisplayGamePlayScreen("Trade", "You don't have any items to trade. Your inventory is empty.", ActionMenu.TradeMenu, "");
-            }
-
-
-            return gameObjectId;
-        }
-
-        #endregion
-
+        
         #endregion
 
     }

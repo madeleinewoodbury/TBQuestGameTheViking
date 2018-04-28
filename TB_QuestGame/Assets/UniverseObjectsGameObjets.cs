@@ -335,23 +335,25 @@ namespace TB_QuestGame
                 Weight = 10,
                 CanInventory = true
             },
-            /*
+            
             new Treasure
             {
                 Id = 27,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 50,
+                Name = "Heart stone",
+                LocationId = 2,
+                Description = "A beautiful stone shaped like a heart.",
+                Weight = 10,
+                Value = 25,
                 CanInventory = true
             },
             
             new Treasure
             {
                 Id = 28,
-                Name = "",
-                LocationId = 0,
-                Description = "",
+                Name = "Silver plate",
+                LocationId = 4,
+                Description = "A large plate made of silver, it must be worth a pretty penny.",
+                Weight = 15,
                 Value = 0,
                 CanInventory = true
             },
@@ -359,23 +361,25 @@ namespace TB_QuestGame
             new Treasure
             {
                 Id = 29,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 0,
+                Name = "Saxon gold ring",
+                LocationId = 8,
+                Description = "A beautiful fairly large gold ring made by Saxons.",
+                Value = 25,
+                Weight = 8,
                 CanInventory = true
             },
 
             new Treasure
             {
                 Id = 30,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 0,
+                Name = "Ocean Pendant",
+                LocationId = 6,
+                Description = "This pendant i shaped like a wave, it is said that it brings you luck out on the open seas.",
+                Value = 15,
+                Weight = 10,
                 CanInventory = true
             },
-            */
+            
             #endregion
 
             #region Armour and Clothing (31-38)
@@ -458,47 +462,24 @@ namespace TB_QuestGame
                 IsConsumable = false,
                 Health = 0,
             },
-            /*
-            new Item
-            {
-                Id = 37,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 0,
-                CanInventory = true,
-                IsConsumable = false,
-                Health = 0,
-            },
-
-            new Item
-            {
-                Id = 38,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 0,
-                CanInventory = true,
-                IsConsumable = false,
-                Health = 0,
-            },
-            */
 
             #endregion
 
             #region Food (39-46)
-            /*
+            
             new Item
             {
                 Id = 39,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 0,
+                Name = "Cod",
+                LocationId = 5,
+                Description = "A gift from the sea. Consume and iyt will give your strength and energy",
+                Value = 10,
+                Weight = 5,
                 CanInventory = true,
                 IsConsumable = true,
-                Health = 0
-            },*/
+                Health = 10,
+                Energy = 20
+            },
 
             new Item
             {
@@ -510,7 +491,8 @@ namespace TB_QuestGame
                 Weight = 1,
                 CanInventory = true,
                 IsConsumable = true,
-                Health = 5
+                Health = 0,
+                Energy = 10,
             },
 
             new Item
@@ -523,7 +505,8 @@ namespace TB_QuestGame
                 Weight = 2,
                 CanInventory = true,
                 IsConsumable = true,
-                Health = 15
+                Health = 15,
+                Energy = 20,
             },
 
             new Item
@@ -536,7 +519,8 @@ namespace TB_QuestGame
                 Weight = 3,
                 CanInventory = true,
                 IsConsumable = true,
-                Health = 10
+                Health = 10,
+                Energy = 10,
             },
 
             new Item
@@ -549,7 +533,8 @@ namespace TB_QuestGame
                 Weight = 1,
                 CanInventory = true,
                 IsConsumable = true,
-                Health = 5
+                Health = 5,
+                Energy = 10
             },
 
             new Item
@@ -564,31 +549,31 @@ namespace TB_QuestGame
                 IsConsumable = true,
                 Health = 5
             },
-            /*
+            
             new Item
             {
                 Id = 45,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 0,
+                Name = "Mushroom mixture",
+                LocationId = 2,
+                Description = "A medicinal mixture crafted to heal",
+                Value = 20,
                 CanInventory = true,
                 IsConsumable = true,
-                Health = 5
+                Health = 80
             },
 
             new Item
             {
                 Id = 46,
-                Name = "",
-                LocationId = 0,
-                Description = "",
-                Value = 0,
+                Name = "Wonder of the earth",
+                LocationId = 4,
+                Description = "A liquid medicine, not quite sure who made it and out of what. But it's healing powers are real.",
+                Value = 20,
                 CanInventory = true,
                 IsConsumable = true,
-                Health = 5
+                Health = 75
             },
-            */
+            
             #endregion
 
             #region Miscellaneous (47-)
@@ -650,7 +635,7 @@ namespace TB_QuestGame
                 CanInventory = false,
                 Health = 10,
                 ExperiencePoints = 0,
-                EnytryPoints = 0,
+                EntryPoints = 0,
                 CanRest = false,
                 CanEeat = true,
                 CanTrain = false
@@ -667,7 +652,7 @@ namespace TB_QuestGame
                 CanInventory = false,
                 Health = 10,
                 ExperiencePoints = 0,
-                EnytryPoints = 0,
+                EntryPoints = 0,
                 CanRest = true,
                 CanEeat = false,
                 CanTrain = false
@@ -689,7 +674,7 @@ namespace TB_QuestGame
                 CanInventory = false,
                 Health = 0,
                 ExperiencePoints = 0,
-                EnytryPoints = 0,
+                EntryPoints = 0,
                 CanRest = true,
                 CanEeat = false,
                 CanTrain = false
@@ -709,9 +694,9 @@ namespace TB_QuestGame
                 "Please, help yourself to one of our rooms, and don't be shy, dine with us if you wish. \n" +
                 "\n",
                 CanInventory = false,
-                Health = 0,
+                Health = 50,
                 ExperiencePoints = 10,
-                EnytryPoints = 50,
+                EntryPoints = 300,
                 CanRest = true,
                 CanEeat = true,
                 CanTrain = false
@@ -730,9 +715,9 @@ namespace TB_QuestGame
                 EntryMessage = "Welcome in to the Oxe Cave \n +" +
                 "Please, enjoy our meats. But be aware, not everyone in here is a friend. \n",
                 CanInventory = false,
-                Health = 20,
+                Health = 30,
                 ExperiencePoints = 5,
-                EnytryPoints = 20,
+                EntryPoints = 20,
                 CanRest = false,
                 CanEeat = true,
                 CanTrain = false
@@ -749,7 +734,7 @@ namespace TB_QuestGame
                 CanInventory = false,
                 Health = 0,
                 ExperiencePoints = 0,
-                EnytryPoints = 0,
+                EntryPoints = 0,
                 CanRest = true,
                 CanEeat = false,
                 CanTrain = false
@@ -769,49 +754,67 @@ namespace TB_QuestGame
                 CanInventory = false,
                 Health = 0,
                 ExperiencePoints = 25,
-                EnytryPoints = 0,
+                EntryPoints = 0,
                 CanRest = false,
                 CanEeat = false,
                 CanTrain = true
             },
 
-            //
-            // Places in Leirvik
-            //
-            /*
             new Place
             {
-                Id = 00,
-                Name = "",
-                LocationId = 6,
-                Description = "",
-                EntryMessage = "",
+                Id = 57,
+                Name = "Fishy Tavern",
+                LocationId = 5,
+                Description = "Hungry? We serve fish and well...more fish",
+                EntryMessage = "Welcome to the Fishy Tavern \n " +
+                "Eat and be merry, hop you like fish. \n",
                 CanInventory = false,
-                Health = 0,
-                ExperiencePoints = 0,
-                EnytryPoints = 0,
-                CanRest = true,
+                Health = 25,
+                ExperiencePoints = 25,
+                EntryPoints = 0,
+                CanRest = false,
                 CanEeat = true,
                 CanTrain = false
             },
 
             //
-            // Places in Lindisfarner
+            // Places in Leirvik
+            //
+            
+            new Place
+            {
+                Id = 58,
+                Name = "Jarl Knut's hall",
+                LocationId = 6,
+                Description = "The Jarl of Leircik welcomes you to dine in his hall and get some rest",
+                EntryMessage = "Welcome to Knut's Hall\n" +
+                "Have some ale, it is freshly brewed. If you need rest, you are welcome to stay the night.",
+                CanInventory = false,
+                Health = 45,
+                ExperiencePoints = 20,
+                EntryPoints = 0,
+                CanRest = true,
+                CanEeat = true,
+                CanTrain = true
+            },
+
+            //
+            // Places in Lindisfarne
             //
             new Place
             {
-                Id = 00,
-                Name = "",
+                Id = 59,
+                Name = "The Monk's monastery",
                 LocationId = 7,
-                Description = "",
-                EntryMessage = "",
+                Description = "A peacful place it once was, but now it is plagued by raids from the northmen.",
+                EntryMessage = "Take a look a round, learn from the place. There are beds if you need rest.",
                 CanInventory = false,
                 Health = 0,
-                ExperiencePoints = 0,
-                EnytryPoints = 0,
-                CanRest = true,
-                CanEeat = true,
-                CanTrain = false
+                ExperiencePoints = 45,
+                EntryPoints = 0,
+                CanRest = false,
+                CanEeat = false,
+                CanTrain = true
             },
 
             //
@@ -819,18 +822,19 @@ namespace TB_QuestGame
             //
             new Place
             {
-                Id = 00,
-                Name = "",
+                Id = 60,
+                Name = "Fortress of York",
                 LocationId = 8,
-                Description = "",
-                EntryMessage = "",
+                Description = "Captured by the Vikings, this magnificent fortress provides rest and a chance to work on your skills.",
+                EntryMessage = "Welcome to the Fortress of York\n" +
+                "Make yourself at home, there are lots to see here.",
                 CanInventory = false,
-                Health = 0,
-                ExperiencePoints = 0,
-                EnytryPoints = 0,
+                Health = 25,
+                ExperiencePoints = 50,
+                EntryPoints = 900,
                 CanRest = true,
                 CanEeat = true,
-                CanTrain = false
+                CanTrain = true
             },
 
             //
@@ -838,19 +842,20 @@ namespace TB_QuestGame
             //
             new Place
             {
-                Id = 00,
-                Name = "",
+                Id = 61,
+                Name = "The Traveling Inn",
                 LocationId = 9,
-                Description = "",
-                EntryMessage = "",
+                Description = "Located at the edge of the village. A place to rest and eat.",
+                EntryMessage = "Welcome to the Traveling Inn\n" +
+                "We wish you no harm, please eat and drink. You are welcome to stay the night.",
                 CanInventory = false,
-                Health = 0,
+                Health = 30,
                 ExperiencePoints = 0,
-                EnytryPoints = 0,
+                EntryPoints = 0,
                 CanRest = true,
                 CanEeat = true,
                 CanTrain = false
-            },*/
+            },
 
             #endregion
 

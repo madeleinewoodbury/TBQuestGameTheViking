@@ -18,5 +18,6 @@ namespace TB_QuestGame
 
         public bool IsConsumable { get; set; }
         public int Health { get; set; }
+        public int Energy { get; set; }
     }
 }

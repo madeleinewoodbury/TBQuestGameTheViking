@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace TB_QuestGame
 {
-    public class Viking : NPC, ITalk, IBattle
+    public class Viking : NPC, ITalk
     {
         public override int Id { get; set; }
         public override string Description { get; set; }
         public List<string> Messages { get; set; }
-        public int PrimaryWeapon { get; set; }
-        public int PrimaryShield { get; set; }
         public string BattleMessage { get; set; }
        
 
@@ -41,18 +39,6 @@ namespace TB_QuestGame
             Random r = new Random();
             int messageIndex = r.Next(0, Messages.Count());
             return Messages[messageIndex];
-        }
-
-        public string Battle()
-        {
-            if (this.BattleMessage == null)
-            {
-                return "I will kill you!";
-            }
-            else
-            {
-                return this.BattleMessage;
-            }
         }
 
     }
