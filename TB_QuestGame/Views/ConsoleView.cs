@@ -2082,6 +2082,15 @@ namespace TB_QuestGame
         #region OTHER ACTIONS
 
 
+        public void DisplayGameOverScreen(Player player)
+        {
+            Console.CursorVisible = false;
+            GetContinueKey();
+            DisplayGamePlayScreen("GAME OVER", Text.DisplayGameOverScreenText(player), ActionMenu.QuestIntro, "");
+            Console.CursorVisible = false;
+            GetContinueKey();
+        }
+
         public void DisplayClosingScreen(Player player)
         {
             DisplayGamePlayScreen("Exiting Game", Text.DisplayClosingScreenText(player), ActionMenu.QuestIntro, "");

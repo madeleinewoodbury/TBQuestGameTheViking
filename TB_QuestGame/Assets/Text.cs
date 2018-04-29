@@ -381,6 +381,25 @@ namespace TB_QuestGame
             return messageBox;
         }
 
+        /// <summary>
+        /// Display game overclosing screen
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
+        public static string DisplayGameOverScreenText(Player gamePlayer)
+        {
+            string messageBox =
+                "GAME OVER....You don't have anymore lives...\n" +
+                "\n" +
+                $"Thank you for playing The Viking {gamePlayer.Name}. \n" +
+                "We at Woodbury Productions hope that you have enjoyed the game. \n" +
+                "We wish you all the best in your future quests. \n" +
+                " \n" +
+                "\tPress any key to exit the game.";
+
+            return messageBox;
+        }
+
 
         #endregion
 

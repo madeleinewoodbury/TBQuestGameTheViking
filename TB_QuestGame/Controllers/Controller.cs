@@ -78,6 +78,7 @@ namespace TB_QuestGame
             int objectId = 0;
             int npcId = 0;
             Dictionary<int, int> npcToTradeWith = new Dictionary<int, int>();
+            bool gameOver = false;
 
             //
             // display splash screen
@@ -119,250 +120,255 @@ namespace TB_QuestGame
             //
             while (_playingGame)
             {
-                UpdateGameStatus();
-                //
-                // get the next action from the player
-                //
-                playerActionChoice = GetNextPlayerAction();
-
-                //
-                // choose an action based on the user's menu choice
-                //
-                switch (playerActionChoice)
+                gameOver = UpdateGameStatus();
+                if (!gameOver)
                 {
-                    case PlayerAction.None:
-                        break;
+                    //
+                    // get the next action from the player
+                    //
+                    playerActionChoice = GetNextPlayerAction();
 
-                    #region Edit Options
-                    case PlayerAction.ChangeName:
-                        _gamePlayer.Name = _gameConsoleView.DisplayEditName(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
+                    //
+                    // choose an action based on the user's menu choice
+                    //
+                    switch (playerActionChoice)
+                    {
+                        case PlayerAction.None:
+                            break;
 
-                    case PlayerAction.ChangeGender:
-                        _gamePlayer.Viking = _gameConsoleView.DisplayEditGender(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
+                        #region Edit Options
+                        case PlayerAction.ChangeName:
+                            _gamePlayer.Name = _gameConsoleView.DisplayEditName(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
 
-                    case PlayerAction.ChangeAge:
-                        _gamePlayer.Age = _gameConsoleView.DisplayEditAge(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
+                        case PlayerAction.ChangeGender:
+                            _gamePlayer.Viking = _gameConsoleView.DisplayEditGender(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
 
-                    case PlayerAction.ChangeHomeVillage:
-                        _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
+                        case PlayerAction.ChangeAge:
+                            _gamePlayer.Age = _gameConsoleView.DisplayEditAge(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
 
-                    case PlayerAction.PlayerEdit:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.EditPlayerMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
-                        break;
-                    #endregion
+                        case PlayerAction.ChangeHomeVillage:
+                            _gamePlayer.HomeVillage = _gameConsoleView.DisplayEditHomeVillage(_gamePlayer);
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
 
-                    #region List Options
-                    case PlayerAction.ListWeapons:
-                        _gameConsoleView.DisplayListWeapons();
-                        break;
+                        case PlayerAction.PlayerEdit:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.EditPlayerMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Edit Player Info", Text.PlayerInfo(_gamePlayer), ActionMenu.EditPlayer, "");
+                            break;
+                        #endregion
 
-                    case PlayerAction.ListTreasures:
-                        _gameConsoleView.DisplayListTreasures();
-                        break;
+                        #region List Options
+                        case PlayerAction.ListWeapons:
+                            _gameConsoleView.DisplayListWeapons();
+                            break;
 
-                    case PlayerAction.ListItems:
-                        _gameConsoleView.DisplayListItems();
-                        break;
+                        case PlayerAction.ListTreasures:
+                            _gameConsoleView.DisplayListTreasures();
+                            break;
 
-                    case PlayerAction.ListPlaces:
-                        _gameConsoleView.DisplayListPlaces();
-                        break;
+                        case PlayerAction.ListItems:
+                            _gameConsoleView.DisplayListItems();
+                            break;
 
-                    case PlayerAction.ListDestinations:
-                        _gameConsoleView.DisplayListOfLocations();
-                        break;
+                        case PlayerAction.ListPlaces:
+                            _gameConsoleView.DisplayListPlaces();
+                            break;
 
-                    case PlayerAction.ListGameObjects:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.ListGameObjectsMenu;
-                        _gameConsoleView.DisplayListGameObjects();
-                        break;
+                        case PlayerAction.ListDestinations:
+                            _gameConsoleView.DisplayListOfLocations();
+                            break;
 
-                    case PlayerAction.ListNonPlayerCharacters:
-                        _gameConsoleView.DisplayListAllNpcObjects();
-                        break;
+                        case PlayerAction.ListGameObjects:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.ListGameObjectsMenu;
+                            _gameConsoleView.DisplayListGameObjects();
+                            break;
 
-                    case PlayerAction.LocationsVisited:
-                        _gameConsoleView.DisplayLocationsVisited();
-                        break;
-                    #endregion
+                        case PlayerAction.ListNonPlayerCharacters:
+                            _gameConsoleView.DisplayListAllNpcObjects();
+                            break;
 
-                    #region Object Options (LookAt, Trade/Sell, NPC)
-                    case PlayerAction.NpcMenu:
-                        _gameConsoleView.DisplayGamePlayScreen("NPC Menu", "Select an operation from the menu", ActionMenu.NpcMenu, "");
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
-                        break;
+                        case PlayerAction.LocationsVisited:
+                            _gameConsoleView.DisplayLocationsVisited();
+                            break;
+                        #endregion
 
-                    case PlayerAction.Buy:
-                        if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ShopMenu)
-                            BuyAction();    
-                        else
-                            BuyNPCItem(npcToTradeWith);     
-                        break;
-
-                    case PlayerAction.Consume:
-                        if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
-                            ConsumeItem();
-                        else
-                            ConsumeInventoryItem();              
-                        break;
-
-                    case PlayerAction.ChooseWeapon:
-                        ChooseWeaponAction();
-                        break;
-
-                    case PlayerAction.ChooseShield:
-                        ChooseShieldAction();
-                        break;
-
-                    case PlayerAction.EnterPlace:
-                        EnterAction();
-                        break;
-
-                    case PlayerAction.ItemMenu:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.ItemMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Look Around", "Select an option from the Item Menu", ActionMenu.ItemMenu, "");
-                        break;
-
-                    case PlayerAction.LookAt:
-                        if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.InventoryMenu)
-                        {
-                            _gameConsoleView.DisplayInventory();
-                            InventoryLookAtAction();
-                        }
-                        else
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.ItemMenu;
-                            objectId = LookAtAction();
-                        }
-                        break;
-
-                    case PlayerAction.PickUpItem:
-                        PickUpAction();
-                        break;
-
-                    case PlayerAction.PutDownItem:
-                        PutDownAction();
-                        break;
-
-                    case PlayerAction.Sell:
-                        SellAction();
-                        break;
-
-                    case PlayerAction.Trade:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
-                        npcToTradeWith = TradeWithNpc();
-                        break;
-
-                    case PlayerAction.Shop:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.ShopMenu;
-                        _gameConsoleView.DisplayShop(_currentLocaton);
-                        break;
-
-                    case PlayerAction.TalkTo:
-                        npcId = TalkToAction();
-                        break;
-
-                    case PlayerAction.Fight:
-                        BattleAction(npcId);
-                        break;
-
-                    case PlayerAction.RunAway:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.LookAround(_currentLocaton), ActionMenu.MainMenu, "");
-                        break;
-
-                    case PlayerAction.TradeInventoryItem:
-                        TradeInventoryItemAction(npcToTradeWith);
-                        break;
-                    #endregion
-
-                    #region Main Menu Options
-                    case PlayerAction.PlayerInfo:
-                        _gameConsoleView.DisplayPlayerInfo();
-                        break;
-
-                    case PlayerAction.AdminMenu:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
-                        break;
-
-                    case PlayerAction.LookAround:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
-                        _gameConsoleView.DisplayLookAround();
-                        break;
-
-                    case PlayerAction.Inventory:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.InventoryMenu;
-                        _gameConsoleView.DisplayInventory();
-                        break;
-
-                    case PlayerAction.Travel:
-                        TravelAction();
-                        break;
-
-                    case PlayerAction.GameInfo:
-                        _gameConsoleView.DisplayGamePlayScreen("Game Info", Text.GameInfo(), ActionMenu.MainMenu, "");
-                        break;
-                    #endregion
-
-                    #region Exit/Go Back / ReturnToMainMenu
-                    case PlayerAction.ReturnToMainMenu:
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.LookAround(_currentLocaton), ActionMenu.MainMenu, "");
-                        break;
-
-                    // go back: change menu based on current menu 
-                    case PlayerAction.GoBack:
-                        if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.EditPlayerMenu)
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
-                            _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
-                        }
-                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ShopMenu)
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
-                            _gameConsoleView.DisplayLookAround();
-                        }
-                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ListGameObjectsMenu)
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
-                            _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
-                        }
-                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
-                            _gameConsoleView.DisplayLookAround();
-                        }
-                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.NpcMenu)
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
-                            _gameConsoleView.DisplayLookAround();
-                        }
-                        else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.TradeMenu)
-                        {
-                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                        #region Object Options (LookAt, Trade/Sell, NPC)
+                        case PlayerAction.NpcMenu:
                             _gameConsoleView.DisplayGamePlayScreen("NPC Menu", "Select an operation from the menu", ActionMenu.NpcMenu, "");
-                        }
-                        break;
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                            break;
 
-                    case PlayerAction.Exit:
-                        _gameConsoleView.DisplayClosingScreen(_gamePlayer);
-                        _playingGame = false;
-                        break;
-                    #endregion
+                        case PlayerAction.Buy:
+                            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ShopMenu)
+                                BuyAction();
+                            else
+                                BuyNPCItem(npcToTradeWith);
+                            break;
 
-                    default:
-                        break;
+                        case PlayerAction.Consume:
+                            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
+                                ConsumeItem();
+                            else
+                                ConsumeInventoryItem();
+                            break;
+
+                        case PlayerAction.ChooseWeapon:
+                            ChooseWeaponAction();
+                            break;
+
+                        case PlayerAction.ChooseShield:
+                            ChooseShieldAction();
+                            break;
+
+                        case PlayerAction.EnterPlace:
+                            EnterAction();
+                            break;
+
+                        case PlayerAction.ItemMenu:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.ItemMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Look Around", "Select an option from the Item Menu", ActionMenu.ItemMenu, "");
+                            break;
+
+                        case PlayerAction.LookAt:
+                            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.InventoryMenu)
+                            {
+                                _gameConsoleView.DisplayInventory();
+                                InventoryLookAtAction();
+                            }
+                            else
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.ItemMenu;
+                                objectId = LookAtAction();
+                            }
+                            break;
+
+                        case PlayerAction.PickUpItem:
+                            PickUpAction();
+                            break;
+
+                        case PlayerAction.PutDownItem:
+                            PutDownAction();
+                            break;
+
+                        case PlayerAction.Sell:
+                            SellAction();
+                            break;
+
+                        case PlayerAction.Trade:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.TradeMenu;
+                            npcToTradeWith = TradeWithNpc();
+                            break;
+
+                        case PlayerAction.Shop:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.ShopMenu;
+                            _gameConsoleView.DisplayShop(_currentLocaton);
+                            break;
+
+                        case PlayerAction.TalkTo:
+                            npcId = TalkToAction();
+                            break;
+
+                        case PlayerAction.Fight:
+                            BattleAction(npcId);
+                            break;
+
+                        case PlayerAction.RunAway:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.LookAround(_currentLocaton), ActionMenu.MainMenu, "");
+                            break;
+
+                        case PlayerAction.TradeInventoryItem:
+                            TradeInventoryItemAction(npcToTradeWith);
+                            break;
+                        #endregion
+
+                        #region Main Menu Options
+                        case PlayerAction.PlayerInfo:
+                            _gameConsoleView.DisplayPlayerInfo();
+                            break;
+
+                        case PlayerAction.AdminMenu:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
+                            break;
+
+                        case PlayerAction.LookAround:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                            _gameConsoleView.DisplayLookAround();
+                            break;
+
+                        case PlayerAction.Inventory:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.InventoryMenu;
+                            _gameConsoleView.DisplayInventory();
+                            break;
+
+                        case PlayerAction.Travel:
+                            TravelAction();
+                            break;
+
+                        case PlayerAction.GameInfo:
+                            _gameConsoleView.DisplayGamePlayScreen("Game Info", Text.GameInfo(), ActionMenu.MainMenu, "");
+                            break;
+                        #endregion
+
+                        #region Exit/Go Back / ReturnToMainMenu
+                        case PlayerAction.ReturnToMainMenu:
+                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                            _gameConsoleView.DisplayGamePlayScreen("Current Location", Text.LookAround(_currentLocaton), ActionMenu.MainMenu, "");
+                            break;
+
+                        // go back: change menu based on current menu 
+                        case PlayerAction.GoBack:
+                            if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.EditPlayerMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                                _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
+                            }
+                            else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ShopMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                                _gameConsoleView.DisplayLookAround();
+                            }
+                            else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ListGameObjectsMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.AdminMenu;
+                                _gameConsoleView.DisplayGamePlayScreen("Admin Menu", "Select an operation from the menu.", ActionMenu.AdminMenu, "");
+                            }
+                            else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.ItemMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                                _gameConsoleView.DisplayLookAround();
+                            }
+                            else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.NpcMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.LookAround;
+                                _gameConsoleView.DisplayLookAround();
+                            }
+                            else if (ActionMenu.currentMenu == ActionMenu.CurrentMenu.TradeMenu)
+                            {
+                                ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                                _gameConsoleView.DisplayGamePlayScreen("NPC Menu", "Select an operation from the menu", ActionMenu.NpcMenu, "");
+                            }
+                            break;
+
+                        case PlayerAction.Exit:
+                            _gameConsoleView.DisplayClosingScreen(_gamePlayer);
+                            _playingGame = false;
+                            break;
+                        #endregion
+
+                        default:
+                            break;
+                    }
                 }
+
+
             }
 
             //
@@ -404,8 +410,9 @@ namespace TB_QuestGame
 
         }
 
-        private void UpdateGameStatus()
+        private bool UpdateGameStatus()
         {
+            bool gameOver = false;
             //
             // if player visits location for the first time add to visited locations list
             //
@@ -443,13 +450,6 @@ namespace TB_QuestGame
                 _gamePlayer.Health = 100;
             }
 
-            if (_gamePlayer.Lives == 0)
-            {
-                _gameConsoleView.DisplayContinueMessage("No more lives! Press any key to continue");
-                Console.ReadKey();
-                _playingGame = _gameConsoleView.DisplayGameOverScreen();
-            }
-
             // update level
             // level icreases for every 100 experience points
             int level = _gamePlayer.CurrentLevel;
@@ -465,6 +465,16 @@ namespace TB_QuestGame
                 ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
                 _gameConsoleView.DisplayNewLevelMessage();
             }
+
+            // if no more lives game over is true
+            if (_gamePlayer.Lives <= 0)
+            {
+                _playingGame = false;
+                _gameConsoleView.DisplayGameOverScreen(_gamePlayer);
+                gameOver = true;
+            }
+
+            return gameOver;
 
         }
 
