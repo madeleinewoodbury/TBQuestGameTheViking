@@ -37,11 +37,11 @@ namespace TB_QuestGame
         private List<int> _locationsVisited;
         private List<GameObject> _inventory;
         private List<int> _talkedToNPCs;
-        private Timer _gameTimer;
         private int _currentLevel;
         private Weapon _primaryWeapon;
         private Weapon _primaryShield;
         private int _inventoryWeight;
+        private List<int> _hasPickedUp;
 
         #endregion
 
@@ -119,12 +119,6 @@ namespace TB_QuestGame
             set { _inventory = value; }
         }
 
-        public Timer GameTimer
-        {
-            get { return _gameTimer; }
-            set { _gameTimer = value; }
-        }
-
         public int CurrentLevel
         {
             get { return _currentLevel; }
@@ -149,6 +143,11 @@ namespace TB_QuestGame
             set { _inventoryWeight = value; }
         }
 
+        public List<int> HasPickedUp
+        {
+            get { return _hasPickedUp; }
+            set { _hasPickedUp = value; }
+        }
         #endregion
 
         #region CONSTRUCTORS
@@ -157,6 +156,7 @@ namespace TB_QuestGame
         {
             _locationsVisited = new List<int>();
             _talkedToNPCs = new List<int>();
+            _hasPickedUp = new List<int>();
             _inventory = new List<GameObject>();
         }
 
@@ -170,6 +170,11 @@ namespace TB_QuestGame
 
         #region METHODS
 
+        /// <summary>
+        /// Return true/false if location is in the visited locations list
+        /// </summary>
+        /// <param name="_locationId"></param>
+        /// <returns></returns>
         public bool HasVisited(int _locationId)
         {
             if (LocationsVisted.Contains(_locationId))
@@ -182,6 +187,11 @@ namespace TB_QuestGame
             }
         }
 
+        /// <summary>
+        /// Return true/false if the Npc is in the TalkedToNpc list
+        /// </summary>
+        /// <param name="_npcId"></param>
+        /// <returns></returns>
         public bool HasTalkedTo(int _npcId)
         {
             if (TalkedToNPCs.Contains(_npcId))
@@ -194,6 +204,11 @@ namespace TB_QuestGame
             }
         }
 
+        /// <summary>
+        /// return true if object will increase inventory max weight if added
+        /// </summary>
+        /// <param name="objectWeight"></param>
+        /// <returns></returns>
         public bool MaxWeight(int objectWeight)
         {
             if (this.InventoryWeight + objectWeight > 50)

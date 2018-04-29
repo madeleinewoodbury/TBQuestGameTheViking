@@ -12,6 +12,8 @@ namespace TB_QuestGame
         public override string Description { get; set; }
         public int PrimaryWeapon { get; set; }
         public int PrimaryShield { get; set; }
+        public bool IsViking { get; set; }
+        public int EnglishRank { get; set; }
         public string BattleMessage { get; set; }
 
         public string Battle()

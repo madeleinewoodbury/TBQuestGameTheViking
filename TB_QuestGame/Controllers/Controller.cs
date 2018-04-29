@@ -535,7 +535,16 @@ namespace TB_QuestGame
             {
                 if (region.Key == regionTraveledFrom)
                 {
-                    _gamePlayer.Energy -= region.Value;
+                    if (_gamePlayer.Energy <= 0)
+                    {
+                        _gamePlayer.Health -= region.Value;
+                    }
+                    else
+                    {
+                        _gamePlayer.Energy -= region.Value;
+                    }
+                    
+
                 }
             }
 
@@ -565,7 +574,7 @@ namespace TB_QuestGame
                 //
                 // update game stats based on place entered
                 //
-                _gamePlayer.ExperiencePoints += placeToEnter.ExperiencePoints;
+                _gamePlayer.ExperiencePoints += placeToEnter.XP;
                 _gamePlayer.Health += placeToEnter.Health;
                 if (placeToEnter.CanRest)
                 {
@@ -831,6 +840,11 @@ namespace TB_QuestGame
                     //
                     _gamePlayer.Inventory.Add(gameObject);
                     _gamePlayer.InventoryWeight += gameObject.Weight;
+                    if (!_gamePlayer.HasPickedUp.Contains(gameObject.Id))
+                    {
+                        _gamePlayer.ExperiencePoints += gameObject.XP;
+                        _gamePlayer.HasPickedUp.Add(gameObject.Id);
+                    }
                     gameObject.LocationId = 0;
 
                     //
@@ -848,7 +862,7 @@ namespace TB_QuestGame
                             _gamePlayer.PrimaryWeapon = weapon;
                             _gamePlayer.IsArmed = true;
                             weaponType = "weapon";
-                            _gameConsoleView.DisplayWeaponAddedToInventory(weapon, weaponType);
+                            _gameConsoleView.DisplayWeaponPickedUpToInventory(weapon, weaponType);
                         }
                         else if (weapon.Shield && !_gamePlayer.IsShielded)
                         {
@@ -858,7 +872,7 @@ namespace TB_QuestGame
                             _gamePlayer.PrimaryShield = weapon;
                             _gamePlayer.IsShielded = true;
                             weaponType = "shield";
-                            _gameConsoleView.DisplayWeaponAddedToInventory(weapon, weaponType);
+                            _gameConsoleView.DisplayWeaponPickedUpToInventory(weapon, weaponType);
                         }
                     }
                     else
@@ -988,6 +1002,7 @@ namespace TB_QuestGame
                         _gamePlayer.Inventory.Remove(item);
                         _gamePlayer.InventoryWeight -= gameObject.Weight;
                         _gamePlayer.Health += item.Health;
+                        _gamePlayer.Energy += item.Energy;
 
                         _gameConsoleView.DisplayConsumeItem(item);
                     }
@@ -1035,6 +1050,7 @@ namespace TB_QuestGame
                     {
                         item.LocationId = 0;
                         _gamePlayer.Health += item.Health;
+                        _gamePlayer.Energy += item.Energy;
                         _gameConsoleView.DisplayConsumeItem(item);
                     }
                 }
@@ -1145,7 +1161,6 @@ namespace TB_QuestGame
                 NPC npc = _gameUniverse.GetNpcById(npcId);
                 if (npc.IsFriendly)
                 {
-                    _gameConsoleView.DisplayTalkTo(npc);
                     if (!_gamePlayer.HasTalkedTo(npcId))
                     {
                         // add npc to list of npcs talked to
@@ -1153,6 +1168,8 @@ namespace TB_QuestGame
                         _gamePlayer.ExperiencePoints += npc.XP;
                         _gamePlayer.Health += npc.Health;
                     }
+
+                    _gameConsoleView.DisplayTalkTo(npc);
 
                 }
                 else
@@ -1344,8 +1361,50 @@ namespace TB_QuestGame
                                     npc.TradeObjects.Remove(npcItemToTrade);
                                     npc.TradeObjects.Add(inventoryObject.Id);
 
-                                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
-                                    _gameConsoleView.DisplayConfirmTradeWithNPC(inventoryObject, npcObject);
+                                    if (inventoryObject is Weapon)
+                                    {
+                                        Weapon weapon = inventoryObject as Weapon;
+                                        string weaponType = "";
+                                        if (_gamePlayer.PrimaryWeapon == weapon)
+                                        {
+                                            //
+                                            // primary weapon trade
+                                            //
+                                            _gamePlayer.IsArmed = false;
+                                            _gamePlayer.PrimaryWeapon = null;
+                                            weaponType = "weapon";
+                                            _gameConsoleView.DisplayWeaponTraded(weapon, weaponType, npcObject);
+                                        }
+                                        else if (_gamePlayer.PrimaryShield == weapon)
+                                        {
+                                            //
+                                            // primary weapon trade
+                                            //
+                                            _gamePlayer.IsShielded = false;
+                                            _gamePlayer.PrimaryShield = null;
+                                            weaponType = "shield";
+                                            _gameConsoleView.DisplayWeaponTraded(weapon, weaponType, npcObject);
+                                        }
+                                        else
+                                        {
+                                            //
+                                            // confirm trade
+                                            //
+                                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                                            _gameConsoleView.DisplayConfirmTradeWithNPC(inventoryObject, npcObject);
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        //
+                                        // confirm trade
+                                        //
+                                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                                        _gameConsoleView.DisplayConfirmTradeWithNPC(inventoryObject, npcObject);
+                                    }
+
+   
                                 }
                                 else
                                 {
@@ -1452,7 +1511,7 @@ namespace TB_QuestGame
         private void GameTickTimer_Elapsed(object sender, ElapsedEventArgs e)
         { 
             _gameTick++;
-            if (_gameTick % 30 == 0)
+            if (_gameTick % 60 == 0)
             { 
 
                 if (_gamePlayer.Energy <= 0)

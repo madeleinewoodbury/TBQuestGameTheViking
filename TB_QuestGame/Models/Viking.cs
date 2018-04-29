@@ -11,7 +11,6 @@ namespace TB_QuestGame
         public override int Id { get; set; }
         public override string Description { get; set; }
         public List<string> Messages { get; set; }
-        public string BattleMessage { get; set; }
        
 
         /// <summary>

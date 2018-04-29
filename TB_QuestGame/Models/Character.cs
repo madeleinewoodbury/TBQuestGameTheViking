@@ -20,6 +20,7 @@ namespace TB_QuestGame
             Viking, //rank 1
             Marauder, //rank 2
             Berserker, //rank 3
+            Valkyrie, // rank 4 female
             Huskarl, //rank 4
             Radnigar, //rank 5
             Hersir, // rank 6

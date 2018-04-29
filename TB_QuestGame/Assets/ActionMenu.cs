@@ -117,7 +117,7 @@ namespace TB_QuestGame
                 {'3', PlayerAction.ListDestinations },
                 {'4', PlayerAction.ListGameObjects },
                 {'5', PlayerAction.ListNonPlayerCharacters},
-                {'0', PlayerAction.ReturnToMainMenu }
+                {'0', PlayerAction.ReturnToMainMenu}
             }
         };
 
@@ -131,7 +131,7 @@ namespace TB_QuestGame
                 {'2', PlayerAction.ListTreasures},
                 {'3', PlayerAction.ListItems },
                 {'4', PlayerAction.ListPlaces },
-                {'0', PlayerAction.ReturnToMainMenu }
+                {'0', PlayerAction.GoBack }
             }
         };
 

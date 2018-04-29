@@ -15,6 +15,7 @@ namespace TB_QuestGame
         public override bool CanInventory { get; set; }
         public override int Value { get; set; }
         public override int Weight { get; set; }
+        public override int XP { get; set; }
 
         public bool IsConsumable { get; set; }
         public int Health { get; set; }

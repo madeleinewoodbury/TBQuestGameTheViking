@@ -176,6 +176,11 @@ namespace TB_QuestGame
 
         }
 
+        /// <summary>
+        /// Get the location by the location ID
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public Location GetLocationById(int Id)
         {
             Location requestedLocation = null;
@@ -285,6 +290,12 @@ namespace TB_QuestGame
             return gameObjects;
         }
 
+        /// <summary>
+        /// Returns bool for valid trade object
+        /// </summary>
+        /// <param name="tradeObjectId"></param>
+        /// <param name="currentLocationId"></param>
+        /// <returns></returns>
         public bool IsValidTradeObjectId(int tradeObjectId, int currentLocationId)
         {
             List<int> tradeObjectIds = new List<int>();
@@ -311,11 +322,18 @@ namespace TB_QuestGame
             }
         }
 
+        /// <summary>
+        /// Determine if the object is a valid trade object by location
+        /// </summary>
+        /// <param name="tradeItemId"></param>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
         public bool TestValidTradeItemByLocation(int tradeItemId, int locationId)
         {
             List<int> ids = new List<int>();
             Location currentLocation = GetLocationById(locationId);
 
+            // checks each item in the list of trade objects in the current locatoion
             foreach (int item in currentLocation.TradeObjects)
             {
                 ids.Add(item);
@@ -331,7 +349,12 @@ namespace TB_QuestGame
             }
         }
 
-
+        /// <summary>
+        /// Return bool for valid place objects by location
+        /// </summary>
+        /// <param name="placeId"></param>
+        /// <param name="currentLocationId"></param>
+        /// <returns></returns>
         public bool IsValidPlaceByLocation(int placeId, int currentLocationId)
         {
             List<int> placeIds = new List<int>();
@@ -365,6 +388,12 @@ namespace TB_QuestGame
             }
         }
 
+        /// <summary>
+        /// Return bool for valid Npc by location
+        /// </summary>
+        /// <param name="npcId"></param>
+        /// <param name="currentLocation"></param>
+        /// <returns></returns>
         public bool IsValidNpcByLocationId(int npcId, int currentLocation)
         {
             List<int> npcIds = new List<int>();
@@ -387,6 +416,11 @@ namespace TB_QuestGame
             }
         }
 
+        /// <summary>
+        /// Get the NPC object by their id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public NPC GetNpcById(int Id)
         {
             NPC npcToReturn = null;
@@ -408,6 +442,11 @@ namespace TB_QuestGame
             return npcToReturn;
         }
 
+        /// <summary>
+        /// Get list of npcs by the location id
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
         public List<NPC> GetNpcByLocationId(int locationId)
         {
             List<NPC> npcs = new List<NPC>();
@@ -423,6 +462,11 @@ namespace TB_QuestGame
             return npcs;
         }
 
+        /// <summary>
+        /// Get the viking rank based on the current level
+        /// </summary>
+        /// <param name="currentLevel"></param>
+        /// <returns></returns>
         public Character.Rank GetVikingRank(int currentLevel)
         {
             Character.Rank rank = Character.Rank.None;
@@ -438,13 +482,21 @@ namespace TB_QuestGame
             return rank;
         }
 
+        /// <summary>
+        /// Get level based on experience points
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public int GetLevel(Player player)
         {
             int level = player.CurrentLevel;
+
+            // checks each item in the _levels dictionary
             foreach (var item in _levels)
             {
                 if (item.Value == level)
                 {
+                    // if XP is higher than current level value's key, add new level
                     if (player.ExperiencePoints > item.Key)
                     {
                         level += 1;
@@ -455,6 +507,11 @@ namespace TB_QuestGame
             return level;
         }
 
+        /// <summary>
+        /// Get the battle points from the opponent
+        /// </summary>
+        /// <param name="opponentId"></param>
+        /// <returns></returns>
         public int GetOpponentPoints(int opponentId)
         {
             int opponentPoints = 0;
@@ -468,10 +525,21 @@ namespace TB_QuestGame
                     Enemy opponent = npc as Enemy;
                     foreach (var rank in _ranks)
                     {
-                        if (rank.Value == opponent.VikingRank)
+                        if (opponent.IsViking)
                         {
-                            opponentPoints += rank.Key * 100;
+                            if (rank.Value == opponent.VikingRank)
+                            {
+                                opponentPoints += rank.Key * 100;
+                            }
                         }
+                        else
+                        {
+                            if (rank.Key == opponent.EnglishRank)
+                            {
+                                opponentPoints += opponent.EnglishRank * 100;
+                            }
+                        }
+
                     }
                     if (opponent.IsArmed)
                     {
@@ -498,6 +566,11 @@ namespace TB_QuestGame
             return opponentPoints;
         }
 
+        /// <summary>
+        /// Get player battle points
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public int GetPlayerPoints(Player player)
         {
             int playerPoints = 0;

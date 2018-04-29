@@ -969,7 +969,13 @@ namespace TB_QuestGame
         public void DisplayConfirmTradeWithNPC(GameObject inventoryObject, GameObject npcObject)
         {
             DisplayGamePlayScreen("Trade", $"You have traded {inventoryObject.Name} for {npcObject.Name} which has now\n" +
-                                        "been added to your ineventory.", ActionMenu.NpcMenu, "");
+                                        "been added to your inventory.", ActionMenu.NpcMenu, "");
+        }
+
+        public void DisplayWeaponTraded(Weapon weapon, string weaponType, GameObject npcObject)
+        {
+            DisplayGamePlayScreen("Trade", $"The {weapon.Name} has been traded for {npcObject.Name}.\n" +
+                                $"This was your primary {weaponType}, you are currently don't have a primary {weaponType}.", ActionMenu.NpcMenu, "");
         }
 
         public void DisplayGetNPCObjectToTrade(GameObject tradeItem)
@@ -988,7 +994,7 @@ namespace TB_QuestGame
 
         public void DisplayBattleVictory(NPC npc, int playerPoints, int opponentPoints)
         {
-            DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle agains {npc.Name}.\n" +
+            DisplayGamePlayScreen("Battle", $"Congratulations! You won the battle against {npc.Name}.\n" +
                         $"Your points: {playerPoints}\n" +
                         $"{npc.Name}'s points: {opponentPoints}", ActionMenu.LookAround, "");
         }
@@ -1007,12 +1013,12 @@ namespace TB_QuestGame
         public void DisplayBuyObjectFromNPC(GameObject npcObject)
         {
             DisplayGamePlayScreen("Trade", $"You have bought {npcObject.Name} for {npcObject.Value} coins and it has\n" +
-                                "been added to your ineventory.", ActionMenu.NpcMenu, "");
+                                "been added to your inventory.", ActionMenu.NpcMenu, "");
         }
 
         public void DisplayListAllNpcObjects()
         {
-            DisplayGamePlayScreen("List: NPC Objects", Text.ListAllNpcObjects(_gameUniverse.NPCs), ActionMenu.AdminMenu, "");
+            DisplayGamePlayScreen("List: Game Characters", Text.ListAllNpcObjects(_gameUniverse.NPCs), ActionMenu.AdminMenu, "");
         }
 
         public int DisplayGetNpcToTalkTo()
@@ -1065,7 +1071,7 @@ namespace TB_QuestGame
             }
             else
             {
-                DisplayGamePlayScreen("Choose Character to Speak With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
+                DisplayGamePlayScreen("Choose Character to Speak With", "It appears there is noone here.", ActionMenu.NpcMenu, "");
             }
 
             return npcId;
@@ -1083,7 +1089,7 @@ namespace TB_QuestGame
             }
 
             DisplayGamePlayScreen("Speak to Character", $"{npc.Description}\n" +
-                $"{npc.Name}: " + message, ActionMenu.NpcMenu, "");
+                $"{npc.Name}: " + '"' + message + '"', ActionMenu.NpcMenu, "");
 
         }
 
@@ -1160,13 +1166,13 @@ namespace TB_QuestGame
                 }
                 else
                 {
-                    DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs to trade with here.", ActionMenu.NpcMenu, "");
+                    DisplayGamePlayScreen("Choose Person to Trade With", "It appears there are nobody to trade with here.", ActionMenu.NpcMenu, "");
                 }
 
             }
             else
             {
-                DisplayGamePlayScreen("Choose Person to Trade With", "It appears here are no NPCs here.", ActionMenu.NpcMenu, "");
+                DisplayGamePlayScreen("Choose Person to Trade With", "It appears nobody is here.", ActionMenu.NpcMenu, "");
             }
 
             return npcId;
@@ -1309,6 +1315,11 @@ namespace TB_QuestGame
         public void DisplayWeaponAddedToInventory(Weapon weapon, string weaponType)
         {
             DisplayGamePlayScreen("Shop", $"The {weapon.Name} has been added to your inventory and is now your primary {weaponType}.", ActionMenu.ShopMenu, "");
+        }
+
+        public void DisplayWeaponPickedUpToInventory(Weapon weapon, string weaponType)
+        {
+            DisplayGamePlayScreen("Pick Up Item", $"The {weapon.Name} has been added to your inventory and is now your primary {weaponType}.", ActionMenu.ItemMenu, "");
         }
 
         public void DisplayObjectTooHeavyForInventory(GameObject tradeObject)
@@ -2070,6 +2081,7 @@ namespace TB_QuestGame
 
         #region OTHER ACTIONS
 
+
         public void DisplayClosingScreen(Player player)
         {
             DisplayGamePlayScreen("Exiting Game", Text.DisplayClosingScreenText(player), ActionMenu.QuestIntro, "");
@@ -2078,9 +2090,9 @@ namespace TB_QuestGame
 
         public void DisplayMaxAttemptsExceeded()
         {
-            DisplayInputErrorMessage("You have exceeded your maximum attempts. Press any key to continue.                                      ");
+            DisplayInputErrorMessage("You have exceeded your maximum attempts. Press any key to continue.                                                                  ");
             Console.CursorVisible = false;
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         public void DisplayNewLevelMessage()

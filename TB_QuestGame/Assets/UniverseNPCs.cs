@@ -28,8 +28,7 @@ namespace TB_QuestGame
                 IsFriendly = true,
                 VikingRank = Character.Rank.Radnigar,
                 CanTrade = true,
-                CanTrain = true,
-                TradeObjects = new List<int>(){12, 21}
+                TradeObjects = new List<int>(){12, 22}
             },
 
             new Enemy
@@ -44,10 +43,10 @@ namespace TB_QuestGame
                 IsFriendly = false,
                 PrimaryWeapon = 6,
                 PrimaryShield = 7,
+                IsViking = true,
                 VikingRank = Character.Rank.Viking,
                 IsArmed = true,
                 CanTrade = false,
-                CanTrain = false
             },
 
             new Viking
@@ -65,8 +64,7 @@ namespace TB_QuestGame
                 },
                 IsArmed = false,
                 CanTrade = true,
-                TradeObjects = new List<int>(){20, 49},
-                CanTrain = false
+                TradeObjects = new List<int>(){20, 25, 49},
             },
 
             #endregion
@@ -82,10 +80,10 @@ namespace TB_QuestGame
                 Description = "Ubbe is a big string viking. He is armed with his fists.",
                 BattleMessage = "I will fight you until the very last breath!",
                 IsFriendly = false,
+                IsViking = true,
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,
                 CanTrade = false,
-                CanTrain = false
             },
 
             new Viking
@@ -104,8 +102,7 @@ namespace TB_QuestGame
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,
                 CanTrade = true,
-                TradeObjects = new List<int>(){44},
-                CanTrain = false
+                TradeObjects = new List<int>(){42, 45},
             },
 
             new Viking
@@ -122,7 +119,6 @@ namespace TB_QuestGame
                 IsFriendly = true,
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,
-                CanTrain = true,
                 CanTrade = false
             },
 
@@ -146,7 +142,6 @@ namespace TB_QuestGame
                 VikingRank = Character.Rank.Jarl,
                 IsArmed = false,
                 CanTrade = false,
-                CanTrain = false
             },
 
             new Viking
@@ -164,8 +159,7 @@ namespace TB_QuestGame
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,
                 CanTrade = true,
-                TradeObjects = new List<int>(){25, 23},
-                CanTrain = false
+                TradeObjects = new List<int>(){27, 20},
             },
 
             new Enemy
@@ -179,10 +173,10 @@ namespace TB_QuestGame
                 IsFriendly = false,
                 PrimaryWeapon = 3,
                 PrimaryShield = 8,
+                IsViking = true,
                 VikingRank = Character.Rank.Hersir,
                 IsArmed = true,
                 CanTrade = false,
-                CanTrain = false
             },
 
             #endregion
@@ -200,10 +194,10 @@ namespace TB_QuestGame
                 IsFriendly = false,
                 PrimaryWeapon = 5,
                 PrimaryShield = 0,
+                IsViking = true,
                 VikingRank = Character.Rank.Berserker,
                 IsArmed = true,
                 CanTrade = false,
-                CanTrain = false
             },
 
             new Enemy
@@ -217,10 +211,10 @@ namespace TB_QuestGame
                 IsFriendly = false,
                 PrimaryWeapon = 2,
                 PrimaryShield = 8,
+                IsViking = true,
                 VikingRank = Character.Rank.Huskarl,
                 IsArmed = true,
                 CanTrade = false,
-                CanTrain = false
             },
 
             new Viking
@@ -239,8 +233,7 @@ namespace TB_QuestGame
                 VikingRank = Character.Rank.Skald,
                 IsArmed = false,
                 CanTrade = true,
-                TradeObjects = new List<int>(){2, 10, 18, 22},
-                CanTrain = false
+                TradeObjects = new List<int>(){2, 10, 18, 22}
             },
 
             #endregion
@@ -257,10 +250,10 @@ namespace TB_QuestGame
                 IsFriendly = false,
                 PrimaryWeapon = 2,
                 PrimaryShield = 9,
+                IsViking = true,
                 VikingRank = Character.Rank.Berserker,
                 IsArmed = true,
                 CanTrade = false,
-                CanTrain = false
             },
 
             new Viking
@@ -280,7 +273,6 @@ namespace TB_QuestGame
                 VikingRank = Character.Rank.Viking,
                 IsArmed = false,
                 CanTrade = false,
-                CanTrain = false
             },
 
             #endregion
@@ -291,17 +283,17 @@ namespace TB_QuestGame
             new Enemy
             {
                 Id = 60,
-                Name ="Knut",
+                Name ="Gunnar",
                 LocationId = 6,
                 XP = 50,
                 Description = "Knut wants to be the Jarl of Leirvik, he sees any capable viking as anotehr threat",
                 IsFriendly = false,
                 PrimaryWeapon = 5,
                 PrimaryShield = 8,
+                IsViking = true,
                 VikingRank = Character.Rank.Freyr,
                 IsArmed = true,
                 CanTrade = false,
-                CanTrain = false
             },
 
             new Viking
@@ -320,20 +312,89 @@ namespace TB_QuestGame
                 VikingRank = Character.Rank.Jarl,
                 IsArmed = false,
                 CanTrade = true,
-                CanTrain = false
+                TradeObjects = new List<int>(){40, 42, 43}
             },
 
             #endregion
 
             #region NPCs in Lindisfarne (7)
 
+            new Viking
+            {
+                Id = 62,
+                Name ="Sterri",
+                LocationId = 7,
+                XP = 30,
+                Description = "Sterri overseas the Viking settlement on Lindisfarne. He might have some good thing to trade you.",
+                Messages = new List<string>()
+                {
+                    "Glad to see you have come all the way to Lindisfarne."
+                },
+                IsFriendly = true,
+                VikingRank = Character.Rank.Freyr,
+                IsArmed = false,
+                CanTrade = true,
+                TradeObjects = new List<int>(){15, 16, 32, 33}
+            },
+
             #endregion
 
             #region NPCs in Jorvik (8)
 
+            new Enemy
+            {
+                Id = 63,
+                Name ="Eanfled",
+                LocationId = 8,
+                XP = 40,
+                Description = "An English warrior. She is skilled with a sword and eager to kill vikings.",
+                IsFriendly = false,
+                PrimaryWeapon = 14,
+                PrimaryShield = 16,
+                IsViking = false,
+                EnglishRank = 8,
+                VikingRank = Character.Rank.None,
+                IsArmed = true,
+                CanTrade = false,
+            },
+
             #endregion
 
             #region NPCs in Norfolk (9)
+
+            new Enemy
+            {
+                Id = 64,
+                Name ="Lord Egbert",
+                LocationId = 9,
+                XP = 50,
+                Description = "High ranking Anglo-Saxon, he has seen many battles. Not an enemy do be underestimated.",
+                IsFriendly = false,
+                PrimaryWeapon = 15,
+                PrimaryShield = 16,
+                IsViking = false,
+                EnglishRank = 10,
+                VikingRank = Character.Rank.None,
+                IsArmed = true,
+                CanTrade = false,
+            },
+
+            new Enemy
+            {
+                Id = 65,
+                Name ="Saxon Soldier",
+                LocationId = 9,
+                XP = 20,
+                Description = "Soldier sworn to protect Norfolk",
+                IsFriendly = false,
+                PrimaryWeapon = 15,
+                PrimaryShield = 16,
+                IsViking = false,
+                EnglishRank = 7,
+                VikingRank = Character.Rank.None,
+                IsArmed = true,
+                CanTrade = false,
+            },
 
             #endregion
 

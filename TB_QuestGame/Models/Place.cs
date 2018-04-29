@@ -15,13 +15,13 @@ namespace TB_QuestGame
         public override bool CanInventory { get; set; }
         public override int Value { get; set; }
         public override int Weight { get; set; }
+        public override int XP { get; set; }
 
         public string EntryMessage { get; set; }
         public int Health { get; set; }
         public bool CanRest { get; set; }
         public bool CanEeat { get; set;}
         public bool CanTrain { get; set; }
-        public int ExperiencePoints { get; set; }
         public int EntryPoints { get; set; }
         public int EnergyPoints { get; set; }
     }

@@ -117,7 +117,7 @@ namespace TB_QuestGame
         public static string SetupGetPlayerHomeVillage(Player gamePlayer)
         {
             string messageBoxText =
-                $"{gamePlayer.Name}, we need to know what village you are from." +
+                $"We are almost done,{gamePlayer.Name}, we just need to know what village you are from." +
                 " \n" +
                 "Enter the name of your home village below.";
 
@@ -143,9 +143,9 @@ namespace TB_QuestGame
                 $"\tHome Village: {gamePlayer.HomeVillage}\n" +
                 $"\tStarting capital: {gamePlayer.Capital} coins\n" +
                 "\tWeapon: You are currently unarmed\n" +
-                "\t Shield: You are currently unshielded.\n" +
-                "\n" +
-                "NOTE: You are staring the game without any weapons, you need to either visit a shop to purchase weapons or trade with another game character. \n" +
+                "\tShield: You are currently unshielded.\n" +
+                "\n " +
+                "\nNOTE: You are starting the game without any weapons, you need to either visit a shop to purchase weapons or trade with another game character. \n" +
                 "\n \n Press any key to begin your mission.";
 
             return messageBoxText;
@@ -163,8 +163,7 @@ namespace TB_QuestGame
         public static string CurrrentLocationInfo(Location currentLocation)
         {
             string messageBoxText =
-            $"You are located in {currentLocation.LocationName}\n" +
-            "Here is what you will find here:";
+            $"Below is a list of what you will find here in {currentLocation.LocationName}";
 
             return messageBoxText;
         }
@@ -286,7 +285,7 @@ namespace TB_QuestGame
             // display table name and column headers
             //
             string messageBoxText =
-                "Game Objects\n" +
+                "Items\n" +
                 " \n" +
 
                 //
@@ -395,7 +394,7 @@ namespace TB_QuestGame
         public static string NpcsChooseList(IEnumerable<NPC> npcs)
         {
             string messageBoxText =
-                "NPCs\n" +
+                "Characters\n" +
                 " \n" +
 
                 "ID".PadRight(10) +
@@ -437,21 +436,21 @@ namespace TB_QuestGame
             {
                 Item item = gameObject as Item;
 
-                messageBoxText += $"The {item.Name} has a value of {item.Value} and ";
+                messageBoxText += $"The {item.Name} has a value of {item.Value}.";
 
             }
             else if (gameObject is Treasure)
             {
                 Treasure treasure = gameObject as Treasure;
 
-                messageBoxText += $"The {treasure.Name} has a value of {treasure.Value} and ";
+                messageBoxText += $"The {treasure.Name} has a value of {treasure.Value}.";
 
             }
             else if (gameObject is Weapon)
             {
                 Weapon weapon = gameObject as Weapon;
 
-                messageBoxText += $"The {weapon.Name} has a value of {weapon.Value} and ";
+                messageBoxText += $"The {weapon.Name} has a value of {weapon.Value}.";
 
             }
 
@@ -515,7 +514,7 @@ namespace TB_QuestGame
             // display table name and column headers
             //
             string messageBoxText =
-                "Available Items for Purchases\n" +
+                "Available Items for Purchase\n" +
                 " \n" +
 
                 //
@@ -559,7 +558,7 @@ namespace TB_QuestGame
             // display table header
             //
             messageBoxText =
-                "Your current Inventory and their trade value: \n" +
+                "Your current Inventory items and their trade value: \n" +
                 " \n" +
                 "ID".PadRight(10) +
                 "Name".PadRight(40) +
@@ -651,15 +650,15 @@ namespace TB_QuestGame
 
             if (placeEntered.CanEeat)
             {
-                messageBoxText += $"You have gained {placeEntered.Health} health points here. \n";
+                messageBoxText += $"\nYou have gained {placeEntered.Health} health points here. \n";
             }
             if (placeEntered.CanTrain)
             {
-                messageBoxText += $"You have gained {placeEntered.ExperiencePoints} experience points here. \n";
+                messageBoxText += $"\nYou have gained {placeEntered.XP} experience points here. \n";
             }
             if (placeEntered.CanRest)
             {
-                messageBoxText += $"Your energy level is back up. You are fully rested. \n";
+                messageBoxText += $"\nYour energy level is back up. You are fully rested. \n";
             }
 
             return messageBoxText;
@@ -700,9 +699,21 @@ namespace TB_QuestGame
                     }
                 }
 
-                string opponentInfo = $"Viking Rank: {opponent.VikingRank.ToString()}\n" +
-                    $"Weapon: {weapon}\n" +
-                    $"Shield: {shield}\n";
+                string opponentInfo;
+
+                if (opponent.IsViking)
+                {
+                    opponentInfo = $"Viking Rank: {opponent.VikingRank.ToString()}\n" +
+                        $"Weapon: {weapon}\n" +
+                        $"Shield: {shield}\n";
+                }
+                else
+                {
+                    opponentInfo = $"Battle Rank: {opponent.EnglishRank}\n" +
+                        $"Weapon: {weapon}\n" +
+                        $"Shield: {shield}\n";
+                }
+
 
 
                 messageBoxText += opponentInfo;
@@ -1081,7 +1092,7 @@ namespace TB_QuestGame
         public static string ListAllNpcObjects(IEnumerable<NPC> npcObjects)
         {
             string messageBoxText = "" +
-                "NPC Objects\n" +
+                "Game Characters\n" +
                 " \n" +
 
                 "ID".PadRight(10) +
@@ -1120,9 +1131,16 @@ namespace TB_QuestGame
             if(gamePlayer.Health < 20)
                 healthWarning = "LOW HEALTH!";
 
+            //
+            // if the player is shieldmaiden, display female ranks
+            //
             if (gamePlayer.Viking == Player.VikingType.Shieldmaiden)
             {
-                if (gamePlayer.VikingRank == Character.Rank.Freyr)
+                if (gamePlayer.VikingRank == Character.Rank.Berserker)
+                {
+                    gamePlayer.VikingRank = Character.Rank.Valkyrie;
+                }
+                else if (gamePlayer.VikingRank == Character.Rank.Freyr)
                 {
                     gamePlayer.VikingRank = Character.Rank.Freya;
                 }
@@ -1148,9 +1166,16 @@ namespace TB_QuestGame
 
         public static string NewLevelMessage(Player gamePlayer)
         {
+            //
+            // if the player is shieldmaiden, display female ranks
+            //
             if (gamePlayer.Viking == Player.VikingType.Shieldmaiden)
             {
-                if (gamePlayer.VikingRank == Character.Rank.Freyr)
+                if (gamePlayer.VikingRank == Character.Rank.Berserker)
+                {
+                    gamePlayer.VikingRank = Character.Rank.Valkyrie;
+                }
+                else if (gamePlayer.VikingRank == Character.Rank.Freyr)
                 {
                     gamePlayer.VikingRank = Character.Rank.Freya;
                 }
@@ -1161,7 +1186,7 @@ namespace TB_QuestGame
             }
 
             string messageBoxText = "Congratulations\n" +
-                $"You have reached a level {gamePlayer.CurrentLevel}! \n" +
+                $"You have reached level {gamePlayer.CurrentLevel}! \n" +
                 $"Your new rank is {gamePlayer.VikingRank}. Way to go {gamePlayer.Name}!";
 
             return messageBoxText;
