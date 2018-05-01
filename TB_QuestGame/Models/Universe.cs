@@ -497,7 +497,7 @@ namespace TB_QuestGame
                 if (item.Value == level)
                 {
                     // if XP is higher than current level value's key, add new level
-                    if (player.ExperiencePoints > item.Key)
+                    if (player.ExperiencePoints > item.Key && level < 10)
                     {
                         level += 1;
                     }

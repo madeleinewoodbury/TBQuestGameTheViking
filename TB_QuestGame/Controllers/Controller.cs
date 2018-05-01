@@ -453,17 +453,20 @@ namespace TB_QuestGame
             // update level
             // level icreases for every 100 experience points
             int level = _gamePlayer.CurrentLevel;
-            if (_gamePlayer.ExperiencePoints > 100)
+            if (level < 11)
             {
-                _gamePlayer.CurrentLevel = _gameUniverse.GetLevel(_gamePlayer);
-                _gamePlayer.VikingRank = _gameUniverse.GetVikingRank(_gamePlayer.CurrentLevel);
-            }
-    
-            // display message if a new level is reached
-            if (level < _gamePlayer.CurrentLevel && _gamePlayer.ExperiencePoints >= 100)
-            {   
-                ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
-                _gameConsoleView.DisplayNewLevelMessage();
+                if (_gamePlayer.ExperiencePoints > 100)
+                {
+                    _gamePlayer.CurrentLevel = _gameUniverse.GetLevel(_gamePlayer);
+                    _gamePlayer.VikingRank = _gameUniverse.GetVikingRank(_gamePlayer.CurrentLevel);
+                }
+
+                // display message if a new level is reached
+                if (level < _gamePlayer.CurrentLevel && _gamePlayer.ExperiencePoints >= 100)
+                {
+                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.MainMenu;
+                    _gameConsoleView.DisplayNewLevelMessage();
+                }
             }
 
             // if no more lives game over is true
@@ -473,6 +476,7 @@ namespace TB_QuestGame
                 _gameConsoleView.DisplayGameOverScreen(_gamePlayer);
                 gameOver = true;
             }
+
 
             return gameOver;
 
@@ -1318,92 +1322,84 @@ namespace TB_QuestGame
         /// <param name="npcToTradeWith"></param>
         private void TradeInventoryItemAction(Dictionary<int, int> npcToTradeWith)
         {
+            int npcId = 0;
+            int npcItemToTrade = 0;
             //
             // dictionary contains npc id to trade with and object id to trade for
             //
             foreach (var item in npcToTradeWith)
             {
-                int npcId = item.Key;
-                int npcItemToTrade = item.Value;
+                npcId = item.Key;
+                npcItemToTrade = item.Value;
+            }
+            //
+            // get item from player's inventory to trade
+            //
+            int inventoryItemToTade = _gameConsoleView.DisplayGetInventoryItemToTrade();
 
+            if (inventoryItemToTade != 0)
+            {
                 //
-                // get item from player's inventory to trade
+                // get player object from the universe
                 //
-                int inventoryItemToTade = _gameConsoleView.DisplayGetInventoryItemToTrade();
+                GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryItemToTade) as GameObject;
 
-                if (inventoryItemToTade != 0)
+                if (npcItemToTrade != 0)
                 {
                     //
-                    // get player object from the universe
+                    // get npc object and npc from the universe
                     //
-                    GameObject inventoryObject = _gameUniverse.GetGameObjectById(inventoryItemToTade) as GameObject;
-
-                    if (npcItemToTrade != 0)
+                    GameObject npcObject = _gameUniverse.GetGameObjectById(npcItemToTrade) as GameObject;
+                    NPC npc = _gameUniverse.GetNpcById(npcId) as NPC;
+                    if (inventoryObject != null && npcObject != null)
                     {
                         //
-                        // get npc object and npc from the universe
+                        // determine if the object will exceed the inventory's max weight if traded 
                         //
-                        GameObject npcObject = _gameUniverse.GetGameObjectById(npcItemToTrade) as GameObject;
-                        NPC npc = _gameUniverse.GetNpcById(npcId) as NPC;
-                        if (inventoryObject != null && npcObject != null)
+                        if (!_gamePlayer.MaxWeight(npcObject.Weight - inventoryObject.Weight))
                         {
                             //
-                            // determine if the object will exceed the inventory's max weight if traded 
+                            // detrmine that the inventory value is enough
                             //
-                            if (!_gamePlayer.MaxWeight(npcObject.Weight - inventoryObject.Weight))
+                            if (inventoryObject.Value >= npcObject.Value)
                             {
                                 //
-                                // detrmine that the inventory value is enough
+                                // remover inventory object and add npc object to inventory
                                 //
-                                if (inventoryObject.Value >= npcObject.Value)
+                                _gamePlayer.Inventory.Remove(inventoryObject);
+                                _gamePlayer.InventoryWeight -= inventoryObject.Weight;
+                                _gamePlayer.Inventory.Add(npcObject);
+                                _gamePlayer.InventoryWeight += npcObject.Weight;
+
+                                //
+                                // remover npc object from npc's trade objects and add player object
+                                //
+                                npc.TradeObjects.Remove(npcItemToTrade);
+                                npc.TradeObjects.Add(inventoryObject.Id);
+
+                                if (inventoryObject is Weapon)
                                 {
-                                    //
-                                    // remover inventory object and add npc object to inventory
-                                    //
-                                    _gamePlayer.Inventory.Remove(inventoryObject);
-                                    _gamePlayer.InventoryWeight -= inventoryObject.Weight;
-                                    _gamePlayer.Inventory.Add(npcObject);
-                                    _gamePlayer.InventoryWeight += npcObject.Weight;
-
-                                    //
-                                    // remover npc object from npc's trade objects and add player object
-                                    //
-                                    npc.TradeObjects.Remove(npcItemToTrade);
-                                    npc.TradeObjects.Add(inventoryObject.Id);
-
-                                    if (inventoryObject is Weapon)
+                                    Weapon weapon = inventoryObject as Weapon;
+                                    string weaponType = "";
+                                    if (_gamePlayer.PrimaryWeapon == weapon)
                                     {
-                                        Weapon weapon = inventoryObject as Weapon;
-                                        string weaponType = "";
-                                        if (_gamePlayer.PrimaryWeapon == weapon)
-                                        {
-                                            //
-                                            // primary weapon trade
-                                            //
-                                            _gamePlayer.IsArmed = false;
-                                            _gamePlayer.PrimaryWeapon = null;
-                                            weaponType = "weapon";
-                                            _gameConsoleView.DisplayWeaponTraded(weapon, weaponType, npcObject);
-                                        }
-                                        else if (_gamePlayer.PrimaryShield == weapon)
-                                        {
-                                            //
-                                            // primary weapon trade
-                                            //
-                                            _gamePlayer.IsShielded = false;
-                                            _gamePlayer.PrimaryShield = null;
-                                            weaponType = "shield";
-                                            _gameConsoleView.DisplayWeaponTraded(weapon, weaponType, npcObject);
-                                        }
-                                        else
-                                        {
-                                            //
-                                            // confirm trade
-                                            //
-                                            ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
-                                            _gameConsoleView.DisplayConfirmTradeWithNPC(inventoryObject, npcObject);
-                                        }
-
+                                        //
+                                        // primary weapon trade
+                                        //
+                                        _gamePlayer.IsArmed = false;
+                                        _gamePlayer.PrimaryWeapon = null;
+                                        weaponType = "weapon";
+                                        _gameConsoleView.DisplayWeaponTraded(weapon, weaponType, npcObject);
+                                    }
+                                    else if (_gamePlayer.PrimaryShield == weapon)
+                                    {
+                                        //
+                                        // primary weapon trade
+                                        //
+                                        _gamePlayer.IsShielded = false;
+                                        _gamePlayer.PrimaryShield = null;
+                                        weaponType = "shield";
+                                        _gameConsoleView.DisplayWeaponTraded(weapon, weaponType, npcObject);
                                     }
                                     else
                                     {
@@ -1414,35 +1410,45 @@ namespace TB_QuestGame
                                         _gameConsoleView.DisplayConfirmTradeWithNPC(inventoryObject, npcObject);
                                     }
 
-   
                                 }
                                 else
                                 {
                                     //
-                                    // display if player's inventory object's value is not enougg
+                                    // confirm trade
                                     //
-                                    _gameConsoleView.DisplayInventroyObjectValueNotEnough(inventoryObject, npcObject);
+                                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                                    _gameConsoleView.DisplayConfirmTradeWithNPC(inventoryObject, npcObject);
                                 }
+
+   
                             }
                             else
                             {
                                 //
-                                // display if weight will exceed inventory's max capacity
+                                // display if player's inventory object's value is not enougg
                                 //
-                                _gameConsoleView.DisplayTradeWillExceedInventoryMaxWeight(npcObject);
+                                _gameConsoleView.DisplayInventroyObjectValueNotEnough(inventoryObject, npcObject);
                             }
-
-
+                        }
+                        else
+                        {
+                            //
+                            // display if weight will exceed inventory's max capacity
+                            //
+                            _gameConsoleView.DisplayTradeWillExceedInventoryMaxWeight(npcObject);
                         }
 
+
                     }
-                    else
-                    {
-                        ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
-                        _gameConsoleView.DisplayGamePlayScreen("NPC Menu", "Select an operation from the menu", ActionMenu.NpcMenu, "");
-                    }
+
+                }
+                else
+                {
+                    ActionMenu.currentMenu = ActionMenu.CurrentMenu.NpcMenu;
+                    _gameConsoleView.DisplayGamePlayScreen("NPC Menu", "Select an operation from the menu", ActionMenu.NpcMenu, "");
                 }
             }
+            
 
         }
 

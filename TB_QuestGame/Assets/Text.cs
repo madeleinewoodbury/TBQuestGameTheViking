@@ -400,6 +400,25 @@ namespace TB_QuestGame
             return messageBox;
         }
 
+        /// <summary>
+        /// Display winning screen
+        /// </summary>
+        /// <param name="gamePlayer"></param>
+        /// <returns></returns>
+        public static string DisplayVictoryScreenText(Player gamePlayer)
+        {
+            string messageBox =
+                "GAME OVER....You don't have anymore lives...\n" +
+                "\n" +
+                $"Thank you for playing The Viking {gamePlayer.Name}. \n" +
+                "We at Woodbury Productions hope that you have enjoyed the game. \n" +
+                "We wish you all the best in your future quests. \n" +
+                " \n" +
+                "\tPress any key to exit the game.";
+
+            return messageBox;
+        }
+
 
         #endregion
 
@@ -1185,6 +1204,8 @@ namespace TB_QuestGame
 
         public static string NewLevelMessage(Player gamePlayer)
         {
+            string messageBoxText = "";
+
             //
             // if the player is shieldmaiden, display female ranks
             //
@@ -1204,10 +1225,21 @@ namespace TB_QuestGame
                 }
             }
 
-            string messageBoxText = "Congratulations\n" +
-                $"You have reached level {gamePlayer.CurrentLevel}! \n" +
-                $"Your new rank is {gamePlayer.VikingRank}. Way to go {gamePlayer.Name}!";
-
+            if (gamePlayer.CurrentLevel < 10)
+            {
+                 messageBoxText = "Congratulations\n" +
+                 $"You have reached level {gamePlayer.CurrentLevel}! \n" +
+                 $"Your new rank is {gamePlayer.VikingRank}. Way to go {gamePlayer.Name}!";
+            }
+            else
+            {
+                messageBoxText = "Congratulations you have won the game!!!\n" +
+                 $"You have reached level {gamePlayer.CurrentLevel}, the highest level! \n" +
+                 $"Your are now the {gamePlayer.VikingRank} of Fylkirfold.\n" +
+                 $"Way to go {gamePlayer.Name}!\n" +
+                 "\n" +
+                 "You can keep playing the game if you wish.";
+            }
             return messageBoxText;
         }
 

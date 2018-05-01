@@ -54,7 +54,7 @@ namespace TB_QuestGame
                 Id = 13,
                 Name ="Svala",
                 LocationId = 1,
-                XP = 10,
+                XP = 20,
                 Description = "A young shieldmaiden.",
                 IsFriendly = true,
                 VikingRank = Character.Rank.Viking,
