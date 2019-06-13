@@ -1,0 +1,5 @@
+﻿# The Viking
+
+## Description:
+
+The game takes place in the era of the Vikings, in the ninth century. The game is set in Scandinavia, there are different villages and towns and the player will come from one of these villages. The premise of the game is for the player to move up the ranks and become the king or the queen.
